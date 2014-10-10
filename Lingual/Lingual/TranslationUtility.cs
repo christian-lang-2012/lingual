@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Lingual
 {
-    public class Class1
+    public class TranslationUtility
     {
     }
 }
