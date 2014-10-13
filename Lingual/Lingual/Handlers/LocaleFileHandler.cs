@@ -10,9 +10,9 @@ namespace Lingual.Handlers
 {
     public class LocaleFileHandler
     {
-        private String projPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+        private static String projPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
 
-        public JObject GetLocaleFile(String localeCode)
+        public static JObject GetLocaleFile(LocaleEnum localeCode)
         {
             var localePath = Path.Combine(projPath, "locale", localeCode + ".json");
             var JSONLocaleFile = JObject.Parse(File.ReadAllText(localePath));

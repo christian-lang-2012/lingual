@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lingual.Handlers;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +17,17 @@ namespace Lingual
 		public TranslationHash()
 		{
 			TranslationNodes = new List<TranslationNode>();
+            TranslationLocale = LocaleEnum.Es;
 		}
 
+        public void setTranslationNodes()
+        {
+            var localeJsonObj = LocaleFileHandler.GetLocaleFile(TranslationLocale);
+            foreach (JToken prop in localeJsonObj )
+            {
+
+            }
+        }
 
 		public void AddTranslationNode(string key, string value)
 		{
