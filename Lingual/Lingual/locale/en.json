@@ -1,0 +1,13 @@
+﻿{
+    "en": [
+        {
+
+            "account.invalid.message": "The user name or password provided is incorrect.",
+            "account.invalid.newpassword": "'New Password' and 'Confirm New Password' do not match.",
+            "account.invalid.privileges": "Sorry, you do not have sufficient privileges to access that resource.",
+            "account.invalid.username": "The username provided is incorrect.",
+            "account.signon.invalid.message": "The Single Sign On request was not formatted correctly.",
+            "login.hello": "Hello!"
+        }
+    ]
+}

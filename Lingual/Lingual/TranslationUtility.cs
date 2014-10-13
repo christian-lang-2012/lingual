@@ -6,37 +6,54 @@ using System.Text;
 
 namespace Lingual
 {
-	public class TranslationUtility : Translator
+	public class TranslationUtility
 	{
+		//private static string LOCALE_PATH = "/locale/";
 
-		private static File _translationFile;
+		private List<TranslationHash> translationHashes; 
 
-		public static File TranslationFile
+		private static TranslationUtility _instance;
+
+		private TranslationUtility()
+		{
+			setUpTranslationHashes();
+		}
+
+		public static TranslationUtility Instance
 		{
 			get
 			{
-				
+				return _instance ?? (_instance = new TranslationUtility());
 			}
 		}
 
-		public string translate(string key)
+		public string Translate(string key)
 		{
 			throw new NotImplementedException();
 		}
 
-		public string translate(string key, string locale)
+		public string Translate(string key, string locale)
 		{
 			throw new NotImplementedException();
 		}
 
-		public string translate(string key, params string[] arguments)
+		public string Translate(string key, params string[] arguments)
 		{
 			throw new NotImplementedException();
 		}
 
-		public string translate(string key, string locale, params string[] arguments)
+		public string Translate(string key, string locale, params string[] arguments)
 		{
 			throw new NotImplementedException();
+		}
+
+		private void setUpTranslationHashes()
+		{
+			translationHashes = new List<TranslationHash>();
+			translationHashes.Add(new TranslationHash(){TranslationLocale = LocaleEnum.En});
+			translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.De });
+			translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.Es });
+			translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.Pt });
 		}
 	}
 }
