@@ -46,6 +46,9 @@
     <Compile Include="LocaleEnum.cs" />
     <Compile Include="TranslationHash.cs" />
     <Compile Include="TranslationNode.cs" />
+
+    <Compile Include="Handlers\LocaleFileHandler.cs" />
+
     <Compile Include="TranslationUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
