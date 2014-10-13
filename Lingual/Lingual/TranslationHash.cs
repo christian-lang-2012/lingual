@@ -17,24 +17,32 @@ namespace Lingual
 			TranslationNodes = new List<TranslationNode>();
 		}
 
-
+		/// <summary>
+		/// Creates a translation node and addes it to the list of nodes using the key and the value.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="value">The value.</param>
 		public void AddTranslationNode(string key, string value)
 		{
 			TranslationNodes.Add(new TranslationNode() { Key = key, Value = value });
 		}
 
+		/// <summary>
+		/// Gets the translation node using the specified key.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns></returns>
 		public TranslationNode GetTranslationNode(string key)
 		{
-			TranslationNode tn = new TranslationNode()
+			var tn = new TranslationNode()
 			{
 				Key = "Key Not Found",
 				Value = "No translation available"
 			};
 
-			foreach (TranslationNode t in TranslationNodes)
+			foreach (var t in TranslationNodes.Where(t => t.Key == key))
 			{
-				if (t.Key == key)
-					tn = t;
+				tn = t;
 			}
 
 			return tn;

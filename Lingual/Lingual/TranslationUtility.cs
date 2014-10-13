@@ -6,19 +6,27 @@ using System.Text;
 
 namespace Lingual
 {
+	/// <summary>
+	/// A translation utility class
+	/// </summary>
 	public class TranslationUtility
 	{
 		//private static string LOCALE_PATH = "/locale/";
+		#region Private Attributes
 
-		private List<TranslationHash> translationHashes; 
+		private List<TranslationHash> _translationHashes; 
 
 		private static TranslationUtility _instance;
+		#endregion
+
+		public LocaleEnum CurrentLocale { get; set; }
 
 		private TranslationUtility()
 		{
-			setUpTranslationHashes();
+			SetUpTranslationHashes();
 		}
 
+		#region Translation Utilities
 		public static TranslationUtility Instance
 		{
 			get
@@ -27,33 +35,73 @@ namespace Lingual
 			}
 		}
 
+		/// <summary>
+		/// Translates the specified key.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the value associated with the passed in key</returns>
 		public string Translate(string key)
 		{
-			throw new NotImplementedException();
+			string translation = "No translation";
+			foreach (var tn in _translationHashes.Where(t => t.TranslationLocale == CurrentLocale).SelectMany(t => t.TranslationNodes.Where(tn => tn.Key == key)))
+			{
+				translation = tn.Value;
+			}
+
+			return translation;
 		}
 
-		public string Translate(string key, string locale)
+		/// <summary>
+		/// Translates the specified key using the locale passed in
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="locale">The locale.</param>
+		/// <returns>Returns the value associated with the passed in key and locale. Parameter locale takes precedence over current locale</returns>
+		public string Translate(string key, LocaleEnum locale)
 		{
-			throw new NotImplementedException();
+			string translation = "No translation";
+			foreach (var tn in _translationHashes.Where(t => t.TranslationLocale == locale).SelectMany(t => t.TranslationNodes.Where(tn => tn.Key == key)))
+			{
+				translation = tn.Value;
+			}
+
+			return translation;
 		}
 
+		/// <summary>
+		/// Translates the specified key.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="arguments">The arguments.</param>
+		/// <returns>Returns the value associated with the passed in key and passes in the arguements to the string</returns>
 		public string Translate(string key, params string[] arguments)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Translates the specified key.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="locale">The locale.</param>
+		/// <param name="arguments">The arguments.</param>
+		/// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
 		public string Translate(string key, string locale, params string[] arguments)
 		{
 			throw new NotImplementedException();
 		}
+		#endregion
 
-		private void setUpTranslationHashes()
+
+		#region Helper Methods
+		private void SetUpTranslationHashes()
 		{
-			translationHashes = new List<TranslationHash>();
-			translationHashes.Add(new TranslationHash(){TranslationLocale = LocaleEnum.En});
-			translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.De });
-			translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.Es });
-			translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.Pt });
+			_translationHashes = new List<TranslationHash>();
+			_translationHashes.Add(new TranslationHash(){TranslationLocale = LocaleEnum.EN});
+			_translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.DE });
+			_translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.ES });
+			_translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.PT });
 		}
+		#endregion
 	}
 }

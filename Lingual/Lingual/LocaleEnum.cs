@@ -5,12 +5,15 @@ using System.Text;
 
 namespace Lingual
 {
+	/// <summary>
+	/// An enum of all the current languages supported for translation. 
+	/// </summary>
 	public enum LocaleEnum
 	{
-		De,
-		En,
-		Es,
-		Pt
+		DE,
+		EN,
+		ES,
+		PT
 
 	}
 }
