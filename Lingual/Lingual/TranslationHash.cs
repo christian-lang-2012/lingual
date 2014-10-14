@@ -4,18 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lingual.Exceptions;
 
 namespace Lingual
 {
 	public class TranslationHash
 	{
-		public List<TranslationNode> TranslationNodes { get; set; }
+		#region Properties
+		public List<TranslationNode> TranslationNodes { get; private set; }
 
-		public LocaleEnum TranslationLocale { get; set; }
+		public LocaleEnum TranslationLocale { get; private set; }
+		#endregion
 
-
-		public TranslationHash()
+		#region Core Methods
+		public TranslationHash(LocaleEnum locale)
 		{
+			TranslationLocale = locale;
 			TranslationNodes = new List<TranslationNode>();
             TranslationLocale = LocaleEnum.ES;
 		}
@@ -36,7 +40,8 @@ namespace Lingual
 		/// <param name="value">The value.</param>
 		public void AddTranslationNode(string key, string value)
 		{
-			TranslationNodes.Add(new TranslationNode() { Key = key, Value = value });
+			if (!CheckToIfKeyAlreadyExistsInHash(key))
+				TranslationNodes.Add(new TranslationNode() { Key = key, Value = value });
 		}
 
 		/// <summary>
@@ -60,5 +65,19 @@ namespace Lingual
 			return tn;
 		}
 
+		#endregion
+
+		#region Private Helper Methods
+		private bool CheckToIfKeyAlreadyExistsInHash(string key)
+		{
+			bool exists = false;
+			foreach (TranslationNode tn in TranslationNodes.Where(tn => tn.Key == key))
+			{
+				exists = true;
+			}
+
+			return exists;
+		}
+		#endregion
 	}
 }

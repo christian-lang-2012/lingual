@@ -14,9 +14,9 @@ namespace Lingual.Handlers
 
         public static JObject GetLocaleFile(LocaleEnum localeCode)
         {
-            var localePath = Path.Combine(projPath, "locale", localeCode + ".json");
-            var JSONLocaleFile = JObject.Parse(File.ReadAllText(localePath));
-            return JSONLocaleFile;
+            var localePath = Path.Combine(_projPath, "locale", localeCode + ".json");
+            var jsonLocaleFile = JObject.Parse(File.ReadAllText(localePath));
+            return jsonLocaleFile;
         }
 
         /// <summary>

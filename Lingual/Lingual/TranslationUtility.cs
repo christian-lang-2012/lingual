@@ -27,6 +27,13 @@ namespace Lingual
 		}
 
 		#region Translation Utilities
+
+		/// <summary>
+		/// Gets the instance. Adhereing to the singleton pattern so that way there aren't huge instance of the Translation Utility everyhere
+		/// </summary>
+		/// <value>
+		/// The instance.
+		/// </value>
 		public static TranslationUtility Instance
 		{
 			get
@@ -97,10 +104,10 @@ namespace Lingual
 		private void SetUpTranslationHashes()
 		{
 			_translationHashes = new List<TranslationHash>();
-			_translationHashes.Add(new TranslationHash(){TranslationLocale = LocaleEnum.EN});
-			_translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.DE });
-			_translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.ES });
-			_translationHashes.Add(new TranslationHash() { TranslationLocale = LocaleEnum.PT });
+			_translationHashes.Add(new TranslationHash(LocaleEnum.EN));
+			_translationHashes.Add(new TranslationHash(LocaleEnum.DE));
+			_translationHashes.Add(new TranslationHash(LocaleEnum.ES));
+			_translationHashes.Add(new TranslationHash(LocaleEnum.PT));
 		}
 		#endregion
 	}
