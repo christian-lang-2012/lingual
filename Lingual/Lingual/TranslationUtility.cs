@@ -13,27 +13,15 @@ namespace Lingual
 	/// </summary>
 	public class TranslationUtility
 	{
-		//private static string LOCALE_PATH = "/locale/";
 		#region Private Attributes
 
 		private List<TranslationHash> _translationHashes;
 
-		private LocaleEnum _currentLocaleEnum;
 
 		private static TranslationUtility _instance;
 		#endregion
 
 		#region Poperties
-
-		public LocaleEnum CurrentLocale
-		{
-			get { return _currentLocaleEnum; }
-			set
-			{
-				_currentLocaleEnum = value;
-				SetTranslationNodes(_currentLocaleEnum);
-			}
-		}
 
 		private TranslationUtility()
 		{
@@ -60,21 +48,6 @@ namespace Lingual
 		#endregion
 
 		#region Translation Utilities
-		/// <summary>
-		/// Translates the specified key.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>Returns the value associated with the passed in key</returns>
-		public string Translate(string key)
-		{
-			var translation = "No translation";
-			foreach (var translationNode in _translationHashes.Where(t => t.TranslationLocale == CurrentLocale).SelectMany(t => t.TranslationNodes.Where(tn => tn.Key == key)))
-			{
-				translation = translationNode.Value;
-			}
-
-			return translation;
-		}
 
 		/// <summary>
 		/// Translates the specified key using the locale passed in
@@ -82,25 +55,9 @@ namespace Lingual
 		/// <param name="key">The key.</param>
 		/// <param name="locale">The locale.</param>
 		/// <returns>Returns the value associated with the passed in key and locale. Parameter locale takes precedence over current locale</returns>
-		public string Translate(string key, LocaleEnum locale)
+		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN)
 		{
-			var translation = "No translation";
-			var translationHash = _translationHashes.FirstOrDefault(x => x.TranslationLocale == locale);
-
-			if (translationHash != null)
-			{
-				if (translationHash.IsTranslationHashEmpty())
-				{
-					SetTranslationNodes(locale);
-				}
-
-				foreach (TranslationNode translationNode in translationHash.TranslationNodes.Where(tn => tn.Key == key))
-				{
-					translation = translationNode.Value;
-				}
-			}
-
-			return translation;
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -141,6 +98,11 @@ namespace Lingual
 				new TranslationHash(LocaleEnum.ES),
 				new TranslationHash(LocaleEnum.PT)
 			};
+
+			foreach (var translationHash in _translationHashes)
+			{
+				SetTranslationNodes(translationHash.TranslationLocale);
+			}
 		}
 
 		/// <summary>
@@ -151,7 +113,7 @@ namespace Lingual
 		{
 			var localeJsonObj = LocaleFileHandler.GetLocaleFile(localeEnum);
 			TranslationHash currentHash = null;
-			foreach (TranslationHash translationHash in _translationHashes.Where(translationHash => translationHash.TranslationLocale == localeEnum))
+			foreach (var translationHash in _translationHashes.Where(translationHash => translationHash.TranslationLocale == localeEnum))
 			{
 				currentHash = translationHash;
 			}
@@ -160,7 +122,7 @@ namespace Lingual
 			{
 				foreach (KeyValuePair<String, JToken> prop in localeJsonObj)
 				{
-					currentHash.AddTranslationNode(prop.Key, prop.Value.ToString());
+					currentHash.AddTranslation(prop.Key, prop.Value.ToString());
 				}
 
 			}

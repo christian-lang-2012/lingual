@@ -11,7 +11,8 @@ namespace Lingual
 	public class TranslationHash
 	{
 		#region Properties
-		public List<TranslationNode> TranslationNodes { get; private set; }
+
+		private Dictionary<string, string> translationDictionary;
 
 		public LocaleEnum TranslationLocale { get; private set; }
 		#endregion
@@ -20,7 +21,7 @@ namespace Lingual
 		public TranslationHash(LocaleEnum locale)
 		{
 			TranslationLocale = locale;
-			TranslationNodes = new List<TranslationNode>();
+			translationDictionary = new Dictionary<string, string>();
 		}
 
 		/// <summary>
@@ -28,50 +29,36 @@ namespace Lingual
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <param name="value">The value.</param>
-		public void AddTranslationNode(string key, string value)
+		public void AddTranslation(string key, string value)
 		{
-			if (!CheckToIfKeyAlreadyExistsInHash(key))
-				TranslationNodes.Add(new TranslationNode() { Key = key, Value = value });
+			if (!KeyAlreadyExistsInHash(key))
+			{
+				translationDictionary.Add(key.ToLower(), value);
+			}
 		}
 
 		/// <summary>
-		/// Gets the translation node using the specified key.
+		/// Gets the value corresponding to the passed in key.
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns></returns>
-		public TranslationNode GetTranslationNode(string key)
+		public string GetValue(string key)
 		{
-			var tn = new TranslationNode()
-			{
-				Key = "Key Not Found",
-				Value = "No translation available"
-			};
-
-			foreach (var t in TranslationNodes.Where(t => t.Key == key))
-			{
-				tn = t;
-			}
-
-			return tn;
+			return translationDictionary[key];
 		}
+
 
 		public bool IsTranslationHashEmpty()
 		{
-			return TranslationNodes.Any();
+			return translationDictionary.Any();
 		}
 
 		#endregion
 
 		#region Private Helper Methods
-		private bool CheckToIfKeyAlreadyExistsInHash(string key)
+		private bool KeyAlreadyExistsInHash(string key)
 		{
-			bool exists = false;
-			foreach (TranslationNode tn in TranslationNodes.Where(tn => tn.Key == key))
-			{
-				exists = true;
-			}
-
-			return exists;
+			return translationDictionary.ContainsKey(key.ToLower());
 		}
 		#endregion
 	}
