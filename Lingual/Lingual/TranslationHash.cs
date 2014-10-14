@@ -21,17 +21,7 @@ namespace Lingual
 		{
 			TranslationLocale = locale;
 			TranslationNodes = new List<TranslationNode>();
-            TranslationLocale = LocaleEnum.ES;
 		}
-
-        public void setTranslationNodes()
-        {
-            var localeJsonObj = LocaleFileHandler.GetLocaleFile(TranslationLocale);
-            foreach (KeyValuePair<String, JToken> prop in localeJsonObj )
-            {
-                TranslationNodes.Add(new TranslationNode { Key = prop.Key, Value = prop.Value.ToString() });
-            }
-        }
 
 		/// <summary>
 		/// Creates a translation node and addes it to the list of nodes using the key and the value.
@@ -63,6 +53,11 @@ namespace Lingual
 			}
 
 			return tn;
+		}
+
+		public bool IsTranslationHashEmpty()
+		{
+			return TranslationNodes.Any();
 		}
 
 		#endregion
