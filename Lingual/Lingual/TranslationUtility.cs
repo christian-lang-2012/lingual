@@ -57,7 +57,13 @@ namespace Lingual
 		/// <returns>Returns the value associated with the passed in key and locale. Parameter locale takes precedence over current locale</returns>
 		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN)
 		{
-			throw new NotImplementedException();
+			var requestedLanguageHash = _translationHashes[0];
+			foreach (var translationHash in _translationHashes.Where(translationHash => translationHash.TranslationLocale == locale))
+			{
+				requestedLanguageHash = translationHash;
+			}
+
+			return requestedLanguageHash.GetValue(key);
 		}
 
 		/// <summary>
@@ -95,8 +101,7 @@ namespace Lingual
 			{
 				new TranslationHash(LocaleEnum.EN),
 				new TranslationHash(LocaleEnum.DE),
-				new TranslationHash(LocaleEnum.ES),
-				new TranslationHash(LocaleEnum.PT)
+				new TranslationHash(LocaleEnum.ES)
 			};
 
 			foreach (var translationHash in _translationHashes)

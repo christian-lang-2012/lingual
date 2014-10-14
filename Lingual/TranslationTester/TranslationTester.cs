@@ -11,8 +11,7 @@ namespace TranslationTester
 		public static void Main(string[] args)
 		{
 			TranslationUtility tu = TranslationUtility.Instance;
-			tu.CurrentLocale = LocaleEnum.EN;
-			string output = tu.Translate("account.invalid.message", LocaleEnum.EN);
+			string output = tu.Translate("en");
 			Console.WriteLine(output);
 		}
 	}

@@ -31,7 +31,7 @@ namespace Lingual
 		/// <param name="value">The value.</param>
 		public void AddTranslation(string key, string value)
 		{
-			if (!KeyAlreadyExistsInHash(key))
+			if (!KeyExists(key))
 			{
 				translationDictionary.Add(key.ToLower(), value);
 			}
@@ -44,7 +44,12 @@ namespace Lingual
 		/// <returns></returns>
 		public string GetValue(string key)
 		{
-			return translationDictionary[key];
+			var returnValue = "Key doesn't exist";
+			if (KeyExists(key))
+			{
+				returnValue = translationDictionary[key];
+			}
+			return returnValue;
 		}
 
 
@@ -56,7 +61,7 @@ namespace Lingual
 		#endregion
 
 		#region Private Helper Methods
-		private bool KeyAlreadyExistsInHash(string key)
+		private bool KeyExists(string key)
 		{
 			return translationDictionary.ContainsKey(key.ToLower());
 		}
