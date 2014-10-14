@@ -1,16 +1,12 @@
-﻿using Lingual.Handlers;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using Lingual.Enums;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Lingual.Exceptions;
 
-namespace Lingual
+namespace Lingual.TranslationUtilities
 {
 	public class TranslationHash
 	{
-		#region Properties
+		#region Properties and Variables
 
 		private Dictionary<string, string> translationDictionary;
 

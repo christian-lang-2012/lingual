@@ -1,12 +1,11 @@
-﻿using Lingual.Handlers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using Lingual.Handlers;
 using Newtonsoft.Json.Linq;
+using Lingual.Enums;
 
-namespace Lingual
+namespace Lingual.TranslationUtilities
 {
 	/// <summary>
 	/// A translation utility class
@@ -125,7 +124,7 @@ namespace Lingual
 
 			if (currentHash != null)
 			{
-				foreach (KeyValuePair<String, JToken> prop in localeJsonObj)
+				foreach (var prop in localeJsonObj)
 				{
 					currentHash.AddTranslation(prop.Key, prop.Value.ToString());
 				}
