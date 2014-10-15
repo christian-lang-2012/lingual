@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Lingual.TranslationUtilities
 {
-	public class TranslationHash
+	public class TranslationDictionary
 	{
 		#region Properties and Variables
 
@@ -14,7 +14,7 @@ namespace Lingual.TranslationUtilities
 		#endregion
 
 		#region Core Methods
-		public TranslationHash(LocaleEnum locale)
+		public TranslationDictionary(LocaleEnum locale)
 		{
 			TranslationLocale = locale;
 			translationDictionary = new Dictionary<string, string>();

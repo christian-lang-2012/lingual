@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lingual.Handlers;
-using Newtonsoft.Json.Linq;
 using Lingual.Enums;
 
 namespace Lingual.TranslationUtilities
@@ -14,13 +13,13 @@ namespace Lingual.TranslationUtilities
 	{
 		#region Private Attributes
 
-		private List<TranslationHash> _translationHashes;
+		private List<TranslationDictionary> _translationDictionaries;
 
 
 		private static TranslationUtility _instance;
 		#endregion
 
-		#region Poperties
+		#region Properties
 
 		private TranslationUtility()
 		{
@@ -56,25 +55,15 @@ namespace Lingual.TranslationUtilities
 		/// <returns>Returns the value associated with the passed in key and locale. Parameter locale takes precedence over current locale</returns>
 		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN)
 		{
-			var requestedLanguageHash = _translationHashes[0];
-			foreach (var translationHash in _translationHashes.Where(translationHash => translationHash.TranslationLocale == locale))
+			var requestedDictionary = _translationDictionaries[0];
+			foreach (var translationDictionary in _translationDictionaries.Where(translationDictionary => translationDictionary.TranslationLocale == locale))
 			{
-				requestedLanguageHash = translationHash;
+				requestedDictionary = translationDictionary;
 			}
 
-			return requestedLanguageHash.GetValue(key);
+			return requestedDictionary.GetValue(key);
 		}
 
-		/// <summary>
-		/// Translates the specified key.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <param name="arguments">The arguments.</param>
-		/// <returns>Returns the value associated with the passed in key and passes in the arguements to the string</returns>
-		public string Translate(string key, params string[] arguments)
-		{
-			throw new NotImplementedException();
-		}
 
 		/// <summary>
 		/// Translates the specified key.
@@ -83,7 +72,7 @@ namespace Lingual.TranslationUtilities
 		/// <param name="locale">The locale.</param>
 		/// <param name="arguments">The arguments.</param>
 		/// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
-		public string Translate(string key, string locale, params string[] arguments)
+		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN, params string[] arguments)
 		{
 			throw new NotImplementedException();
 		}
@@ -96,14 +85,14 @@ namespace Lingual.TranslationUtilities
 		/// </summary>
 		private void SetUpTranslationHashes()
 		{
-			_translationHashes = new List<TranslationHash>
+			_translationDictionaries = new List<TranslationDictionary>
 			{
-				new TranslationHash(LocaleEnum.EN),
-				new TranslationHash(LocaleEnum.DE),
-				new TranslationHash(LocaleEnum.ES)
+				new TranslationDictionary(LocaleEnum.EN),
+				new TranslationDictionary(LocaleEnum.DE),
+				new TranslationDictionary(LocaleEnum.ES)
 			};
 
-			foreach (var translationHash in _translationHashes)
+			foreach (var translationHash in _translationDictionaries)
 			{
 				SetTranslationNodes(translationHash.TranslationLocale);
 			}
@@ -116,8 +105,8 @@ namespace Lingual.TranslationUtilities
 		public void SetTranslationNodes(LocaleEnum localeEnum)
 		{
 			var localeJsonObj = LocaleFileHandler.GetLocaleFile(localeEnum);
-			TranslationHash currentHash = null;
-			foreach (var translationHash in _translationHashes.Where(translationHash => translationHash.TranslationLocale == localeEnum))
+			TranslationDictionary currentHash = null;
+			foreach (var translationHash in _translationDictionaries.Where(translationHash => translationHash.TranslationLocale == localeEnum))
 			{
 				currentHash = translationHash;
 			}
