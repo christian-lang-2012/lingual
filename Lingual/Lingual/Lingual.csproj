@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
     <Compile Include="Enums\LocaleEnum.cs" />
-    <Compile Include="TranslationUtilities\TranslationHash.cs" />
+    <Compile Include="TranslationUtilities\TranslationDictionary.cs" />
     <Compile Include="Handlers\LocaleFileHandler.cs" />
     <Compile Include="TranslationUtilities\TranslationUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
