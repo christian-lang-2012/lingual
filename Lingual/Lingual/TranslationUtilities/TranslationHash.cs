@@ -38,13 +38,17 @@ namespace Lingual.TranslationUtilities
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns></returns>
-		public string GetValue(string key)
+		public string GetValue(string key, params string[] arguments)
 		{
 			var returnValue = "Key doesn't exist";
 			if (KeyExists(key))
 			{
 				returnValue = translationDictionary[key];
 			}
+            if (arguments.Any())
+            {
+                returnValue = string.Format(returnValue, arguments);
+            }
 			return returnValue;
 		}
 
