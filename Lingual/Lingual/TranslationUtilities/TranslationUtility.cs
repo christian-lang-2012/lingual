@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Lingual.Handlers;
 using Lingual.Enums;
+using Newtonsoft.Json.Linq;
 
 namespace Lingual.TranslationUtilities
 {
@@ -12,7 +13,6 @@ namespace Lingual.TranslationUtilities
 	public class TranslationUtility
 	{
 		#region Private Attributes
-
 		private List<TranslationDictionary> _translationDictionaries;
 
 
@@ -64,7 +64,6 @@ namespace Lingual.TranslationUtilities
 			return requestedDictionary.GetValue(key);
 		}
 
-
 		/// <summary>
 		/// Translates the specified key.
 		/// </summary>
@@ -72,9 +71,15 @@ namespace Lingual.TranslationUtilities
 		/// <param name="locale">The locale.</param>
 		/// <param name="arguments">The arguments.</param>
 		/// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
+
 		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN, params string[] arguments)
 		{
-			throw new NotImplementedException();
+			TranslationDictionary requestedTranslationDictionary = null;
+			foreach (var translationDictionary in _translationDictionaries.Where(translationHash => translationHash.TranslationLocale == locale))
+			{
+				requestedTranslationDictionary = translationDictionary;
+			}
+			return requestedTranslationDictionary.GetValue(key, arguments);
 		}
 		#endregion
 
@@ -105,19 +110,15 @@ namespace Lingual.TranslationUtilities
 		public void SetTranslationNodes(LocaleEnum localeEnum)
 		{
 			var localeJsonObj = LocaleFileHandler.GetLocaleFile(localeEnum);
-			TranslationDictionary currentHash = null;
-			foreach (var translationHash in _translationDictionaries.Where(translationHash => translationHash.TranslationLocale == localeEnum))
-			{
-				currentHash = translationHash;
-			}
+			JArray token = (JArray)localeJsonObj[localeEnum.ToString().ToLower()];
 
-			if (currentHash != null)
+			foreach (JObject content in token.Children<JObject>())
 			{
-				foreach (var prop in localeJsonObj)
+				foreach (JProperty prop in content.Properties())
 				{
-					currentHash.AddTranslation(prop.Key, prop.Value.ToString());
+					var localeHash = _translationDictionaries.Where(t => t.TranslationLocale == localeEnum).FirstOrDefault();
+					localeHash.AddTranslation(prop.Name, prop.Value.ToString());
 				}
-
 			}
 		}
 
