@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Lingual.Enums;
 
 namespace Lingual.Handlers
 {
     public class LocaleFileHandler
     {
-        private static String projPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+        private static readonly String ProjPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
 
         public static JObject GetLocaleFile(LocaleEnum localeCode)
         {
-            var localePath = Path.Combine(_projPath, "locale", localeCode + ".json");
+            var localePath = Path.Combine(ProjPath, "locale", localeCode + ".json");
             var jsonLocaleFile = JObject.Parse(File.ReadAllText(localePath));
             return jsonLocaleFile;
         }
