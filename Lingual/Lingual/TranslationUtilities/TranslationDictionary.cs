@@ -1,4 +1,5 @@
 ﻿using Lingual.Enums;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,20 +39,31 @@ namespace Lingual.TranslationUtilities
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns></returns>
-		public string GetValue(string key, params string[] arguments)
+		public string GetValue(string key)
 		{
 			var returnValue = "Key doesn't exist";
 			if (KeyExists(key))
 			{
 				returnValue = translationDictionary[key];
 			}
-            if (arguments.Any())
-            {
-                returnValue = string.Format(returnValue, arguments);
-            }
+
 			return returnValue;
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="isPlural"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
+        public string GetValue(string key, string pluralDegree)
+        {
+            //Default and params don't work together. Only way to get it to work is method overload
+            var nonPluralTrans = GetValue(key);
+            var jarrayParse = JArray.Parse(nonPluralTrans);
+            return PluralKeyFinder(jarrayParse, pluralDegree);
+        }
 
 		public bool IsTranslationHashEmpty()
 		{
@@ -65,6 +77,19 @@ namespace Lingual.TranslationUtilities
 		{
 			return translationDictionary.ContainsKey(key.ToLower());
 		}
+
+        private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
+        {
+            string pluralVal = "No translation";
+            foreach (JObject content in pluralKeys.Children<JObject>())
+            {
+                foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
+                {
+                    pluralVal = prop.Value.ToString();
+                }
+            }
+            return pluralVal;
+        }
 		#endregion
 	}
 }
