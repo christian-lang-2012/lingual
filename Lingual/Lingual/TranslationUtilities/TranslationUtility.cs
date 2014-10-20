@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Lingual.Handlers;
 using Lingual.Enums;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
 
 namespace Lingual.TranslationUtilities
 {
@@ -80,46 +80,58 @@ namespace Lingual.TranslationUtilities
 			{
 				requestedTranslationDictionary = translationDictionary;
 			}
-            var interpolStringVal = requestedTranslationDictionary.GetValue(key);
-            if (arguments.Any())
-            {
-                interpolStringVal = string.Format(interpolStringVal, arguments);
-            }
-            return interpolStringVal;
+			var interpolStringVal = requestedTranslationDictionary.GetValue(key);
+			if (arguments.Any())
+			{
+				interpolStringVal = string.Format(interpolStringVal, arguments);
+			}
+			return interpolStringVal;
 		}
 		#endregion
 
-        /// <summary>
-        /// Returns a locale formatted string of the specified Datetime object
-        /// </summary>
-        /// <param name="key">The DateTime to localize</param>
-        /// <param name="locale">The locale</param>
-        /// <returns></returns>
-        public string TranslateDate(DateTime key, LocaleEnum locale = LocaleEnum.EN)
-        {
-            CultureInfo culture = new CultureInfo(locale.ToString());
-            return key.ToString("d", culture);
-        }
+		/// <summary>
+		/// Returns a locale formatted string of the specified Datetime object
+		/// </summary>
+		/// <param name="key">The DateTime to localize</param>
+		/// <param name="locale">The locale</param>
+		/// <returns></returns>
+		public string TranslateDate(DateTime key, LocaleEnum locale = LocaleEnum.EN)
+		{
+			CultureInfo culture = new CultureInfo(locale.ToString());
+			return key.ToString("d", culture);
+		}
 
-        public string TranslatePlural(string key, String pluralDegree, LocaleEnum locale = LocaleEnum.EN)
-        {
-            var requestedDictionary = _translationDictionaries[0];
-            foreach (var translationDictionary in _translationDictionaries.Where(translationDictionary => translationDictionary.TranslationLocale == locale))
-            {
-                requestedDictionary = translationDictionary;
-            }
-            return requestedDictionary.GetValue(key, pluralDegree);
-        }
+		public string TranslatePlural(string key, String pluralDegree, LocaleEnum locale = LocaleEnum.EN)
+		{
+			var requestedDictionary = _translationDictionaries[0];
+			foreach (var translationDictionary in _translationDictionaries.Where(translationDictionary => translationDictionary.TranslationLocale == locale))
+			{
+				requestedDictionary = translationDictionary;
+			}
+			return requestedDictionary.GetValue(key, pluralDegree);
+		}
 
-        public string TranslatePlural(string key, String pluralDegree, LocaleEnum locale, params string[] arguments)
-        {
-            var interpolStringVal = TranslatePlural(key, pluralDegree, locale);
-            if (arguments.Any())
-            {
-                interpolStringVal = string.Format(interpolStringVal, arguments);
-            }
-            return interpolStringVal;
-        }
+		public string TranslatePlural(string key, String pluralDegree, LocaleEnum locale, params string[] arguments)
+		{
+			var interpolStringVal = TranslatePlural(key, pluralDegree, locale);
+			if (arguments.Any())
+			{
+				interpolStringVal = string.Format(interpolStringVal, arguments);
+			}
+			return interpolStringVal;
+		}
+
+		/// <summary>
+		/// Translates the amount passed in to the locale that's passed in
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="locale"></param>
+		/// <returns></returns>
+		public string TranslateCurrency(double value, LocaleEnum locale = LocaleEnum.EN)
+		{
+			return value.ToString("C3", CultureInfo.CreateSpecificCulture(locale.ToString()));
+		}
+
 		#region Helper Methods
 		/// <summary>
 		/// Sets up translation hashes.
