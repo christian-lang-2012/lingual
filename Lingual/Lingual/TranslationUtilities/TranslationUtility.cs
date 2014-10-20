@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Lingual.Handlers;
 using Lingual.Enums;
@@ -83,6 +84,17 @@ namespace Lingual.TranslationUtilities
 		}
 		#endregion
 
+
+		/// <summary>
+		/// Translates the amount passed in to the locale that's passed in
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="locale"></param>
+		/// <returns></returns>
+		public string TranslateCurrency(double value, LocaleEnum locale = LocaleEnum.EN)
+		{
+			return value.ToString("C3", CultureInfo.CreateSpecificCulture(locale.ToString()));
+		}
 
 		#region Helper Methods
 		/// <summary>
