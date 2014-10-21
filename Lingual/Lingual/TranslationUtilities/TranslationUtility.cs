@@ -5,7 +5,6 @@ using System.Linq;
 using Lingual.Handlers;
 using Lingual.Enums;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
 
 namespace Lingual.TranslationUtilities
 {
@@ -87,7 +86,7 @@ namespace Lingual.TranslationUtilities
 			}
 			return interpolStringVal;
 		}
-		
+
 		/// <summary>
 		/// Returns a locale formatted string of the specified Datetime object
 		/// </summary>
@@ -96,7 +95,7 @@ namespace Lingual.TranslationUtilities
 		/// <returns></returns>
 		public string TranslateDate(DateTime key, LocaleEnum locale = LocaleEnum.EN)
 		{
-			CultureInfo culture = new CultureInfo(locale.ToString());
+			var culture = new CultureInfo(locale.ToString());
 			return key.ToString("d", culture);
 		}
 
@@ -130,7 +129,7 @@ namespace Lingual.TranslationUtilities
 		{
 			return value.ToString("C2", CultureInfo.CreateSpecificCulture(locale.ToString()));
 		}
-		
+
 		#endregion
 
 		#region Helper Methods
@@ -165,8 +164,11 @@ namespace Lingual.TranslationUtilities
 			{
 				foreach (JProperty prop in content.Properties())
 				{
-					var localeHash = _translationDictionaries.Where(t => t.TranslationLocale == localeEnum).FirstOrDefault();
-					localeHash.AddTranslation(prop.Name, prop.Value.ToString());
+					var localeHash = _translationDictionaries.FirstOrDefault(t => t.TranslationLocale == localeEnum);
+					if (localeHash != null)
+					{
+						localeHash.AddTranslation(prop.Name, prop.Value.ToString());
+					}
 				}
 			}
 		}
