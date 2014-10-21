@@ -1,0 +1,12 @@
+﻿{
+    "es": [
+        {
+            "account.invalid.message": "El nombre de usuario o la contrase�a facilitada no es la correcta.",
+            "account.invalid.newpassword": "'New Password' y 'Confirm New Password' no coinciden.",
+            "account.invalid.privileges": "Lo sentimos , usted no tiene privilegios suficientes para acceder a ese recurso.",
+            "account.invalid.username": "El nombre de usuario proporcionado es incorrecta.",
+            "account.signon.invalid.message": "El Single Sign On solicitud no se ha formateado correctamente.",
+            "login.hello": "¡Hola!"
+        }
+    ]
+}

@@ -87,8 +87,7 @@ namespace Lingual.TranslationUtilities
 			}
 			return interpolStringVal;
 		}
-		#endregion
-
+		
 		/// <summary>
 		/// Returns a locale formatted string of the specified Datetime object
 		/// </summary>
@@ -129,8 +128,10 @@ namespace Lingual.TranslationUtilities
 		/// <returns></returns>
 		public string TranslateCurrency(double value, LocaleEnum locale = LocaleEnum.EN)
 		{
-			return value.ToString("C3", CultureInfo.CreateSpecificCulture(locale.ToString()));
+			return value.ToString("C2", CultureInfo.CreateSpecificCulture(locale.ToString()));
 		}
+		
+		#endregion
 
         #region Helper Methods
         /// <summary>
