@@ -133,8 +133,8 @@ namespace Lingual.TranslationUtilities
 		
 		#endregion
 
-        #region Helper Methods
-        /// <summary>
+		#region Helper Methods
+		/// <summary>
 		/// Sets up translation hashes.
 		/// </summary>
 		private void SetUpTranslationHashes()
