@@ -5,6 +5,7 @@ using System.Linq;
 using Lingual.Handlers;
 using Lingual.Enums;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace Lingual.TranslationUtilities
 {
@@ -72,7 +73,6 @@ namespace Lingual.TranslationUtilities
 		/// <param name="locale">The locale.</param>
 		/// <param name="arguments">The arguments.</param>
 		/// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
-
 		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN, params string[] arguments)
 		{
 			TranslationDictionary requestedTranslationDictionary = null;
@@ -132,8 +132,8 @@ namespace Lingual.TranslationUtilities
 			return value.ToString("C3", CultureInfo.CreateSpecificCulture(locale.ToString()));
 		}
 
-		#region Helper Methods
-		/// <summary>
+        #region Helper Methods
+        /// <summary>
 		/// Sets up translation hashes.
 		/// </summary>
 		private void SetUpTranslationHashes()

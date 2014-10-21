@@ -64,6 +64,7 @@ namespace Lingual.TranslationUtilities
 			return PluralKeyFinder(jarrayParse, pluralDegree);
 		}
 
+
 		public bool IsTranslationHashEmpty()
 		{
 			return translationDictionary.Any();
@@ -77,18 +78,18 @@ namespace Lingual.TranslationUtilities
 			return translationDictionary.ContainsKey(key.ToLower());
 		}
 
-		private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
-		{
-			string pluralVal = "No translation";
-			foreach (JObject content in pluralKeys.Children<JObject>())
-			{
-				foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
-				{
-					pluralVal = prop.Value.ToString();
-				}
-			}
-			return pluralVal;
-		}
+        private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
+        {
+            string pluralVal = "No translation";
+            foreach (JObject content in pluralKeys.Children<JObject>())
+            {
+                foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
+                {
+                    pluralVal = prop.Value.ToString();
+                }
+            }
+            return pluralVal;
+        }
 		#endregion
 	}
 }
