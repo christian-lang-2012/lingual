@@ -1,4 +1,5 @@
-﻿{
+﻿// FIXME DELETE
+{
     "es": [
         {
             "account.invalid.message": "El nombre de usuario o la contrase�a facilitada no es la correcta.",

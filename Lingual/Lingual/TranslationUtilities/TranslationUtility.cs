@@ -14,8 +14,10 @@ namespace Lingual.TranslationUtilities
 	public class TranslationUtility
 	{
 		#region Private Attributes
+        // TODO can we make this readonly
+        // FIXME make this a dictionary keyed by locale
+        // FIXME maybe rename to locales?
 		private List<TranslationDictionary> _translationDictionaries;
-
 
 		private static TranslationUtility _instance;
 		#endregion
@@ -56,12 +58,13 @@ namespace Lingual.TranslationUtilities
 		/// <returns>Returns the value associated with the passed in key and locale. Parameter locale takes precedence over current locale</returns>
 		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN)
 		{
+            // FIXME lookup in dictionary instead of list
 			var requestedDictionary = _translationDictionaries[0];
 			foreach (var translationDictionary in _translationDictionaries.Where(translationDictionary => translationDictionary.TranslationLocale == locale))
 			{
 				requestedDictionary = translationDictionary;
 			}
-			
+
 			return requestedDictionary.GetValue(key);
 		}
 
@@ -74,6 +77,7 @@ namespace Lingual.TranslationUtilities
 		/// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
 		public string Translate(string key, LocaleEnum locale = LocaleEnum.EN, params string[] arguments)
 		{
+            // FIXME lookup in dictionary instead of list
 			TranslationDictionary requestedTranslationDictionary = null;
 			foreach (var translationDictionary in _translationDictionaries.Where(translationHash => translationHash.TranslationLocale == locale))
 			{
@@ -96,6 +100,7 @@ namespace Lingual.TranslationUtilities
 		public string TranslateDate(DateTime key, LocaleEnum locale = LocaleEnum.EN)
 		{
 			var culture = new CultureInfo(locale.ToString());
+            // FIXME extract "d" into static const string
 			return key.ToString("d", culture);
 		}
 
@@ -108,6 +113,7 @@ namespace Lingual.TranslationUtilities
 		/// <returns></returns>
 		public string TranslatePlural(string key, String pluralDegree, LocaleEnum locale = LocaleEnum.EN)
 		{
+            // FIXME lookup in dictionary instead of list
 			var requestedDictionary = _translationDictionaries[0];
 			foreach (var translationDictionary in _translationDictionaries.Where(translationDictionary => translationDictionary.TranslationLocale == locale))
 			{
@@ -117,7 +123,7 @@ namespace Lingual.TranslationUtilities
 		}
 
 		/// <summary>
-		/// Interpolated plural translations; returns properly pluralized translation with interpolated data. 
+		/// Interpolated plural translations; returns properly pluralized translation with interpolated data.
 		/// </summary>
 		/// <param name="key">Translation key</param>
 		/// <param name="pluralDegree">Degree of plurality</param>
@@ -140,8 +146,10 @@ namespace Lingual.TranslationUtilities
 		/// <param name="value"></param>
 		/// <param name="locale"></param>
 		/// <returns></returns>
+        // FIXME rename value to something other than a keyword
 		public string TranslateCurrency(double value, LocaleEnum locale = LocaleEnum.EN)
 		{
+            // FIXME extract "C2" into static const string
 			return value.ToString("C2", CultureInfo.CreateSpecificCulture(locale.ToString()));
 		}
 
@@ -160,6 +168,7 @@ namespace Lingual.TranslationUtilities
 				new TranslationDictionary(LocaleEnum.ES)
 			};
 
+            // FIXME rename translationDictionary
 			foreach (var translationHash in _translationDictionaries)
 			{
 				SetTranslationNodes(translationHash.TranslationLocale);
@@ -173,12 +182,20 @@ namespace Lingual.TranslationUtilities
 		public void SetTranslationNodes(LocaleEnum localeEnum)
 		{
 			var localeJsonObj = LocaleFileHandler.GetLocaleFile(localeEnum);
+            // FIXME use var since we seee cast on rhs
+            // FIXME rename token to something that describes the object.
+            // FIXME cast to JOBject, remove top-level array brackets in each json file
 			JArray token = (JArray)localeJsonObj[localeEnum.ToString().ToLower()];
 
+            // FIXME remove outer foreach since we are iterating object properties, not array items.
 			foreach (JObject content in token.Children<JObject>())
 			{
+                // FIXME rename prop to property
 				foreach (JProperty prop in content.Properties())
 				{
+                    // FIXME use .Where(t => ...).FirstOrDefault()
+                    // FIXME rename to translationDictionary
+                    // FIXME Move above of double nested foreaches to avoid re-computing var
 					var localeHash = _translationDictionaries.FirstOrDefault(t => t.TranslationLocale == localeEnum);
 					if (localeHash != null)
 					{

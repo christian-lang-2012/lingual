@@ -6,11 +6,13 @@ using Lingual.Enums;
 
 namespace Lingual.Tests
 {
+    // FIXME rename UTest class and file to TranslatorUtilityTests.
+    //
 	[TestFixture]
 	public class UTest
 	{
 		private readonly TranslationUtility _translator = TranslationUtility.Instance;
-		
+
 		[Test]
 		[TestCase("login.hello", "Hello!", LocaleEnum.EN)]
 		[TestCase("login.hello", "Hallo!", LocaleEnum.DE)]
