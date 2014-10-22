@@ -5,7 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
-#*.csproj
+*.csproj
 
 # Build results
 
