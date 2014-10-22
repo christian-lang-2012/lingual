@@ -15,6 +15,11 @@ namespace Lingual.TranslationUtilities
 		#endregion
 
 		#region Core Methods
+
+		/// <summary>
+		/// Constructor for the TranslationDictionary. Must take in a LocaleEnum
+		/// </summary>
+		/// <param name="locale"></param>
 		public TranslationDictionary(LocaleEnum locale)
 		{
 			TranslationLocale = locale;
@@ -41,25 +46,16 @@ namespace Lingual.TranslationUtilities
 		/// <returns></returns>
 		public string GetValue(string key)
 		{
-			var returnValue = "";
-			if (KeyExists(key))
-			{
-				returnValue = translationDictionary[key];
-			}
-			else
-			{
-				returnValue = key;
-			}
+			var returnValue = KeyExists(key) ? translationDictionary[key] : key;
 
 			return returnValue;
 		}
 
 		/// <summary>
-		/// 
+		/// Get's the Translation of the key with the plural degree
 		/// </summary>
 		/// <param name="key"></param>
-		/// <param name="isPlural"></param>
-		/// <param name="arguments"></param>
+		/// <param name="pluralDegree"></param>
 		/// <returns></returns>
 		public string GetValue(string key, string pluralDegree)
 		{
@@ -69,8 +65,11 @@ namespace Lingual.TranslationUtilities
 			return PluralKeyFinder(jarrayParse, pluralDegree);
 		}
 
-
-		public bool IsTranslationHashEmpty()
+		/// <summary>
+		/// Checks to see if the translation dictionary is empty
+		/// </summary>
+		/// <returns></returns>
+		public bool IsTranslationDictionaryEmpty()
 		{
 			return translationDictionary.Any();
 		}
@@ -83,39 +82,15 @@ namespace Lingual.TranslationUtilities
 			return translationDictionary.ContainsKey(key.ToLower());
 		}
 
-<<<<<<< Updated upstream
 		private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
 		{
-			string pluralVal = "No translation";
-			foreach (JObject content in pluralKeys.Children<JObject>())
+			var pluralVal = "No translation";
+			foreach (JProperty property in pluralKeys.Children<JObject>().SelectMany(content => content.Properties().Where(t => t.Name == pluralCount)))
 			{
-				foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
-				{
-					pluralVal = prop.Value.ToString();
-				}
+				pluralVal = property.Value.ToString();
 			}
 			return pluralVal;
 		}
-=======
-        /// <summary>
-        /// Traverses plural multi-values for correct plurality
-        /// </summary>
-        /// <param name="pluralKeys">Array of multi-values for key</param>
-        /// <param name="pluralCount">Plurality (plural degree)</param>
-        /// <returns></returns>
-        private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
-        {
-            string pluralVal = "No translation";
-            foreach (JObject content in pluralKeys.Children<JObject>())
-            {
-                foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
-                {
-                    pluralVal = prop.Value.ToString();
-                }
-            }
-            return pluralVal;
-        }
->>>>>>> Stashed changes
 		#endregion
 	}
 }

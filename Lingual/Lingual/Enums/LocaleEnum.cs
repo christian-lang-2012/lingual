@@ -12,8 +12,7 @@ namespace Lingual.Enums
 	{
 		DE,
 		EN,
-		ES,
-		PT
+		ES
 
 	}
 }

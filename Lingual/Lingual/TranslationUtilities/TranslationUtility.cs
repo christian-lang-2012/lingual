@@ -61,7 +61,7 @@ namespace Lingual.TranslationUtilities
 			{
 				requestedDictionary = translationDictionary;
 			}
-            
+			
 			return requestedDictionary.GetValue(key);
 		}
 
@@ -99,13 +99,13 @@ namespace Lingual.TranslationUtilities
 			return key.ToString("d", culture);
 		}
 
-        /// <summary>
-        /// Plural translations; returns properly pluralized translation
-        /// </summary>
-        /// <param name="key">Translation key</param>
-        /// <param name="pluralDegree">Degree of plurality</param>
-        /// <param name="locale">Interpolated Data</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Plural translations; returns properly pluralized translation
+		/// </summary>
+		/// <param name="key">Translation key</param>
+		/// <param name="pluralDegree">Degree of plurality</param>
+		/// <param name="locale">Interpolated Data</param>
+		/// <returns></returns>
 		public string TranslatePlural(string key, String pluralDegree, LocaleEnum locale = LocaleEnum.EN)
 		{
 			var requestedDictionary = _translationDictionaries[0];
@@ -116,14 +116,14 @@ namespace Lingual.TranslationUtilities
 			return requestedDictionary.GetValue(key, pluralDegree);
 		}
 
-        /// <summary>
-        /// Interpolated plural translations; returns properly pluralized translation with interpolated data. 
-        /// </summary>
-        /// <param name="key">Translation key</param>
-        /// <param name="pluralDegree">Degree of plurality</param>
-        /// <param name="locale">Specified locale</param>
-        /// <param name="interpolatedData">Interpolated data</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Interpolated plural translations; returns properly pluralized translation with interpolated data. 
+		/// </summary>
+		/// <param name="key">Translation key</param>
+		/// <param name="pluralDegree">Degree of plurality</param>
+		/// <param name="locale">Specified locale</param>
+		/// <param name="interpolatedData">Interpolated data</param>
+		/// <returns></returns>
 		public string TranslatePlural(string key, String pluralDegree, LocaleEnum locale, params string[] interpolatedData)
 		{
 			var interpolStringVal = TranslatePlural(key, pluralDegree, locale);

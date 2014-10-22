@@ -35,13 +35,13 @@ namespace Lingual.Tests
 			Assert.AreEqual(answer, _translator.Translate(key, locale, args), "Interpolation failed for " + locale + ". Expected: " + answer);
 		}
 
-        [Test]
-        [TestCase("loggedin.user.day", "Hello Cid! Today is Tuesday", LocaleEnum.EN, "Tuesday", "Cid")]
-        [TestCase("loggedin.user.day", "Hallo, Cid. Heute ist Dienstag", LocaleEnum.DE, "", "")]
-        public void FalseTestInterpolationTranslation(String key, String answer, LocaleEnum locale, params string[] args)
-        {
-            Assert.AreNotEqual(answer, translator.Translate(key, locale, args));
-        }
+		[Test]
+		[TestCase("loggedin.user.day", "Hello Cid! Today is Tuesday", LocaleEnum.EN, "Tuesday", "Cid")]
+		[TestCase("loggedin.user.day", "Hallo, Cid. Heute ist Dienstag", LocaleEnum.DE, "", "")]
+		public void FalseTestInterpolationTranslation(String key, String answer, LocaleEnum locale, params string[] args)
+		{
+			Assert.AreNotEqual(answer, _translator.Translate(key, locale, args));
+		}
 
 		[Test]
 		[TestCase("20.10.2014", LocaleEnum.DE)]
