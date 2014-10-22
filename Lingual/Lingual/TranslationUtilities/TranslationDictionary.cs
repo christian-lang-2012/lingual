@@ -41,11 +41,16 @@ namespace Lingual.TranslationUtilities
 		/// <returns></returns>
 		public string GetValue(string key)
 		{
-			var returnValue = "Key doesn't exist";
+			var returnValue = "";
 			if (KeyExists(key))
 			{
 				returnValue = translationDictionary[key];
 			}
+			else
+			{
+				returnValue = key;
+			}
+
 			return returnValue;
 		}
 
@@ -78,18 +83,18 @@ namespace Lingual.TranslationUtilities
 			return translationDictionary.ContainsKey(key.ToLower());
 		}
 
-        private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
-        {
-            string pluralVal = "No translation";
-            foreach (JObject content in pluralKeys.Children<JObject>())
-            {
-                foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
-                {
-                    pluralVal = prop.Value.ToString();
-                }
-            }
-            return pluralVal;
-        }
+		private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
+		{
+			string pluralVal = "No translation";
+			foreach (JObject content in pluralKeys.Children<JObject>())
+			{
+				foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
+				{
+					pluralVal = prop.Value.ToString();
+				}
+			}
+			return pluralVal;
+		}
 		#endregion
 	}
 }
