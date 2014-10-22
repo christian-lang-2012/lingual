@@ -83,6 +83,7 @@ namespace Lingual.TranslationUtilities
 			return translationDictionary.ContainsKey(key.ToLower());
 		}
 
+<<<<<<< Updated upstream
 		private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
 		{
 			string pluralVal = "No translation";
@@ -95,6 +96,26 @@ namespace Lingual.TranslationUtilities
 			}
 			return pluralVal;
 		}
+=======
+        /// <summary>
+        /// Traverses plural multi-values for correct plurality
+        /// </summary>
+        /// <param name="pluralKeys">Array of multi-values for key</param>
+        /// <param name="pluralCount">Plurality (plural degree)</param>
+        /// <returns></returns>
+        private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
+        {
+            string pluralVal = "No translation";
+            foreach (JObject content in pluralKeys.Children<JObject>())
+            {
+                foreach (JProperty prop in content.Properties().Where(t => t.Name == pluralCount))
+                {
+                    pluralVal = prop.Value.ToString();
+                }
+            }
+            return pluralVal;
+        }
+>>>>>>> Stashed changes
 		#endregion
 	}
 }
