@@ -14,11 +14,15 @@ namespace Lingual.TranslationUtilities
 	public class TranslationUtility
 	{
 		#region Private Attributes
-		private readonly Dictionary<Locales, TranslationDictionary> _locales = new Dictionary<Locales, TranslationDictionary>();
+
+		private readonly Dictionary<Locales, TranslationDictionary> _locales =
+			new Dictionary<Locales, TranslationDictionary>();
+
 		private const string DateFormatter = "d";
 		private const string CurrencyFormatter = "C2";
 
 		private static TranslationUtility _instance;
+
 		#endregion
 
 		#region Properties
@@ -27,6 +31,7 @@ namespace Lingual.TranslationUtilities
 		{
 			SetUpTranslationHashes();
 		}
+
 		#endregion
 
 		#region Singleton Instance
@@ -39,10 +44,7 @@ namespace Lingual.TranslationUtilities
 		/// </value>
 		public static TranslationUtility Instance
 		{
-			get
-			{
-				return _instance ?? (_instance = new TranslationUtility());
-			}
+			get { return _instance ?? (_instance = new TranslationUtility()); }
 		}
 
 		#endregion
@@ -58,7 +60,7 @@ namespace Lingual.TranslationUtilities
 		public string Translate(string key, Locales locale = Locales.EN)
 		{
 			var requestedTranslationDictionary = _locales[locale];
-            return requestedTranslationDictionary.GetValue(key);
+			return requestedTranslationDictionary.GetValue(key);
 		}
 
 		/// <summary>
@@ -70,7 +72,7 @@ namespace Lingual.TranslationUtilities
 		/// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
 		public string Translate(string key, Locales? locale, params string[] arguments)
 		{
-            var translatedString = locale.HasValue ? Translate(key, locale.Value) : Translate(key);
+			var translatedString = locale.HasValue ? Translate(key, locale.Value) : Translate(key);
 
 			if (arguments.Any())
 			{
@@ -114,7 +116,9 @@ namespace Lingual.TranslationUtilities
 		/// <returns></returns>
 		public string TranslatePlural(string key, PluralDegree pluralDegree, Locales? locale, params string[] interpolatedData)
 		{
-            var interpolStringVal = locale.HasValue ? TranslatePlural(key, pluralDegree, locale.Value) : TranslatePlural(key, pluralDegree);
+			var interpolStringVal = locale.HasValue
+				? TranslatePlural(key, pluralDegree, locale.Value)
+				: TranslatePlural(key, pluralDegree);
 			if (interpolatedData.Any())
 			{
 				interpolStringVal = string.Format(interpolStringVal, interpolatedData);
@@ -136,17 +140,18 @@ namespace Lingual.TranslationUtilities
 		#endregion
 
 		#region Helper Methods
+
 		/// <summary>
 		/// Sets up translation hashes.
 		/// </summary>
 		private void SetUpTranslationHashes()
 		{
 
-            _locales.Add(Locales.EN, new TranslationDictionary(Locales.EN));
-            _locales.Add(Locales.ES, new TranslationDictionary(Locales.ES));
-            _locales.Add(Locales.DE, new TranslationDictionary(Locales.DE));
+			_locales.Add(Locales.EN, new TranslationDictionary(Locales.EN));
+			_locales.Add(Locales.ES, new TranslationDictionary(Locales.ES));
+			_locales.Add(Locales.DE, new TranslationDictionary(Locales.DE));
 
-			foreach (TranslationDictionary translationDictionary in _locales.Values)
+			foreach (var translationDictionary in _locales.Values)
 			{
 				SetTranslationNodes(translationDictionary.TranslationLocale);
 			}
@@ -161,10 +166,10 @@ namespace Lingual.TranslationUtilities
 			var localeJsonObj = LocaleFileHandler.GetLocaleFile(locale);
 			var localeHash = _locales.Where(t => t.Key == locale).FirstOrDefault();
 
-            foreach (var jsonKVPair in localeJsonObj)
-            {
-                localeHash.Value.AddTranslation(jsonKVPair.Key, jsonKVPair.Value.ToString());
-            }
+			foreach (var jsonKVPair in localeJsonObj)
+			{
+				localeHash.Value.AddTranslation(jsonKVPair.Key, jsonKVPair.Value.ToString());
+			}
 		}
 
 		#endregion
