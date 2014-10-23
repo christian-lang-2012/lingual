@@ -43,25 +43,14 @@ namespace Lingual.TranslationUtilities
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns></returns>
-		public string GetValue(string key)
+		public string GetValue(string key, PluralDegree? plurality = null)
 		{
 			var returnValue = KeyExists(key) ? translationDictionary[key] : key;
-
+            if (plurality.HasValue)
+            {
+                returnValue = PluralKeyFinder(JObject.Parse(returnValue), plurality.Value);
+            }
 			return returnValue;
-		}
-
-		/// <summary>
-		/// Get's the Translation of the key with the plural degree
-		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="pluralDegree"></param>
-		/// <returns></returns>
-		public string GetValue(string key, string pluralDegree)
-		{
-			//Default and params don't work together. Only way to get it to work is method overload
-			var nonPluralTrans = GetValue(key);
-			var jarrayParse = JArray.Parse(nonPluralTrans);
-			return PluralKeyFinder(jarrayParse, pluralDegree);
 		}
 
 		/// <summary>
@@ -81,14 +70,10 @@ namespace Lingual.TranslationUtilities
 			return translationDictionary.ContainsKey(key.ToLower());
 		}
 
-		private string PluralKeyFinder(JArray pluralKeys, string pluralCount)
+		private string PluralKeyFinder(JObject pluralKeys, PluralDegree plurality)
 		{
-			var pluralVal = "No translation";
-			foreach (JProperty property in pluralKeys.Children<JObject>().SelectMany(content => content.Properties().Where(t => t.Name == pluralCount)))
-			{
-				pluralVal = property.Value.ToString();
-			}
-			return pluralVal;
+            var jobjectDictionary = pluralKeys.ToObject<Dictionary<PluralDegree, string>>();
+            return jobjectDictionary.Where(t => t.Key == plurality).Select(t => t.Value).First();
 		}
 		#endregion
 	}

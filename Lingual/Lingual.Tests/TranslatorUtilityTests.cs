@@ -54,15 +54,15 @@ namespace Lingual.Tests
 		}
 
 		[Test]
-		[TestCase("loggedin.user.inbox", "1 new message", "1", Locales.EN)]
-		[TestCase("loggedin.user.inbox", "2 new messages", "2", Locales.EN)]
-		[TestCase("loggedin.user.inbox", "55 new messagisms", "other", Locales.EN, "55")]
-		[TestCase("loggedin.user.inbox", "1 neue Nachricht", "1", Locales.DE)]
-		[TestCase("loggedin.user.inbox", "2 neue Nachrichten", "2", Locales.DE)]
-		[TestCase("loggedin.user.inbox", "66 neue Nachrichtenismo", "other", Locales.DE, "66")]
-		[TestCase("loggedin.user.inbox", "1 nuevo mensaje", "1", Locales.ES)]
-		[TestCase("loggedin.user.inbox", "99 nuevo mensajismos", "other", Locales.ES, "99")]
-		public void TestPluralTranslation(string key, string answer, string pluralDegree, Locales locale, params string[] args)
+		[TestCase("loggedin.user.inbox", "1 new message", PluralDegree.ONE, Locales.EN)]
+		[TestCase("loggedin.user.inbox", "2 new messages", PluralDegree.TWO, Locales.EN)]
+        [TestCase("loggedin.user.inbox", "55 new messagisms", PluralDegree.OTHER, Locales.EN, "55")]
+        [TestCase("loggedin.user.inbox", "1 neue Nachricht", PluralDegree.ONE, Locales.DE)]
+		[TestCase("loggedin.user.inbox", "2 neue Nachrichten", PluralDegree.TWO, Locales.DE)]
+		[TestCase("loggedin.user.inbox", "66 neue Nachrichtenismo", PluralDegree.OTHER, Locales.DE, "66")]
+        [TestCase("loggedin.user.inbox", "1 nuevo mensaje", PluralDegree.ONE, Locales.ES)]
+		[TestCase("loggedin.user.inbox", "99 nuevo mensajismos", PluralDegree.OTHER, Locales.ES, "99")]
+		public void TestPluralTranslation(string key, string answer, PluralDegree pluralDegree, Locales locale, params string[] args)
 		{
 			Assert.AreEqual(answer, _translator.TranslatePlural(key, pluralDegree, locale, args), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
 		}

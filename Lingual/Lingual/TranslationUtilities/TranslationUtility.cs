@@ -58,7 +58,7 @@ namespace Lingual.TranslationUtilities
 		public string Translate(string key, Locales locale = Locales.EN)
 		{
 			var requestedTranslationDictionary = _locales[locale];
-			return requestedTranslationDictionary.GetValue(key);
+            return requestedTranslationDictionary.GetValue(key);
 		}
 
 		/// <summary>
@@ -68,15 +68,15 @@ namespace Lingual.TranslationUtilities
 		/// <param name="locale">The locale.</param>
 		/// <param name="arguments">The arguments.</param>
 		/// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
-		public string Translate(string key, Locales locale = Locales.EN, params string[] arguments)
+		public string Translate(string key, Locales? locale, params string[] arguments)
 		{
-			var requestedTranslationDictionary = _locales[locale];
-			var interpolStringVal = requestedTranslationDictionary.GetValue(key);
+            var translatedString = locale.HasValue ? Translate(key, locale.Value) : Translate(key);
+
 			if (arguments.Any())
 			{
-				interpolStringVal = string.Format(interpolStringVal, arguments);
+				translatedString = string.Format(translatedString, arguments);
 			}
-			return interpolStringVal;
+			return translatedString;
 		}
 
 		/// <summary>
@@ -98,10 +98,10 @@ namespace Lingual.TranslationUtilities
 		/// <param name="pluralDegree">Degree of plurality</param>
 		/// <param name="locale">Interpolated Data</param>
 		/// <returns></returns>
-		public string TranslatePlural(string key, String pluralDegree, Locales locale = Locales.EN)
+		public string TranslatePlural(string key, PluralDegree plurality, Locales locale = Locales.EN)
 		{
 			var requestedTranslationDictionary = _locales[locale];
-			return requestedTranslationDictionary.GetValue(key, pluralDegree);
+			return requestedTranslationDictionary.GetValue(key, plurality);
 		}
 
 		/// <summary>
@@ -112,9 +112,9 @@ namespace Lingual.TranslationUtilities
 		/// <param name="locale">Specified locale</param>
 		/// <param name="interpolatedData">Interpolated data</param>
 		/// <returns></returns>
-		public string TranslatePlural(string key, String pluralDegree, Locales locale = Locales.EN, params string[] interpolatedData)
+		public string TranslatePlural(string key, PluralDegree pluralDegree, Locales? locale, params string[] interpolatedData)
 		{
-			var interpolStringVal = TranslatePlural(key, pluralDegree, locale);
+            var interpolStringVal = locale.HasValue ? TranslatePlural(key, pluralDegree, locale.Value) : TranslatePlural(key, pluralDegree);
 			if (interpolatedData.Any())
 			{
 				interpolStringVal = string.Format(interpolStringVal, interpolatedData);
@@ -141,6 +141,11 @@ namespace Lingual.TranslationUtilities
 		/// </summary>
 		private void SetUpTranslationHashes()
 		{
+
+            _locales.Add(Locales.EN, new TranslationDictionary(Locales.EN));
+            _locales.Add(Locales.ES, new TranslationDictionary(Locales.ES));
+            _locales.Add(Locales.DE, new TranslationDictionary(Locales.DE));
+
 			foreach (TranslationDictionary translationDictionary in _locales.Values)
 			{
 				SetTranslationNodes(translationDictionary.TranslationLocale);
@@ -154,24 +159,12 @@ namespace Lingual.TranslationUtilities
 		public void SetTranslationNodes(Locales locale)
 		{
 			var localeJsonObj = LocaleFileHandler.GetLocaleFile(locale);
-			// FIXME use var since we seee cast on rhs
-			// FIXME rename token to something that describes the object.
-			// FIXME cast to JOBject, remove top-level array brackets in each json file
-			var jObject = (JArray)localeJsonObj[locale.ToString().ToLower()];
-			var localeDictionary = _locales[locale];
+			var localeHash = _locales.Where(t => t.Key == locale).FirstOrDefault();
 
-			// FIXME remove outer foreach since we are iterating object properties, not array items.
-			foreach (JObject content in jObject.Children<JObject>())
-			{
-				// FIXME rename prop to property
-				foreach (JProperty property in content.Properties())
-				{
-					if (localeDictionary != null)
-					{
-						localeDictionary.AddTranslation(property.Name, property.Value.ToString());
-					}
-				}
-			}
+            foreach (var jsonKVPair in localeJsonObj)
+            {
+                localeHash.Value.AddTranslation(jsonKVPair.Key, jsonKVPair.Value.ToString());
+            }
 		}
 
 		#endregion
