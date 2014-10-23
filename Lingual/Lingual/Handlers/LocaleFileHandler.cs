@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Lingual.Enums;
 using Lingual.Exceptions;
 
 namespace Lingual.Handlers
@@ -18,7 +17,7 @@ namespace Lingual.Handlers
 		/// </summary>
 		/// <param name="localeCode">Locale to get translation file for</param>
 		/// <returns>JObject of KV pairs (JSON)</returns>
-		public static JObject GetLocaleFile(LocaleEnum localeCode)
+		public static JObject GetLocaleFile(Locales localeCode)
 		{
 			var localePath = Path.Combine(ProjPath, "locale", localeCode + ".json");
 			String contents;

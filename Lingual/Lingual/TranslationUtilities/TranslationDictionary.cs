@@ -1,5 +1,4 @@
-﻿using Lingual.Enums;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +10,7 @@ namespace Lingual.TranslationUtilities
 
 		private Dictionary<string, string> translationDictionary;
 
-		public LocaleEnum TranslationLocale { get; private set; }
+		public Locales TranslationLocale { get; private set; }
 		#endregion
 
 		#region Core Methods
@@ -20,7 +19,7 @@ namespace Lingual.TranslationUtilities
 		/// Constructor for the TranslationDictionary. Must take in a LocaleEnum
 		/// </summary>
 		/// <param name="locale"></param>
-		public TranslationDictionary(LocaleEnum locale)
+		public TranslationDictionary(Locales locale)
 		{
 			TranslationLocale = locale;
 			translationDictionary = new Dictionary<string, string>();
