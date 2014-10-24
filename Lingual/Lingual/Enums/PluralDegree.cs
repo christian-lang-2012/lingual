@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Lingual
 {
-	public enum PluralDegree
-	{
-		ONE,
-		TWO,
-		OTHER,
-	}
+    public enum PluralDegree
+    {
+        ONE,
+        TWO,
+        OTHER
+    }
 }

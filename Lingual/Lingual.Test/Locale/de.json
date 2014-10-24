@@ -1,0 +1,15 @@
+{
+    "account.invalid.message": "The user name or password provided is incorrect.",
+    "account.invalid.newpassword": "'Neues Kennwort' und 'Neues Kennwort bestätigen' nicht übereinstimmen.",
+    "account.invalid.privileges": "Sorry, Sie haben keine ausreichenden Rechte, um diese Ressource zugreifen .",
+    "account.invalid.username": "Die zur Verfügung gestellten Benutzernamen ist falsch.",
+    "account.signon.invalid.message": "Der Benutzername oder das Passwort ist nicht korrekt .",
+    "login.hello": "Hallo!",
+    "loggedin.user.day": "Hallo, {0}. Heute ist {1}",
+    "loggedin.user.inbox": 
+        {
+            "ONE": "1 neue Nachricht",
+            "TWO": "2 neue Nachrichten",
+            "OTHER":  "{0} neue Nachrichtenismo"
+        }
+}

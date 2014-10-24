@@ -8,9 +8,9 @@ namespace Lingual.Exceptions
 {
 	public class KeyAlreadyExistsException : Exception
 	{
-		public KeyAlreadyExistsException()
-		{
-			
-		}
+	    public KeyAlreadyExistsException()
+	    {
+
+	    }
 	}
 }
