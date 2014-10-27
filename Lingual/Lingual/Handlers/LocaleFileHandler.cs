@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Lingual.Exceptions;
 
@@ -29,10 +26,8 @@ namespace Lingual.Handlers
             {
                 throw new LocaleFolderNotFoundException();
             }
-            catch (FileNotFoundException)
-            {
-                throw;
-            }
+            
+
             var jsonLocaleFile = JObject.Parse(contents);
             return jsonLocaleFile;
         }

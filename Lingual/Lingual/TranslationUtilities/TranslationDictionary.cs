@@ -8,7 +8,7 @@ namespace Lingual.TranslationUtilities
     {
         #region Properties and Variables
 
-        private Dictionary<string, string> translationDictionary;
+        private readonly Dictionary<string, string> _translationDictionary;
 
         public Locale Locale { get; private set; }
         #endregion
@@ -22,7 +22,7 @@ namespace Lingual.TranslationUtilities
         public TranslationDictionary(Locale locale)
         {
             Locale = locale;
-            translationDictionary = new Dictionary<string, string>();
+            _translationDictionary = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Lingual.TranslationUtilities
         {
             if (!KeyExists(key))
             {
-                translationDictionary.Add(key.ToLower(), value);
+                _translationDictionary.Add(key.ToLower(), value);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Lingual.TranslationUtilities
         /// <returns></returns>
         public string GetValue(string key, PluralDegree? plurality = null)
         {
-            var translation = KeyExists(key) ? translationDictionary[key.ToLower()] : key;
+            var translation = KeyExists(key) ? _translationDictionary[key.ToLower()] : key;
             if (plurality.HasValue)
             {
                 translation = PluralKeyFinder(JObject.Parse(translation), plurality.Value);
@@ -61,7 +61,7 @@ namespace Lingual.TranslationUtilities
         /// <returns></returns>
         public bool IsTranslationDictionaryEmpty()
         {
-            return translationDictionary.Any();
+            return _translationDictionary.Any();
         }
 
         #endregion
@@ -69,7 +69,7 @@ namespace Lingual.TranslationUtilities
         #region Private Helper Methods
         private bool KeyExists(string key)
         {
-            return translationDictionary.ContainsKey(key.ToLower());
+            return _translationDictionary.ContainsKey(key.ToLower());
         }
 
         private string PluralKeyFinder(JObject pluralKeys, PluralDegree plurality)

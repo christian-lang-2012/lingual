@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using Lingual.Handlers;
-using Newtonsoft.Json.Linq;
 
 namespace Lingual.TranslationUtilities
 {
