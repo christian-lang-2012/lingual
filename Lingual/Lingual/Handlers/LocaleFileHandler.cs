@@ -9,6 +9,7 @@ namespace Lingual.Handlers
     public class LocaleFileHandler
     {
         private static readonly String ProjPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+        
         /// <summary>
         /// Gets the translation file for the specified locale
         /// </summary>
@@ -16,8 +17,8 @@ namespace Lingual.Handlers
         /// <returns>JObject of KV pairs (JSON)</returns>
         public static JObject GetLocaleFile(Locale localeCode)
         {
-            var localePath = Path.Combine(ProjPath, "locale", localeCode + ".json");
-            String contents;
+            var localePath = Path.Combine(ProjPath, "locale", localeCode.ToString().Replace('_', '-') + ".json");
+            string contents;
             try
             {
                 contents = File.ReadAllText(localePath, Encoding.UTF8);
@@ -26,7 +27,15 @@ namespace Lingual.Handlers
             {
                 throw new LocaleFolderNotFoundException();
             }
-            
+            catch (FileNotFoundException ex)
+            {
+                contents = "{ \"null\":\"null\" }";
+            }
+
+            if (contents == "")
+            {
+                contents = "{ \"null\":\"null\" }";                
+            }
 
             var jsonLocaleFile = JObject.Parse(contents);
             return jsonLocaleFile;

@@ -16,7 +16,7 @@ namespace Lingual.TranslationUtilities
         #region Core Methods
 
         /// <summary>
-        /// Constructor for the TranslationDictionary. Must take in a LocaleEnum
+        /// Constructor for the TranslationDictionary. Must take in a Locale
         /// </summary>
         /// <param name="locale"></param>
         public TranslationDictionary(Locale locale)

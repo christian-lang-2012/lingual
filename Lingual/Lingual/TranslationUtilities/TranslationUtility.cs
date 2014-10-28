@@ -57,12 +57,12 @@ namespace Lingual.TranslationUtilities
         /// <param name="key">The key.</param>
         /// <param name="locale">The locale.</param>
         /// <returns>Returns the value associated with the passed in key and locale. Parameter locale takes precedence over current locale</returns>
-        public string Translate(string key, Locale locale = Locale.EN)
+        public string Translate(string key, Locale locale = Locale.en_US)
         {
             TranslationDictionary requestedTranslationDictionary;
             if (!_locales.TryGetValue(locale, out requestedTranslationDictionary))
             {
-                requestedTranslationDictionary = _locales[Locale.EN];
+                requestedTranslationDictionary = _locales[Locale.en_US];
             }
 
             return requestedTranslationDictionary.GetValue(key);
@@ -92,9 +92,10 @@ namespace Lingual.TranslationUtilities
         /// <param name="key">The DateTime to localize</param>
         /// <param name="locale">The locale</param>
         /// <returns></returns>
-        public string Localize(DateTime key, Locale locale = Locale.EN)
+        public string Localize(DateTime key, Locale locale = Locale.en_US)
         {
-            var culture = new CultureInfo(locale.ToString());
+            var cultureName = locale.ToString().Split('_')[0];
+            var culture = new CultureInfo(cultureName);
             return key.ToString(DateFormatter, culture);
         }
 
@@ -104,9 +105,9 @@ namespace Lingual.TranslationUtilities
         /// <param name="currencyAmount"></param>
         /// <param name="locale"></param>
         /// <returns></returns>
-        public string Localize(double currencyAmount, Locale locale = Locale.EN)
+        public string Localize(double currencyAmount, Locale locale = Locale.en_US)
         {
-            return currencyAmount.ToString(CurrencyFormatter, CultureInfo.CreateSpecificCulture(locale.ToString()));
+            return currencyAmount.ToString(CurrencyFormatter, CultureInfo.CreateSpecificCulture(locale.ToString().Replace('_', '-')));
         }
 
         /// <summary>
@@ -116,14 +117,14 @@ namespace Lingual.TranslationUtilities
         /// <param name="plurality">Degree of plurality</param>
         /// <param name="locale">Interpolated Data</param>
         /// <returns></returns>
-        public string TranslatePlural(string key, PluralDegree plurality, Locale locale = Locale.EN)
+        public string TranslatePlural(string key, PluralDegree plurality, Locale locale = Locale.en_US)
         {
             TranslationDictionary requestedTranslationDictionary;
             if (!_locales.TryGetValue(locale, out requestedTranslationDictionary))
             {
-                requestedTranslationDictionary = _locales[Locale.EN];
+                requestedTranslationDictionary = _locales[Locale.en_US];
             }
-            
+
             var translation = requestedTranslationDictionary.GetValue(key, plurality);
 
             return translation;
@@ -139,9 +140,7 @@ namespace Lingual.TranslationUtilities
         /// <returns></returns>
         public string TranslatePlural(string key, PluralDegree pluralDegree, Locale? locale, params string[] interpolatedData)
         {
-            var interpolStringVal = locale.HasValue
-                ? TranslatePlural(key, pluralDegree, locale.Value)
-                : TranslatePlural(key, pluralDegree);
+            var interpolStringVal = locale.HasValue ? TranslatePlural(key, pluralDegree, locale.Value) : TranslatePlural(key, pluralDegree);
             if (interpolatedData.Any())
             {
                 interpolStringVal = string.Format(interpolStringVal, interpolatedData);
@@ -158,10 +157,10 @@ namespace Lingual.TranslationUtilities
         /// </summary>
         private void SetUpTranslationHashes()
         {
-            foreach(var locale in Enum.GetValues(typeof(Locale)))
+            foreach (var locale in Enum.GetValues(typeof(Locale)))
             {
                 _locales.Add((Locale)locale, new TranslationDictionary((Locale)locale));
-            }   
+            }
 
             foreach (var translationDictionary in _locales.Values)
             {
@@ -179,8 +178,13 @@ namespace Lingual.TranslationUtilities
 
             foreach (var jsonKvPair in localeJsonObj)
             {
+                if (jsonKvPair.Key == "null")
+                {
+                    break;
+                }
                 translationDictionary.AddTranslation(jsonKvPair.Key, jsonKvPair.Value.ToString());
             }
+
         }
 
         #endregion

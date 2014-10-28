@@ -30,7 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lingual">
+    <Reference Include="Lingual, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lingual\bin\Debug\Lingual.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
@@ -49,10 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Locale\de.json" />
-    <None Include="Locale\en.json" />
-    <None Include="Locale\es.json" />
-    <None Include="Locale\pt.json" />
+    <None Include="Locale\de-de.json" />
+    <None Include="Locale\en-us.json" />
+    <None Include="Locale\es-mx.json" />
+    <None Include="Locale\pt-pt.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
