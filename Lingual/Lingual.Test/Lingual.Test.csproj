@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lingual, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lingual\bin\Debug\Lingual.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -61,6 +57,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lingual\Lingual.csproj">
+      <Project>{69147b5d-0ec6-4643-9f00-fc1bbd9fb700}</Project>
+      <Name>Lingual</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lingual\Lingual.csproj">
+      <Project>{69147b5d-0ec6-4643-9f00-fc1bbd9fb700}</Project>
+      <Name>Lingual</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

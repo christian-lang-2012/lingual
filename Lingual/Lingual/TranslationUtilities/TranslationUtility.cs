@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Lingual.Handlers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace Lingual.TranslationUtilities
 {
@@ -75,13 +78,13 @@ namespace Lingual.TranslationUtilities
         /// <param name="locale">The locale.</param>
         /// <param name="arguments">The arguments.</param>
         /// <returns>Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale</returns>
-        public string Translate(string key, Locale? locale, params string[] arguments)
+        public string Translate(string key, Locale? locale, Dictionary<string, string> argsDictionary)
         {
             var translatedString = locale.HasValue ? Translate(key, locale.Value) : Translate(key);
 
-            if (arguments.Any())
+            if (argsDictionary.Any())
             {
-                translatedString = string.Format(translatedString, arguments);
+                translatedString = InterpolationDictionaryTokenizer(translatedString, argsDictionary);
             }
             return translatedString;
         }
@@ -138,12 +141,15 @@ namespace Lingual.TranslationUtilities
         /// <param name="locale">Specified locale</param>
         /// <param name="interpolatedData">Interpolated data</param>
         /// <returns></returns>
-        public string TranslatePlural(string key, PluralDegree pluralDegree, Locale? locale, params string[] interpolatedData)
+        public string TranslatePlural(string key, PluralDegree pluralDegree, Locale? locale, Dictionary<string, string> argsDictionary)
         {
-            var interpolStringVal = locale.HasValue ? TranslatePlural(key, pluralDegree, locale.Value) : TranslatePlural(key, pluralDegree);
-            if (interpolatedData.Any())
+            var interpolStringVal = locale.HasValue
+                ? TranslatePlural(key, pluralDegree, locale.Value)
+                : TranslatePlural(key, pluralDegree);
+
+            if (argsDictionary.Any())            
             {
-                interpolStringVal = string.Format(interpolStringVal, interpolatedData);
+                interpolStringVal = InterpolationDictionaryTokenizer(interpolStringVal, argsDictionary);
             }
             return interpolStringVal;
         }
@@ -175,18 +181,28 @@ namespace Lingual.TranslationUtilities
         public void SetTranslationNodes(TranslationDictionary translationDictionary)
         {
             var localeJsonObj = LocaleFileHandler.GetLocaleFile(translationDictionary.Locale);
-
-            foreach (var jsonKvPair in localeJsonObj)
+            //var objDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(localeJsonObj.ToString());
+            foreach (var jsonObjProperties in localeJsonObj)           
             {
-                if (jsonKvPair.Key == "null")
-                {
-                    break;
-                }
-                translationDictionary.AddTranslation(jsonKvPair.Key, jsonKvPair.Value.ToString());
+                //if (jsonKvPair.Key == "null")
+                translationDictionary.AddTranslation(jsonObjProperties.Key, jsonObjProperties.Value.ToString());
+
             }
 
         }
 
+        public String InterpolationDictionaryTokenizer(String interpolString, Dictionary<string, string> argsDictionary)
+        {
+            var newInterpolatedString = interpolString;
+            foreach (var dictKVPair in argsDictionary)
+            {
+                if (newInterpolatedString.Contains(dictKVPair.Key))
+                {
+                    newInterpolatedString = newInterpolatedString.Replace(dictKVPair.Key, dictKVPair.Value);
+                }
+            }
+            return newInterpolatedString;
+        }
         #endregion
     }
 }

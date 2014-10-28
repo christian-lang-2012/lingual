@@ -5,10 +5,10 @@
     "account.invalid.username": "The username provided is incorrect.",
     "account.signon.invalid.message": "The Single Sign On request was not formatted correctly.",
     "login.hello": "Hello!",
-    "loggedin.user.day": "Hello {0}! Today is {1}",
+    "loggedin.user.day": "Hello __NAME__! Today is __DAY__",
     "loggedin.user.inbox": {
         "ONE": "1 new message",
         "TWO": "2 new messages",
-        "OTHER":  "{0} new messagisms"
+        "OTHER":  "__AMOUNT__ new messagisms"
     }
 }
