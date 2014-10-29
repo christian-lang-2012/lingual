@@ -37,7 +37,7 @@ namespace Lingual.TranslationUtilities
         #region Singleton Instance
 
         /// <summary>
-        /// Gets the instance. Adhereing to the singleton pattern so that way there aren't huge instance of the Translation Utility everyhere
+        /// Gets the instance. Adhereing to the singleton pattern so that way there isn't a huge instance of the Translation Utility everyhere
         /// </summary>
         /// <value>
         /// The instance.
@@ -48,8 +48,8 @@ namespace Lingual.TranslationUtilities
             {
                 return _instance ?? (_instance = new TranslationUtility());
             }
-        }
 
+        }
         #endregion
 
         #region Translation Utilities
@@ -62,13 +62,17 @@ namespace Lingual.TranslationUtilities
         /// <returns>Returns the value associated with the passed in key and locale. Parameter locale takes precedence over current locale</returns>
         public string Translate(string key, Locale locale = Locale.en_US)
         {
-            TranslationDictionary requestedTranslationDictionary;
-            if (!_locales.TryGetValue(locale, out requestedTranslationDictionary))
+            TranslationDictionary translationDicitonary = _locales[locale];
+            if (!translationDicitonary.KeyExists(key))
             {
-                requestedTranslationDictionary = _locales[Locale.en_US];
+                translationDicitonary = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
+                if (!translationDicitonary.KeyExists(key))
+                {
+                    translationDicitonary = _locales[Locale.en];
+                }
             }
 
-            return requestedTranslationDictionary.GetValue(key);
+            return translationDicitonary.GetValue(key);
         }
 
         /// <summary>
@@ -110,7 +114,8 @@ namespace Lingual.TranslationUtilities
         /// <returns></returns>
         public string Localize(double currencyAmount, Locale locale = Locale.en_US)
         {
-            return currencyAmount.ToString(CurrencyFormatter, CultureInfo.CreateSpecificCulture(locale.ToString().Replace('_', '-')));
+            var cultureName = locale.ToString().Replace('_', '-');
+            return currencyAmount.ToString(CurrencyFormatter, CultureInfo.CreateSpecificCulture(cultureName));
         }
 
         /// <summary>
@@ -122,10 +127,14 @@ namespace Lingual.TranslationUtilities
         /// <returns></returns>
         public string TranslatePlural(string key, PluralDegree plurality, Locale locale = Locale.en_US)
         {
-            TranslationDictionary requestedTranslationDictionary;
-            if (!_locales.TryGetValue(locale, out requestedTranslationDictionary))
+            TranslationDictionary requestedTranslationDictionary = _locales[locale];
+            if (!requestedTranslationDictionary.KeyExists(key))
             {
-                requestedTranslationDictionary = _locales[Locale.en_US];
+                requestedTranslationDictionary = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
+                if (!requestedTranslationDictionary.KeyExists(key))
+                {
+                    requestedTranslationDictionary = _locales[Locale.en];
+                }
             }
 
             var translation = requestedTranslationDictionary.GetValue(key, plurality);
@@ -181,11 +190,13 @@ namespace Lingual.TranslationUtilities
         public void SetTranslationNodes(TranslationDictionary translationDictionary)
         {
             var localeJsonObj = LocaleFileHandler.GetLocaleFile(translationDictionary.Locale);
-            //var objDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(localeJsonObj.ToString());
+
             foreach (var jsonObjProperties in localeJsonObj)           
             {
-                //if (jsonKvPair.Key == "null")
-                translationDictionary.AddTranslation(jsonObjProperties.Key, jsonObjProperties.Value.ToString());
+                if (jsonObjProperties.Key != "null")
+                {
+                    translationDictionary.AddTranslation(jsonObjProperties.Key, jsonObjProperties.Value.ToString());
+                }
 
             }
 

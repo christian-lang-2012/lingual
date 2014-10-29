@@ -63,15 +63,15 @@ namespace Lingual.TranslationUtilities
         {
             return _translationDictionary.Any();
         }
-
-        #endregion
-
-        #region Private Helper Methods
-        private bool KeyExists(string key)
+        
+        public bool KeyExists(string key)
         {
             return _translationDictionary.ContainsKey(key.ToLower());
         }
+        #endregion
 
+        #region Private Helper Methods
+        
         private string PluralKeyFinder(JObject pluralKeys, PluralDegree plurality)
         {
             var jobjectDictionary = pluralKeys.ToObject<Dictionary<PluralDegree, string>>();
