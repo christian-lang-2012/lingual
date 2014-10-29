@@ -10,10 +10,11 @@ namespace Lingual
     /// </summary>
     public enum Locale
     {
+        //Afrikaans locales
         af,
         af_ZA,
-        sq,
-        sq_AL,
+        
+        //Arabic locales
         ar,
         ar_DZ,
         ar_BH,
@@ -31,39 +32,54 @@ namespace Lingual
         ar_TN,
         ar_AE,
         ar_YE,
-        hy,
-        hy_AM,
-        cy,
-        cy_AZ_AZ,
-        lt,
-        lt_AZ_AZ,
-        eu,
-        eu_ES,
+        
+        //Belarusian locales
         be,
         be_BY,
+
+        //Bulgarian locales
         bg,
         bg_BG,
+        
+        //Catalan locales
         ca,
         ca_ES,
-        zh,
-        zh_CN,
-        zh_HK,
-        zh_MO,
-        zh_SG,
-        zh_TW,
-        zh_CHS,
-        zh_CHT,
-        hr,
-        hr_HR,
+        
+        //Azeri (Cyrillic)
+        cy,
+        cy_AZ_AZ,
+
+        //Serbian (Cyrillic)
+        cy_sr_SP,
+
+        //Uzbek (Cyrillic)
+        cy_UZ_UZ,
+
+        //Czech
         cs,
         cs_CZ,
+        
+        //Danish
         da,
         da_DK,
+        
+        //German locales
+        de,
+        de_AT,
+        de_DE,
+        de_LI,
+        de_LU,
+        de_CH,
+        
+        //Dhivehi
         div,
         div_MV,
-        nl,
-        nl_BE,
-        nl_NL,
+        
+        //Greek
+        el,
+        el_GR,
+        
+        //English locales
         en,
         en_AU,
         en_BZ,
@@ -78,94 +94,8 @@ namespace Lingual
         en_GB,
         en_US,
         en_ZW,
-        et,
-        et_EE,
-        fo,
-        fo_FO,
-        fa,
-        fa_IR,
-        fi,
-        fi_FI,
-        fr,
-        fr_BE,
-        fr_CA,
-        fr_FR,
-        fr_LU,
-        fr_MC,
-        fr_CH,
-        gl,
-        gl_ES,
-        ka,
-        ka_GE,
-        de,
-        de_AT,
-        de_DE,
-        de_LI,
-        de_LU,
-        de_CH,
-        el,
-        el_GR,
-        gu,
-        gu_IN,
-        he,
-        he_IL,
-        hi,
-        hi_IN,
-        hu,
-        hu_HU,
-        is_IS,
-        id,
-        id_ID,
-        it,
-        it_IT,
-        it_CH,
-        ja,
-        ja_JP,
-        kn,
-        kn_IN,
-        kk,
-        kk_KZ,
-        kok,
-        kok_IN,
-        ko,
-        ko_KR,
-        ky,
-        ky_KZ,
-        lv,
-        lv_LV,
-        lt_LT,
-        mk,
-        mk_MK,
-        ms,
-        ms_BN,
-        ms_MY,
-        mr,
-        mr_IN,
-        mn,
-        mn_MN,
-        nb,
-        nb_NO,
-        nn,
-        nn_NO,
-        pl,
-        pl_PL,
-        pt,
-        pt_BR,
-        pt_PT,
-        pa,
-        pa_IN,
-        ro,
-        ro_RO,
-        ru,
-        ru_RU,
-        sa,
-        sa_IN,
-        cy_sr_SP,
-        lt_sr_SP,
-        sk,
-        sk_SK,
-        sl,
-        sl_SI,
+
+        //Spanish locales
         es,
         es_AR,
         es_BO,
@@ -186,31 +116,244 @@ namespace Lingual
         es_ES,
         es_UY,
         es_VE,
+        
+        //Estonia
+        et,
+        et_EE,
+
+        //Basque
+        eu,
+        eu_ES,
+        
+        //Farsi
+        fa,
+        fa_IR,
+
+        //Finnish
+        fi,
+        fi_FI,
+        
+        //Faroese
+        fo,
+        fo_FO,
+        
+        //French locales
+        fr,
+        fr_BE,
+        fr_CA,
+        fr_FR,
+        fr_LU,
+        fr_MC,
+        fr_CH,
+        
+        //Hebrew
+        he,
+        he_IL,
+        
+        //Hindi
+        hi,
+        hi_IN,
+        
+        //Croatian
+        hr,
+        hr_HR,
+
+        //Hungarian
+        hu,
+        hu_HU,
+        
+        //armenian
+        hy,
+        hy_AM,
+        
+        //Icelandic
+        is_IS,
+
+        //Indonesian
+        id,
+        id_ID,
+
+        //Italian
+        it,
+        it_IT,
+        it_CH,
+        
+        //Glacian
+        gl,
+        gl_ES,
+        
+        //Gujarati
+        gu,
+        gu_IN,
+
+        //Japanese
+        ja,
+        ja_JP,
+        
+        //Georgian
+        ka,
+        ka_GE,
+        
+        //Kannada
+        kn,
+        kn_IN,
+        
+        //Kazakh
+        kk,
+        kk_KZ,
+        
+        //Konkani
+        kok,
+        kok_IN,
+        
+        //Korean
+        ko,
+        ko_KR,
+        
+        //Kyrgyz
+        ky,
+        ky_KZ,
+        
+        
+        lt,
+
+        //Azeri (Latin)
+        lt_AZ_AZ,
+
+        //Lithuanian
+        lt_LT,
+
+        //Serbian (Latin)
+        lt_sr_SP,
+        
+        //Uzbek (Latin)
+        lt_UZ_UZ,
+        
+        //Latvian
+        lv,
+        lv_LV,
+          
+        //Macedonian
+        mk,
+        mk_MK,
+        
+        //Malay
+        ms,
+        ms_BN,
+        ms_MY,
+        
+        //Marathi
+        mr,
+        mr_IN,
+        
+        //Mongolian
+        mn,
+        mn_MN,
+        
+        //Norwegian
+        nb,
+        nb_NO,
+        
+        //Dutch
+        nl,
+        nl_BE,
+        nl_NL,
+        
+        //Norwegian (Nynorsk)
+        nn,
+        nn_NO,
+        
+        //Punjabi
+        pa,
+        pa_IN,
+        
+        //Polish
+        pl,
+        pl_PL,
+        
+        //Portuguese
+        pt,
+        pt_BR,
+        pt_PT,
+        
+        //Romanian
+        ro,
+        ro_RO,
+        
+        //Russian
+        ru,
+        ru_RU,
+        
+        //Sanskrit
+        sa,
+        sa_IN,
+        
+        //Slovak
+        sk,
+        sk_SK,
+        
+        //Slovenian
+        sl,
+        sl_SI,
+        
+        //Albanian
+        sq,
+        sq_AL,
+        
+        //Swahili
         sw,
         sw_KE,
+        
+        //Swedish
         sv,
         sv_FI,
         sv_SE,
+        
+        //Syriac
         syr,
         syr_SY,
+        
+        //Tamil
         ta,
         ta_IN,
+        
+        //Tatar
         tt,
         tt_RU,
+        
+        //Telugu
         te,
         te_IN,
+        
+        //Thai
         th,
         th_TH,
+        
+        //Turkish
         tr,
         tr_TR,
+        
+        //Ukrainian
         uk,
         uk_UA,
+        
+        //Urdu
         ur,
         ur_PK,
-        cy_UZ_UZ,
-        lt_UZ_UZ,
+        
+        //Vietnamese
         vi,
-        vi_VN
+        vi_VN,
+        
+        //Chinese
+        zh,
+        zh_CN,
+        zh_HK,
+        zh_MO,
+        zh_SG,
+        zh_TW,
+        zh_CHS,
+        zh_CHT,
     }
 
     public static class LocaleMapper
