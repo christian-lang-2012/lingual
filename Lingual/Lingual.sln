@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{ABBE89
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lingual.Tests", "Lingual.Tests\Lingual.Tests.csproj", "{900CEAA3-E89C-473B-8D53-36069AC078F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lingual.Test", "Lingual.Test\Lingual.Test.csproj", "{CE3CAD21-E1C8-42D1-BE5A-A4A29AA507BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{69147B5D-0EC6-4643-9F00-FC1BBD9FB700}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69147B5D-0EC6-4643-9F00-FC1BBD9FB700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69147B5D-0EC6-4643-9F00-FC1BBD9FB700}.Release|Any CPU.Build.0 = Release|Any CPU
-		{900CEAA3-E89C-473B-8D53-36069AC078F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{900CEAA3-E89C-473B-8D53-36069AC078F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{900CEAA3-E89C-473B-8D53-36069AC078F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{900CEAA3-E89C-473B-8D53-36069AC078F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE3CAD21-E1C8-42D1-BE5A-A4A29AA507BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE3CAD21-E1C8-42D1-BE5A-A4A29AA507BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE3CAD21-E1C8-42D1-BE5A-A4A29AA507BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE3CAD21-E1C8-42D1-BE5A-A4A29AA507BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
