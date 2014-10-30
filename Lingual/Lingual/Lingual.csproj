@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
-    <Compile Include="Enums\LocaleEnum.cs" />
+    <Compile Include="Enums\Locale.cs" />
+    <Compile Include="Enums\Plurality.cs" />
     <Compile Include="TranslationUtilities\TranslationDictionary.cs" />
     <Compile Include="Handlers\LocaleFileHandler.cs" />
     <Compile Include="TranslationUtilities\TranslationUtility.cs" />
