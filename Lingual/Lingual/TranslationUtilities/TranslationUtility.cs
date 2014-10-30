@@ -25,15 +25,6 @@ namespace Lingual.TranslationUtilities
 
         #endregion
 
-        #region Properties
-
-        private TranslationUtility()
-        {
-            SetUpTranslationHashes();
-        }
-
-        #endregion
-
         #region Singleton Instance
 
         /// <summary>
@@ -49,7 +40,11 @@ namespace Lingual.TranslationUtilities
                 return _instance ?? (_instance = new TranslationUtility());
             }
 
+        private TranslationUtility()
+        {
+            CreateTranslationDictionaries();
         }
+
         #endregion
 
         #region Translation Utilities
@@ -119,6 +114,25 @@ namespace Lingual.TranslationUtilities
         }
 
         /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="interpolString"></param>
+        /// <param name="argsDictionary"></param>
+        /// <returns></returns>
+        public String InterpolationDictionaryTokenizer(String interpolString, Dictionary<string, string> argsDictionary)
+        {
+            var newInterpolatedString = interpolString;
+            foreach (var dictKVPair in argsDictionary)
+            {
+                if (newInterpolatedString.Contains(dictKVPair.Key))
+                {
+                    newInterpolatedString = newInterpolatedString.Replace(dictKVPair.Key, dictKVPair.Value);
+                }
+            }
+            return newInterpolatedString;
+        }
+
+        /// <summary>
         /// Plural translations; returns properly pluralized translation
         /// </summary>
         /// <param name="key">Translation key</param>
@@ -156,7 +170,7 @@ namespace Lingual.TranslationUtilities
                 ? TranslatePlural(key, pluralDegree, locale.Value)
                 : TranslatePlural(key, pluralDegree);
 
-            if (argsDictionary.Any())            
+            if (argsDictionary.Any())
             {
                 interpolStringVal = InterpolationDictionaryTokenizer(interpolStringVal, argsDictionary);
             }
@@ -199,20 +213,6 @@ namespace Lingual.TranslationUtilities
                 }
 
             }
-
-        }
-
-        public String InterpolationDictionaryTokenizer(String interpolString, Dictionary<string, string> argsDictionary)
-        {
-            var newInterpolatedString = interpolString;
-            foreach (var dictKVPair in argsDictionary)
-            {
-                if (newInterpolatedString.Contains(dictKVPair.Key))
-                {
-                    newInterpolatedString = newInterpolatedString.Replace(dictKVPair.Key, dictKVPair.Value);
-                }
-            }
-            return newInterpolatedString;
         }
         #endregion
     }
