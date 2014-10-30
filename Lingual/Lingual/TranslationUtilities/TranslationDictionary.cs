@@ -16,26 +16,50 @@ namespace Lingual.TranslationUtilities
 
     public class NullTranslationDictionary : ITranslationDictionary
     {
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="key">Key.</param>
+        /// <param name="value">Value.</param>
         public void AddTranslation(string key, string value)
         {
             return;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns>The value.</returns>
+        /// <param name="key">Key.</param>
+        /// <param name="plurality">Plurality.</param>
         public string GetValue(string key, Plurality? plurality = null)
         {
             return key;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns><c>true</c> if this instance has fallback locale; otherwise, <c>false</c>.</returns>
         public bool HasFallbackLocale()
         {
             return true;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns><c>true</c> if this instance is translation dictionary empty; otherwise, <c>false</c>.</returns>
         public bool IsTranslationDictionaryEmpty()
         {
             return true;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns><c>true</c>, if exists was keyed, <c>false</c> otherwise.</returns>
+        /// <param name="key">Key.</param>
         public bool KeyExists(string key)
         {
             return false;
@@ -94,6 +118,10 @@ namespace Lingual.TranslationUtilities
             return translation;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns><c>true</c> if this instance has fallback locale; otherwise, <c>false</c>.</returns>
         public bool HasFallbackLocale()
         {
             return Locale != TranslationUtility.DefaultLocale;
@@ -108,6 +136,11 @@ namespace Lingual.TranslationUtilities
             return _translationDictionary.Any();
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns><c>true</c>, if exists was keyed, <c>false</c> otherwise.</returns>
+        /// <param name="key">Key.</param>
         public bool KeyExists(string key)
         {
             return _translationDictionary.ContainsKey(key.ToLower());
@@ -116,6 +149,12 @@ namespace Lingual.TranslationUtilities
 
         #region Private Helper Methods
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns>The key finder.</returns>
+        /// <param name="pluralKeys">Plural keys.</param>
+        /// <param name="plurality">Plurality.</param>
         private string PluralKeyFinder(JObject pluralKeys, Plurality plurality)
         {
             var jobjectDictionary = pluralKeys.ToObject<Dictionary<Plurality, string>>();

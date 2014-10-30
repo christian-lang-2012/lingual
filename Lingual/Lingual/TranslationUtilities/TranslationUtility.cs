@@ -49,6 +49,9 @@ namespace Lingual.TranslationUtilities
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lingual.TranslationUtilities.TranslationUtility"/> class.
+        /// </summary>
         private TranslationUtility()
         {
             CreateTranslationDictionaries();
