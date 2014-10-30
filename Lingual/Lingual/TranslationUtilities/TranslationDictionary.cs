@@ -8,9 +8,10 @@ namespace Lingual.TranslationUtilities
     {
         #region Properties and Variables
 
-        private readonly Dictionary<string, string> _translationDictionary;
-
         public Locale Locale { get; private set; }
+
+        private readonly Dictionary<string, string> _translationDictionary =  new Dictionary<string, string>();
+
         #endregion
 
         #region Core Methods
@@ -22,7 +23,6 @@ namespace Lingual.TranslationUtilities
         public TranslationDictionary(Locale locale)
         {
             Locale = locale;
-            _translationDictionary = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Lingual.TranslationUtilities
                 translation = PluralKeyFinder(JObject.Parse(translation), plurality.Value);
             }
             return translation;
-            
+
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Lingual.TranslationUtilities
         {
             return _translationDictionary.Any();
         }
-        
+
         public bool KeyExists(string key)
         {
             return _translationDictionary.ContainsKey(key.ToLower());
@@ -71,7 +71,7 @@ namespace Lingual.TranslationUtilities
         #endregion
 
         #region Private Helper Methods
-        
+
         private string PluralKeyFinder(JObject pluralKeys, PluralDegree plurality)
         {
             var jobjectDictionary = pluralKeys.ToObject<Dictionary<PluralDegree, string>>();

@@ -54,7 +54,7 @@ namespace Lingual.Test
         }
 
         [Test]
-        [TestCase("loggedin.user.day", "Hello Cid! Today is Tuesday", Locale.en_US)]        
+        [TestCase("loggedin.user.day", "Hello Cid! Today is Tuesday", Locale.en_US)]
         public void FalseTestInterpolationTranslation(String key, String answer, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { { "_NuM_", "Cid" }, { "__D__", "Tuesday" } };
@@ -101,7 +101,7 @@ namespace Lingual.Test
         [TestCase("loggedin.user.inbox", "66 neue Nachrichtenismo", PluralDegree.OTHER, Locale.de_DE)]
         public void TestPluralTranslation_DE(string key, string answer, PluralDegree pluralDegree, Locale locale)
         {
-            var testDictionary =  new Dictionary<string, string>() { { "__AMOUNT__", "66" } }; 
+            var testDictionary =  new Dictionary<string, string>() { { "__AMOUNT__", "66" } };
             Assert.AreEqual(answer, _translator.TranslatePlural(key, pluralDegree, locale, testDictionary), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
         }
 
