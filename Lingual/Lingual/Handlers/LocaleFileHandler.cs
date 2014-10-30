@@ -13,17 +13,22 @@ namespace Lingual.Handlers
         /// <summary>
         /// Gets the translation file for the specified locale
         /// </summary>
-        /// <param name="localeCode">Locale to get translation file for</param>
+        /// <param name="locale">Locale to get translation file for</param>
         /// <returns>JObject of KV pairs (JSON)</returns>
-        public static JObject GetLocaleFile(Locale localeCode)
+        public static JObject GetLocaleFile(Locale locale)
         {
-            var localePath = Path.Combine(ProjPath, "locale", localeCode.ToString().Replace('_', '-') + ".json");
-            string contents;
-            try
+            JObject jsonLocaleTranslations = null;
+            string localeFileContent = string.Empty;
+
+            if (LocaleFileExists(locale))
             {
-                contents = File.ReadAllText(localePath, Encoding.UTF8);
+                var localePath = FilePathForLocale(locale);
+                localeFileContent = File.ReadAllText(localePath, Encoding.UTF8);
             }
-            catch (DirectoryNotFoundException)
+            jsonLocaleTranslations = ParseFileContents(localeFileContent);
+
+            return jsonLocaleTranslations;
+        }
 
         /// <summary>
         /// Return bool indicating if the file exists for this locale.
