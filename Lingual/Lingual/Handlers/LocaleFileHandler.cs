@@ -45,21 +45,30 @@ namespace Lingual.Handlers
             return Path.Combine(ProjPath, "locale", locale.ToString().Replace('_', '-') + ".json");
         }
 
+        /// <summary>
+        /// Convert a content string containing JSON into a JObject.
+        /// </summary>
+        /// <param name="localeFileContent"></param>
+        /// <returns>A JObject parsed from the content string</returns>
+        public static JObject ParseFileContents(string localeFileContent)
+        {
+            if (string.IsNullOrEmpty(localeFileContent))
             {
-                throw new LocaleFolderNotFoundException();
-            }
-            catch (FileNotFoundException ex)
-            {
-                contents = "{ \"null\":\"null\" }";
+                localeFileContent = "{}";
             }
 
-            if (contents == "")
+            JObject jsonLocaleTranslations = null;
+            try
             {
-                contents = "{ \"null\":\"null\" }";                
+                jsonLocaleTranslations = JObject.Parse(localeFileContent);
+            }
+            catch (Exception exception)
+            {
+                jsonLocaleTranslations = new JObject();
             }
 
-            var jsonLocaleFile = JObject.Parse(contents);
-            return jsonLocaleFile;
+            return jsonLocaleTranslations;
         }
+
     }
 }
