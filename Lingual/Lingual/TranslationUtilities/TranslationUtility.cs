@@ -58,11 +58,18 @@ namespace Lingual.TranslationUtilities
 
         #region Translation Utilities
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="locale">The locale.</param>
+        /// <returns>
+        /// TODO
+        /// </returns>
         public ITranslationDictionary GetTranslationDictionaryForLocale(Locale locale)
         {
             ITranslationDictionary translationDictionary = null;
 
-            if (_locales.KeyExists(locale))
+            if (_locales.ContainsKey(locale))
             {
                 translationDictionary = _locales[locale];
             }
@@ -72,6 +79,29 @@ namespace Lingual.TranslationUtilities
             }
 
             return translationDictionary;
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="locale">The locale.</param>
+        /// <returns>
+        /// TODO
+        /// </returns>
+        public Locale GetFallbackLocale(Locale locale)
+        {
+            Locale fallbackLocale = DefaultLocale;
+
+            if (locale != DefaultLocale)
+            {
+                Locale proposedFallbackLocale = LocaleMapper.LanguageToCultureMappings[locale];
+                if (_locales.ContainsKey(proposedFallbackLocale))
+                {
+                    fallbackLocale = proposedFallbackLocale;
+                }
+            }
+
+            return fallbackLocale;
         }
 
         /// <summary>
@@ -87,17 +117,10 @@ namespace Lingual.TranslationUtilities
             string translation;
 
             ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
-            if (!translationDictionary.KeyExists(key))
+            if (!translationDictionary.KeyExists(key) && translationDictionary.HasFallbackLocale())
             {
-                Locale fallbackLocale = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
-                if (fallbackLocale != locale)
-                {
-                    translation = Translate(key, fallbackLocale);
-                }
-                else if (fallbackLocale != DefaultLocale)
-                {
-                    translation = Translate(key, DefaultLocale);
-                }
+                Locale fallbackLocale = this.GetFallbackLocale(locale);
+                translation = Translate(key, fallbackLocale);
             }
             else
             {
@@ -114,22 +137,15 @@ namespace Lingual.TranslationUtilities
         /// <param name="plurality">Degree of plurality</param>
         /// <param name="locale">Interpolated Data</param>
         /// <returns></returns>
-        public string TranslatePlural(string key, PluralDegree plurality, Locale locale = DefaultLocale)
+        public string TranslatePlural(string key, Plurality plurality, Locale locale = DefaultLocale)
         {
             string translation;
 
             ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
-            if (!translationDictionary.KeyExists(key))
+            if (!translationDictionary.KeyExists(key) && translationDictionary.HasFallbackLocale())
             {
-                Locale fallbackLocale = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
-                if (fallbackLocale != locale)
-                {
-                    translation = TranslatePlural(key, fallbackLocale);
-                }
-                else if (fallbackLocale != DefaultLocale)
-                {
-                    translation = TranslatePlural(key, DefaultLocale);
-                }
+                Locale fallbackLocale = this.GetFallbackLocale(locale);
+                translation = TranslatePlural(key, plurality, fallbackLocale);
             }
             else
             {
@@ -148,28 +164,29 @@ namespace Lingual.TranslationUtilities
         /// <returns>
         /// Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale
         /// </returns>
-        public string Translate(string key, Locale? locale, Dictionary<string, string> argsDictionary)
+        public string Translate(string key, Dictionary<string, string> tokens, Locale locale = DefaultLocale)
         {
-            var translatedString = locale.HasValue ? Translate(key, locale.Value) : Translate(key);
+            var translation = Translate(key, locale);
 
-            if (argsDictionary.Any())
+            if (tokens.Any())
             {
-                translatedString = InterpolationDictionaryTokenizer(translatedString, argsDictionary);
+                translation = InterpolateTranslation(translation, tokens);
             }
-            return translatedString;
+
+            return translation;
         }
 
         /// <summary>
         /// Returns a locale formatted string of the specified Datetime object
         /// </summary>
-        /// <param name="key">The DateTime to localize</param>
+        /// <param name="date">The DateTime to localize</param>
         /// <param name="locale">The locale</param>
         /// <returns></returns>
-        public string Localize(DateTime key, Locale locale = DefaultLocale)
+        public string Localize(DateTime date, Locale locale = DefaultLocale)
         {
             var cultureName = locale.ToString().Split('_')[0];
             var culture = new CultureInfo(cultureName);
-            return key.ToString(DateFormatter, culture);
+            return date.ToString(DateFormatter, culture);
         }
 
         /// <summary>
@@ -187,41 +204,42 @@ namespace Lingual.TranslationUtilities
         /// <summary>
         /// TODO
         /// </summary>
-        /// <param name="interpolString"></param>
-        /// <param name="argsDictionary"></param>
+        /// <param name="sourceTranslation"></param>
+        /// <param name="tokens"></param>
         /// <returns></returns>
-        public String InterpolationDictionaryTokenizer(String interpolString, Dictionary<string, string> argsDictionary)
+        public string InterpolateTranslation(String sourceTranslation, Dictionary<string, string> tokens)
         {
-            var newInterpolatedString = interpolString;
-            foreach (var dictKVPair in argsDictionary)
+            var translation = sourceTranslation;
+
+            foreach (KeyValuePair<string, string> tokenPair in tokens)
             {
-                if (newInterpolatedString.Contains(dictKVPair.Key))
+                if (translation.Contains(tokenPair.Key))
                 {
-                    newInterpolatedString = newInterpolatedString.Replace(dictKVPair.Key, dictKVPair.Value);
+                    translation = translation.Replace(tokenPair.Key, tokenPair.Value);
                 }
             }
-            return newInterpolatedString;
+
+            return translation;
         }
 
         /// <summary>
         /// Interpolated plural translations; returns properly pluralized translation with interpolated data.
         /// </summary>
         /// <param name="key">Translation key</param>
-        /// <param name="pluralDegree">Degree of plurality</param>
+        /// <param name="plurality">Degree of plurality</param>
+        /// <param name="tokens">Dictionary of tokens to replace in translation value.</param>
         /// <param name="locale">Specified locale</param>
-        /// <param name="interpolatedData">Interpolated data</param>
         /// <returns></returns>
-        public string TranslatePlural(string key, PluralDegree pluralDegree, Locale? locale, Dictionary<string, string> argsDictionary)
+        public string TranslatePlural(string key, Plurality plurality, Dictionary<string, string> tokens, Locale locale = DefaultLocale)
         {
-            var interpolStringVal = locale.HasValue
-                ? TranslatePlural(key, pluralDegree, locale.Value)
-                : TranslatePlural(key, pluralDegree);
+            var translation = TranslatePlural(key, plurality, locale);
 
-            if (argsDictionary.Any())
+            if (tokens.Any())
             {
-                interpolStringVal = InterpolationDictionaryTokenizer(interpolStringVal, argsDictionary);
+                translation = InterpolateTranslation(translation, tokens);
             }
-            return interpolStringVal;
+
+            return translation;
         }
 
         #endregion

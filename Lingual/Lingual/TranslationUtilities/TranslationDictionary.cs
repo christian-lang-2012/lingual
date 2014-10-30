@@ -8,29 +8,35 @@ namespace Lingual.TranslationUtilities
     public interface ITranslationDictionary
     {
         void AddTranslation(string key, string value);
-        string GetValue(string key, PluralDegree? plurality = null);
+        string GetValue(string key, Plurality? plurality = null);
+        bool HasFallbackLocale();
         bool IsTranslationDictionaryEmpty();
         bool KeyExists(string key);
     }
 
     public class NullTranslationDictionary : ITranslationDictionary
     {
-        void AddTranslation(string key, string value)
+        public void AddTranslation(string key, string value)
         {
             return;
         }
 
-        string GetValue(string key, PluralDegree? plurality = null)
+        public string GetValue(string key, Plurality? plurality = null)
         {
             return key;
         }
 
-        bool IsTranslationDictionaryEmpty()
+        public bool HasFallbackLocale()
         {
             return true;
         }
 
-        bool KeyExists(string key)
+        public bool IsTranslationDictionaryEmpty()
+        {
+            return true;
+        }
+
+        public bool KeyExists(string key)
         {
             return false;
         }
@@ -76,15 +82,21 @@ namespace Lingual.TranslationUtilities
         /// <param name="key">The key.</param>
         /// <param name="plurality"></param>
         /// <returns></returns>
-        public string GetValue(string key, PluralDegree? plurality = null)
+        public string GetValue(string key, Plurality? plurality = null)
         {
             var translation = KeyExists(key) ? _translationDictionary[key.ToLower()] : key;
+
             if (plurality.HasValue)
             {
                 translation = PluralKeyFinder(JObject.Parse(translation), plurality.Value);
             }
-            return translation;
 
+            return translation;
+        }
+
+        public bool HasFallbackLocale()
+        {
+            return Locale != TranslationUtility.DefaultLocale;
         }
 
         /// <summary>
@@ -104,9 +116,9 @@ namespace Lingual.TranslationUtilities
 
         #region Private Helper Methods
 
-        private string PluralKeyFinder(JObject pluralKeys, PluralDegree plurality)
+        private string PluralKeyFinder(JObject pluralKeys, Plurality plurality)
         {
-            var jobjectDictionary = pluralKeys.ToObject<Dictionary<PluralDegree, string>>();
+            var jobjectDictionary = pluralKeys.ToObject<Dictionary<Plurality, string>>();
             return jobjectDictionary.Where(t => t.Key == plurality).Select(t => t.Value).First();
         }
         #endregion

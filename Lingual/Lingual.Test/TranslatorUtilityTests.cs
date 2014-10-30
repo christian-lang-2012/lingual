@@ -34,7 +34,7 @@ namespace Lingual.Test
         public void TestInterpolationTranslation(string key, string answer, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { { "__NAME__", "Cid" }, { "__DAY__", "Martes" } };
-            Assert.AreEqual(answer, _translator.Translate(key, locale, testDictionary), "Interpolation failed for " + locale + ". Expected: " + answer);
+            Assert.AreEqual(answer, _translator.Translate(key, testDictionary, locale), "Interpolation failed for " + locale + ". Expected: " + answer);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Lingual.Test
         public void TestInterpolationTranslation_DE(string key, string answer, Locale locale)
         {
             var testDictionary = new  Dictionary<string, string>() { {"__NAME__", "Cid"}, {"__DAY__", "Dienstag"} };
-            Assert.AreEqual(answer, _translator.Translate(key, locale, testDictionary), "Interpolation failed for " + locale + ". Expected: " + answer);
+            Assert.AreEqual(answer, _translator.Translate(key, testDictionary, locale), "Interpolation failed for " + locale + ". Expected: " + answer);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Lingual.Test
         public void TestInterpolationTranslation_EN(string key, string answer, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { { "__NAME__", "Cid" }, { "__DAY__", "Tuesday" } };
-            Assert.AreEqual(answer, _translator.Translate(key, locale, testDictionary), "Interpolation failed for " + locale + ". Expected: " + answer);
+            Assert.AreEqual(answer, _translator.Translate(key, testDictionary, locale), "Interpolation failed for " + locale + ". Expected: " + answer);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Lingual.Test
         public void FalseTestInterpolationTranslation(String key, String answer, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { { "_NuM_", "Cid" }, { "__D__", "Tuesday" } };
-            Assert.AreNotEqual(answer, _translator.Translate(key, locale, testDictionary));
+            Assert.AreNotEqual(answer, _translator.Translate(key, testDictionary, locale));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Lingual.Test
         public void FalseTestInterpolationTranslation_EmptyDictionary(String key, String answer, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>();
-            Assert.AreNotEqual(answer, _translator.Translate(key, locale, testDictionary));
+            Assert.AreNotEqual(answer, _translator.Translate(key, testDictionary, locale));
         }
 
         [Test]
@@ -80,36 +80,36 @@ namespace Lingual.Test
         }
 
         [Test]
-        [TestCase("loggedin.user.inbox", "1 new message", PluralDegree.ONE, Locale.en_US)]
-        [TestCase("loggedin.user.inbox", "2 new messages", PluralDegree.TWO, Locale.en_US)]
-        [TestCase("loggedin.user.inbox", "1 neue Nachricht", PluralDegree.ONE, Locale.de_DE)]
-        [TestCase("loggedin.user.inbox", "2 neue Nachrichten", PluralDegree.TWO, Locale.de_DE)]
-        [TestCase("loggedin.user.inbox", "1 nuevo mensaje", PluralDegree.ONE, Locale.es_MX)]
-        public void TestPluralTranslation_All(string key, string answer, PluralDegree pluralDegree, Locale locale)
+        [TestCase("loggedin.user.inbox", "1 new message", Plurality.ONE, Locale.en_US)]
+        [TestCase("loggedin.user.inbox", "2 new messages", Plurality.TWO, Locale.en_US)]
+        [TestCase("loggedin.user.inbox", "1 neue Nachricht", Plurality.ONE, Locale.de_DE)]
+        [TestCase("loggedin.user.inbox", "2 neue Nachrichten", Plurality.TWO, Locale.de_DE)]
+        [TestCase("loggedin.user.inbox", "1 nuevo mensaje", Plurality.ONE, Locale.es_MX)]
+        public void TestPluralTranslation_All(string key, string answer, Plurality plurality, Locale locale)
         {
-            Assert.AreEqual(answer, _translator.TranslatePlural(key, pluralDegree, locale), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
+            Assert.AreEqual(answer, _translator.TranslatePlural(key, plurality, locale), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
         }
 
 
-        [TestCase("loggedin.user.inbox", "55 new messagisms", PluralDegree.OTHER, Locale.en_US)]
-        public void TestPluralTranslation_EN(string key, string answer, PluralDegree pluralDegree, Locale locale)
+        [TestCase("loggedin.user.inbox", "55 new messagisms", Plurality.OTHER, Locale.en_US)]
+        public void TestPluralTranslation_EN(string key, string answer, Plurality plurality, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { {"__AMOUNT__", "55" } };
-            Assert.AreEqual(answer, _translator.TranslatePlural(key, pluralDegree, locale, testDictionary), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
+            Assert.AreEqual(answer, _translator.TranslatePlural(key, plurality, testDictionary, locale), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
         }
 
-        [TestCase("loggedin.user.inbox", "66 neue Nachrichtenismo", PluralDegree.OTHER, Locale.de_DE)]
-        public void TestPluralTranslation_DE(string key, string answer, PluralDegree pluralDegree, Locale locale)
+        [TestCase("loggedin.user.inbox", "66 neue Nachrichtenismo", Plurality.OTHER, Locale.de_DE)]
+        public void TestPluralTranslation_DE(string key, string answer, Plurality plurality, Locale locale)
         {
             var testDictionary =  new Dictionary<string, string>() { { "__AMOUNT__", "66" } };
-            Assert.AreEqual(answer, _translator.TranslatePlural(key, pluralDegree, locale, testDictionary), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
+            Assert.AreEqual(answer, _translator.TranslatePlural(key, plurality, testDictionary, locale), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
         }
 
-        [TestCase("loggedin.user.inbox", "99 nuevo mensajismos", PluralDegree.OTHER, Locale.es_MX)]
-        public void TestPluralTranslation_ES(string key, string answer, PluralDegree pluralDegree, Locale locale)
+        [TestCase("loggedin.user.inbox", "99 nuevo mensajismos", Plurality.OTHER, Locale.es_MX)]
+        public void TestPluralTranslation_ES(string key, string answer, Plurality plurality, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { { "__AMOUNT__", "99" } };
-            Assert.AreEqual(answer, _translator.TranslatePlural(key, pluralDegree, locale, testDictionary), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
+            Assert.AreEqual(answer, _translator.TranslatePlural(key, plurality, testDictionary, locale), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
         }
 
         [TestCase("", "Test Data", Locale.en_US)]

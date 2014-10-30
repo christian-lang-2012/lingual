@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Lingual.Exceptions;
 
 namespace Lingual.Handlers
 {
