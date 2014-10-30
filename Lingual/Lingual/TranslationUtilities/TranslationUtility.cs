@@ -208,20 +208,21 @@ namespace Lingual.TranslationUtilities
         }
 
         /// <summary>
-        /// Sets the translation nodes for the specific locale.
+        /// Sets the translation nodes for the specific locale by loading the
+        /// translation file.
         /// </summary>
         /// <param name="translationDictionary"></param>
-        public void SetTranslationNodes(TranslationDictionary translationDictionary)
+        private void SetTranslationNodesFromFile(TranslationDictionary translationDictionary)
         {
-            var localeJsonObj = LocaleFileHandler.GetLocaleFile(translationDictionary.Locale);
+            var localeTranslations = LocaleFileHandler.GetLocaleFile(translationDictionary.Locale);
 
-            foreach (var jsonObjProperties in localeJsonObj)           
+            foreach (var jsonObjProperties in localeTranslations)
             {
                 if (jsonObjProperties.Key != "null")
                 {
+                    // TODO maybe not ToString for objects?
                     translationDictionary.AddTranslation(jsonObjProperties.Key, jsonObjProperties.Value.ToString());
                 }
-
             }
         }
         #endregion
