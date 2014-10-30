@@ -4,7 +4,39 @@ using System.Linq;
 
 namespace Lingual.TranslationUtilities
 {
-    public class TranslationDictionary
+
+    public interface ITranslationDictionary
+    {
+        void AddTranslation(string key, string value);
+        string GetValue(string key, PluralDegree? plurality = null);
+        bool IsTranslationDictionaryEmpty();
+        bool KeyExists(string key);
+    }
+
+    public class NullTranslationDictionary : ITranslationDictionary
+    {
+        void AddTranslation(string key, string value)
+        {
+            return;
+        }
+
+        string GetValue(string key, PluralDegree? plurality = null)
+        {
+            return key;
+        }
+
+        bool IsTranslationDictionaryEmpty()
+        {
+            return true;
+        }
+
+        bool KeyExists(string key)
+        {
+            return false;
+        }
+    }
+
+    public class TranslationDictionary : ITranslationDictionary
     {
         #region Properties and Variables
 

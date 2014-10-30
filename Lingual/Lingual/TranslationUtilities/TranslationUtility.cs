@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Lingual.TranslationUtilities
 {
+
     /// <summary>
     /// A translation utility class
     /// </summary>
@@ -23,6 +24,7 @@ namespace Lingual.TranslationUtilities
         #region Private Attributes
 
         private readonly Dictionary<Locale, TranslationDictionary> _locales = new Dictionary<Locale, TranslationDictionary>();
+        private readonly ITranslationDictionary _nullTranslationDictionary = new NullTranslationDictionary();
 
         private const string DateFormatter = "d";
         private const string CurrencyFormatter = "C2";
@@ -56,6 +58,22 @@ namespace Lingual.TranslationUtilities
 
         #region Translation Utilities
 
+        public ITranslationDictionary GetTranslationDictionaryForLocale(Locale locale)
+        {
+            ITranslationDictionary translationDictionary = null;
+
+            if (_locales.KeyExists(locale))
+            {
+                translationDictionary = _locales[locale];
+            }
+            else
+            {
+                translationDictionary = _nullTranslationDictionary;
+            }
+
+            return translationDictionary;
+        }
+
         /// <summary>
         /// Translates the specified key using the locale passed in
         /// </summary>
@@ -66,17 +84,59 @@ namespace Lingual.TranslationUtilities
         /// </returns>
         public string Translate(string key, Locale locale = DefaultLocale)
         {
-            TranslationDictionary translationDictionary = _locales[locale];
+            string translation;
+
+            ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
             if (!translationDictionary.KeyExists(key))
             {
-                translationDictionary = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
-                if (!translationDictionary.KeyExists(key))
+                Locale fallbackLocale = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
+                if (fallbackLocale != locale)
                 {
-                    translationDictionary = _locales[DefaultLocale];
+                    translation = Translate(key, fallbackLocale);
+                }
+                else if (fallbackLocale != DefaultLocale)
+                {
+                    translation = Translate(key, DefaultLocale);
                 }
             }
+            else
+            {
+                translation = translationDictionary.GetValue(key);
+            }
 
-            return translationDictionary.GetValue(key);
+            return translation;
+        }
+
+        /// <summary>
+        /// Plural translations; returns properly pluralized translation
+        /// </summary>
+        /// <param name="key">Translation key</param>
+        /// <param name="plurality">Degree of plurality</param>
+        /// <param name="locale">Interpolated Data</param>
+        /// <returns></returns>
+        public string TranslatePlural(string key, PluralDegree plurality, Locale locale = DefaultLocale)
+        {
+            string translation;
+
+            ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
+            if (!translationDictionary.KeyExists(key))
+            {
+                Locale fallbackLocale = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
+                if (fallbackLocale != locale)
+                {
+                    translation = TranslatePlural(key, fallbackLocale);
+                }
+                else if (fallbackLocale != DefaultLocale)
+                {
+                    translation = TranslatePlural(key, DefaultLocale);
+                }
+            }
+            else
+            {
+                translation = translationDictionary.GetValue(key, plurality);
+            }
+
+            return translation;
         }
 
         /// <summary>
@@ -144,30 +204,6 @@ namespace Lingual.TranslationUtilities
         }
 
         /// <summary>
-        /// Plural translations; returns properly pluralized translation
-        /// </summary>
-        /// <param name="key">Translation key</param>
-        /// <param name="plurality">Degree of plurality</param>
-        /// <param name="locale">Interpolated Data</param>
-        /// <returns></returns>
-        public string TranslatePlural(string key, PluralDegree plurality, Locale locale = DefaultLocale)
-        {
-            TranslationDictionary requestedTranslationDictionary = _locales[locale];
-            if (!requestedTranslationDictionary.KeyExists(key))
-            {
-                requestedTranslationDictionary = _locales[LocaleMapper.LanguageToCultureMappings[locale]];
-                if (!requestedTranslationDictionary.KeyExists(key))
-                {
-                    requestedTranslationDictionary = _locales[DefaultLocale];
-                }
-            }
-
-            var translation = requestedTranslationDictionary.GetValue(key, plurality);
-
-            return translation;
-        }
-
-        /// <summary>
         /// Interpolated plural translations; returns properly pluralized translation with interpolated data.
         /// </summary>
         /// <param name="key">Translation key</param>
@@ -226,6 +262,7 @@ namespace Lingual.TranslationUtilities
                 }
             }
         }
+
         #endregion
     }
 }
