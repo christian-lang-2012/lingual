@@ -8,10 +8,10 @@ namespace Lingual.TranslationUtilities
     public interface ITranslationDictionary
     {
         void AddTranslation(string key, string value);
+        bool ContainsKey(string key);
         string GetValue(string key, Plurality? plurality = null);
         bool HasFallbackLocale();
         bool IsTranslationDictionaryEmpty();
-        bool KeyExists(string key);
     }
 
     public class NullTranslationDictionary : ITranslationDictionary
@@ -24,6 +24,16 @@ namespace Lingual.TranslationUtilities
         public void AddTranslation(string key, string value)
         {
             return;
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns><c>true</c>, if exists was keyed, <c>false</c> otherwise.</returns>
+        /// <param name="key">Key.</param>
+        public bool ContainsKey(string key)
+        {
+            return false;
         }
 
         /// <summary>
@@ -53,16 +63,6 @@ namespace Lingual.TranslationUtilities
         public bool IsTranslationDictionaryEmpty()
         {
             return true;
-        }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <returns><c>true</c>, if exists was keyed, <c>false</c> otherwise.</returns>
-        /// <param name="key">Key.</param>
-        public bool KeyExists(string key)
-        {
-            return false;
         }
     }
 
@@ -94,7 +94,7 @@ namespace Lingual.TranslationUtilities
         /// <param name="value">The value.</param>
         public void AddTranslation(string key, string value)
         {
-            if (!KeyExists(key))
+            if (!ContainsKey(key))
             {
                 _translationDictionary.Add(key.ToLower(), value);
             }
@@ -108,7 +108,7 @@ namespace Lingual.TranslationUtilities
         /// <returns></returns>
         public string GetValue(string key, Plurality? plurality = null)
         {
-            var translation = KeyExists(key) ? _translationDictionary[key.ToLower()] : key;
+            var translation = ContainsKey(key) ? _translationDictionary[key.ToLower()] : key;
 
             if (plurality.HasValue)
             {
@@ -141,7 +141,7 @@ namespace Lingual.TranslationUtilities
         /// </summary>
         /// <returns><c>true</c>, if exists was keyed, <c>false</c> otherwise.</returns>
         /// <param name="key">Key.</param>
-        public bool KeyExists(string key)
+        public bool ContainsKey(string key)
         {
             return _translationDictionary.ContainsKey(key.ToLower());
         }

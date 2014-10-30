@@ -120,7 +120,7 @@ namespace Lingual.TranslationUtilities
             string translation;
 
             ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
-            if (!translationDictionary.KeyExists(key) && translationDictionary.HasFallbackLocale())
+            if (!translationDictionary.ContainsKey(key) && translationDictionary.HasFallbackLocale())
             {
                 Locale fallbackLocale = this.GetFallbackLocale(locale);
                 translation = Translate(key, fallbackLocale);
@@ -145,7 +145,7 @@ namespace Lingual.TranslationUtilities
             string translation;
 
             ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
-            if (!translationDictionary.KeyExists(key) && translationDictionary.HasFallbackLocale())
+            if (!translationDictionary.ContainsKey(key) && translationDictionary.HasFallbackLocale())
             {
                 Locale fallbackLocale = this.GetFallbackLocale(locale);
                 translation = TranslatePlural(key, plurality, fallbackLocale);

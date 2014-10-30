@@ -66,7 +66,7 @@ namespace Lingual.Handlers
             {
                 jsonLocaleTranslations = JObject.Parse(localeFileContent);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 jsonLocaleTranslations = new JObject();
             }
