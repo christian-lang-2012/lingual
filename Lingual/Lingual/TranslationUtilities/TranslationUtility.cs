@@ -191,19 +191,20 @@ namespace Lingual.TranslationUtilities
         #endregion
 
         #region Helper Methods
-        /// <summary>
-        /// Sets up translation hashes.
-        /// </summary>
-        private void SetUpTranslationHashes()
-        {
-            foreach (var locale in Enum.GetValues(typeof(Locale)))
-            {
-                _locales.Add((Locale)locale, new TranslationDictionary((Locale)locale));
-            }
 
-            foreach (var translationDictionary in _locales.Values)
+        /// <summary>
+        /// Loads translation dictionaries from the file system.
+        /// </summary>
+        private void CreateTranslationDictionaries()
+        {
+            foreach (Locale locale in Enum.GetValues(typeof(Locale)))
             {
-                SetTranslationNodes(translationDictionary);
+                if (LocaleFileHandler.LocaleFileExists(locale))
+                {
+                    var translationDictionary = new TranslationDictionary(locale);
+                    SetTranslationNodesFromFile(translationDictionary);
+                    _locales.Add(locale, translationDictionary);
+                }
             }
         }
 
