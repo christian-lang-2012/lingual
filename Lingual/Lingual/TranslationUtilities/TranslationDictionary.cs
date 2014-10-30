@@ -10,7 +10,7 @@ namespace Lingual.TranslationUtilities
 
         public Locale Locale { get; private set; }
 
-        private readonly Dictionary<string, string> _translationDictionary =  new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _translationDictionary = new Dictionary<string, string>();
 
         #endregion
 
