@@ -9,6 +9,6 @@
     "loggedin.user.inbox": {
         "ONE": "1 new message",
         "TWO": "2 new messages",
-        "OTHER":  "__AMOUNT__ new messagisms"
+        "OTHER":  "__AMOUNT__ new messages"
     }
 }

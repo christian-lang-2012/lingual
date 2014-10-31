@@ -15,6 +15,14 @@ namespace Lingual.Test
         //TODO: add unit tests for fall back logic
 
         [Test]
+        [TestCase("hello.test.message", "This is a testie test", Locale.en_US)]
+        [TestCase("this.key.doesnt.exist", "this.key.doesnt.exist", Locale.en_US)]
+        public void TestFallbackLogic(string key, string answer, Locale locale)
+        {
+            Assert.AreEqual(answer, _translator.Translate(key, locale), "Fallback failed.");
+        }
+
+        [Test]
         [TestCase("login.hello", "Hello!", Locale.en_US)]
         [TestCase("login.hello", "Hallo!", Locale.de_DE)]
         [TestCase("login.hello", "¡Hola!", Locale.es_MX)]
@@ -91,7 +99,7 @@ namespace Lingual.Test
         }
 
 
-        [TestCase("loggedin.user.inbox", "55 new messagisms", Plurality.OTHER, Locale.en_US)]
+        [TestCase("loggedin.user.inbox", "55 new messages", Plurality.OTHER, Locale.en_US)]
         public void TestPluralTranslation_EN(string key, string answer, Plurality plurality, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { {"__AMOUNT__", "55" } };

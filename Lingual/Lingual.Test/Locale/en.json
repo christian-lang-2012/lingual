@@ -9,6 +9,7 @@
     "loggedin.user.inbox": {
         "ONE": "1 new message",
         "TWO": "2 new messages",
-        "OTHER":  "{0} new messagisms"
-    }
+        "OTHER": "{0} new messages"
+    },
+    "hello.test.message":  "This is a testie test"
 }

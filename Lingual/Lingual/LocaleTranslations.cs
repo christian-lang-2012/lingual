@@ -57,7 +57,7 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// Returns whether the current locale is the same as the default locale
         /// </summary>
         /// <returns><c>true</c> if this instance has fallback locale; otherwise, <c>false</c>.</returns>
         public bool HasFallbackLocale()
@@ -75,7 +75,7 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// Checks to see if the key exists in the dictionary
         /// </summary>
         /// <returns><c>true</c>, if exists was keyed, <c>false</c> otherwise.</returns>
         /// <param name="key">Key.</param>
@@ -88,7 +88,7 @@ namespace Lingual
         #region Private Helper Methods
 
         /// <summary>
-        /// TODO
+        /// Finds each plurality in the key
         /// </summary>
         /// <returns>The key finder.</returns>
         /// <param name="pluralKeys">Plural keys.</param>
