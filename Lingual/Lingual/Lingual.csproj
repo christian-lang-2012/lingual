@@ -48,15 +48,14 @@
   <ItemGroup>
     <Compile Include="Enums\Locale.cs" />
     <Compile Include="Enums\Plurality.cs" />
-    <Compile Include="TranslationUtilities\TranslationDictionary.cs" />
+    <Compile Include="ILocaleTranslation.cs" />
+    <Compile Include="LocaleTranslations.cs" />
     <Compile Include="Handlers\LocaleFileHandler.cs" />
-    <Compile Include="TranslationUtilities\TranslationUtility.cs" />
+    <Compile Include="NullLocaleTranslations.cs" />
+    <Compile Include="Translator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="locale\de.json" />
-    <None Include="locale\en.json" />
-    <None Include="locale\es.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
