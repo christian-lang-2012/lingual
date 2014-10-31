@@ -62,11 +62,11 @@ namespace Lingual
         #region Translation Utilities
 
         /// <summary>
-        /// TODO
+        /// Get the translation dictionary for the locale passed in
         /// </summary>
         /// <param name="locale">The locale.</param>
         /// <returns>
-        /// TODO
+        /// Returns the locale tranlastion for the locale passed in
         /// </returns>
         public ILocaleTranslation GetTranslationDictionaryForLocale(Locale locale)
         {
@@ -85,11 +85,11 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// Get the fallback locale of the locale passed in
         /// </summary>
         /// <param name="locale">The locale.</param>
         /// <returns>
-        /// TODO
+        /// Returns the fallback locale of the one that was requested
         /// </returns>
         public Locale GetFallbackLocale(Locale locale)
         {
@@ -205,11 +205,12 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// Translate a key using the passed in Dictionary tokens
         /// </summary>
         /// <param name="sourceTranslation"></param>
         /// <param name="tokens"></param>
-        /// <returns></returns>
+        /// <returns>The string translated from the interpolation if it exists. If not, it returns the key
+        /// </returns>
         public string InterpolateTranslation(String sourceTranslation, Dictionary<string, string> tokens)
         {
             var translation = sourceTranslation;

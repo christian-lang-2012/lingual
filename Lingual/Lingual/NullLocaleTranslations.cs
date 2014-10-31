@@ -8,7 +8,7 @@ namespace Lingual
     public class NullLocaleTranslations : ILocaleTranslation
     {
         /// <summary>
-        /// TODO
+        /// Doesn't add a translation for the null dictionary
         /// </summary>
         /// <param name="key">Key.</param>
         /// <param name="value">Value.</param>
@@ -18,7 +18,7 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// Returns false because this is the null locale translation
         /// </summary>
         /// <returns><c>true</c>, if exists was keyed, <c>false</c> otherwise.</returns>
         /// <param name="key">Key.</param>
@@ -28,7 +28,7 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// returns the key back for null translation locale
         /// </summary>
         /// <returns>The value.</returns>
         /// <param name="key">Key.</param>
@@ -39,7 +39,7 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// Returns true that there is a fallback locale
         /// </summary>
         /// <returns><c>true</c> if this instance has fallback locale; otherwise, <c>false</c>.</returns>
         public bool HasFallbackLocale()
@@ -48,7 +48,7 @@ namespace Lingual
         }
 
         /// <summary>
-        /// TODO
+        /// returns true that the dictionary is empty
         /// </summary>
         /// <returns><c>true</c> if this instance is translation dictionary empty; otherwise, <c>false</c>.</returns>
         public bool IsTranslationDictionaryEmpty()
