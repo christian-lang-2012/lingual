@@ -99,7 +99,7 @@ namespace Lingual.Test
         }
 
 
-        [TestCase("loggedin.user.inbox", "55 new messagisms", Plurality.OTHER, Locale.en_US)]
+        [TestCase("loggedin.user.inbox", "55 new messages", Plurality.OTHER, Locale.en_US)]
         public void TestPluralTranslation_EN(string key, string answer, Plurality plurality, Locale locale)
         {
             var testDictionary = new Dictionary<string, string>() { {"__AMOUNT__", "55" } };
