@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using Lingual.TranslationUtilities;
+using Lingual;
 using System.Collections.Generic;
 
 
@@ -10,7 +10,7 @@ namespace Lingual.Test
     [TestFixture]
     public class TranslatorUtilityTests
     {
-        private readonly TranslationUtility _translator = TranslationUtility.Instance;
+        private readonly Translator _translator = Translator.Instance;
 
         //TODO: add unit tests for fall back logic
 

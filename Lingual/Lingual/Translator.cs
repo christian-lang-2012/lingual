@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 
-namespace Lingual.TranslationUtilities
+namespace Lingual
 {
 
     /// <summary>
     /// A translation utility class
     /// </summary>
-    public class TranslationUtility
+    public class Translator
     {
         #region Public Attributes
 
@@ -23,13 +23,13 @@ namespace Lingual.TranslationUtilities
 
         #region Private Attributes
 
-        private readonly Dictionary<Locale, TranslationDictionary> _locales = new Dictionary<Locale, TranslationDictionary>();
-        private readonly ITranslationDictionary _nullTranslationDictionary = new NullTranslationDictionary();
+        private readonly Dictionary<Locale, LocaleTranslations> _locales = new Dictionary<Locale, LocaleTranslations>();
+        private readonly ILocaleTranslation _nullTranslationDictionary = new NullLocaleTranslations();
 
         private const string DateFormatter = "d";
         private const string CurrencyFormatter = "C2";
 
-        private static TranslationUtility _instance;
+        private static Translator _instance;
 
         #endregion
 
@@ -41,18 +41,18 @@ namespace Lingual.TranslationUtilities
         /// <value>
         /// The instance.
         /// </value>
-        public static TranslationUtility Instance
+        public static Translator Instance
         {
             get
             {
-                return _instance ?? (_instance = new TranslationUtility());
+                return _instance ?? (_instance = new Translator());
             }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lingual.TranslationUtilities.TranslationUtility"/> class.
         /// </summary>
-        private TranslationUtility()
+        private Translator()
         {
             CreateTranslationDictionaries();
         }
@@ -68,9 +68,9 @@ namespace Lingual.TranslationUtilities
         /// <returns>
         /// TODO
         /// </returns>
-        public ITranslationDictionary GetTranslationDictionaryForLocale(Locale locale)
+        public ILocaleTranslation GetTranslationDictionaryForLocale(Locale locale)
         {
-            ITranslationDictionary translationDictionary = null;
+            ILocaleTranslation translationDictionary = null;
 
             if (_locales.ContainsKey(locale))
             {
@@ -119,7 +119,7 @@ namespace Lingual.TranslationUtilities
         {
             string translation;
 
-            ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
+            ILocaleTranslation translationDictionary = GetTranslationDictionaryForLocale(locale);
             if (!translationDictionary.ContainsKey(key) && translationDictionary.HasFallbackLocale())
             {
                 Locale fallbackLocale = this.GetFallbackLocale(locale);
@@ -144,7 +144,7 @@ namespace Lingual.TranslationUtilities
         {
             string translation;
 
-            ITranslationDictionary translationDictionary = GetTranslationDictionaryForLocale(locale);
+            ILocaleTranslation translationDictionary = GetTranslationDictionaryForLocale(locale);
             if (!translationDictionary.ContainsKey(key) && translationDictionary.HasFallbackLocale())
             {
                 Locale fallbackLocale = this.GetFallbackLocale(locale);
@@ -258,7 +258,7 @@ namespace Lingual.TranslationUtilities
             {
                 if (LocaleFileHandler.LocaleFileExists(locale))
                 {
-                    var translationDictionary = new TranslationDictionary(locale);
+                    var translationDictionary = new LocaleTranslations(locale);
                     SetTranslationNodesFromFile(translationDictionary);
                     _locales.Add(locale, translationDictionary);
                 }
@@ -270,7 +270,7 @@ namespace Lingual.TranslationUtilities
         /// translation file.
         /// </summary>
         /// <param name="translationDictionary"></param>
-        private void SetTranslationNodesFromFile(TranslationDictionary translationDictionary)
+        private void SetTranslationNodesFromFile(LocaleTranslations translationDictionary)
         {
             var localeTranslations = LocaleFileHandler.GetLocaleFile(translationDictionary.Locale);
 
