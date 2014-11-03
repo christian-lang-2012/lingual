@@ -50,7 +50,7 @@ namespace Lingual
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lingual.TranslationUtilities.TranslationUtility"/> class.
+        /// Initializes a new instance of the Translator class.
         /// </summary>
         private Translator()
         {
@@ -211,7 +211,7 @@ namespace Lingual
         /// <param name="tokens"></param>
         /// <returns>The string translated from the interpolation if it exists. If not, it returns the key
         /// </returns>
-        public string InterpolateTranslation(String sourceTranslation, Dictionary<string, string> tokens)
+        public string InterpolateTranslation(string sourceTranslation, Dictionary<string, string> tokens)
         {
             var translation = sourceTranslation;
 
