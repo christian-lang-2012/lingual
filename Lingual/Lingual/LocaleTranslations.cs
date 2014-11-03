@@ -94,9 +94,9 @@ namespace Lingual
         /// <returns>The key finder.</returns>
         /// <param name="pluralKeys">Plural keys.</param>
         /// <param name="plurality">Plurality.</param>
-        private string PluralKeyFinder(string pluralKeys, Plurality plurality)
+        private string PluralKeyFinder(string translation, Plurality plurality)
         {
-            var pluralityDictionary = JObject.Parse(pluralKeys).ToObject<Dictionary<Plurality, string>>();
+            var pluralityDictionary = JObject.Parse(translation).ToObject<Dictionary<Plurality, string>>();
             return pluralityDictionary.Where(t => t.Key == plurality).Select(t => t.Value).First();
         }
         #endregion
