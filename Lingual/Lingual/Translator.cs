@@ -124,7 +124,7 @@ namespace Lingual
         public string Translate(string key, Locale locale = DefaultLocale)
         {
             if (key == null) {
-                return String.Empty;
+                return string.Empty;
             }
 
             string translation;
