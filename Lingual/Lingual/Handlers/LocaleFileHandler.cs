@@ -7,7 +7,7 @@ namespace Lingual.Handlers
 {
     public class LocaleFileHandler
     {
-        private static String ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+        private static string ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
         /// <summary>
         /// Gets the translation file for the specified locale
