@@ -54,7 +54,9 @@ namespace Lingual
         /// </summary>
         private Translator()
         {
+            LocaleFileHandler.CheckLocaleFolderExists();
             CreateTranslationDictionaries();
+            
         }
 
         #endregion
@@ -75,6 +77,10 @@ namespace Lingual
             if (_locales.ContainsKey(locale))
             {
                 translationDictionary = _locales[locale];
+            }
+            else if (locale == Locale.en)
+            {
+                throw new Exception("No english translation dictionary found");
             }
             else
             {
@@ -117,6 +123,10 @@ namespace Lingual
         /// </returns>
         public string Translate(string key, Locale locale = DefaultLocale)
         {
+            if (key == null) {
+                return String.Empty;
+            }
+
             string translation;
 
             ILocaleTranslation translationDictionary = GetTranslationDictionaryForLocale(locale);
