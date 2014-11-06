@@ -5,9 +5,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Lingual.Handlers
 {
-    public class LocaleFileHandler
+    public static class LocaleFileHandler
     {
-        private static string ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+        private static string ProjectPath;
+
+        public static void InitalizeLocaleFileHandler(string projectPath)
+        {
+            ProjectPath = projectPath;
+        }
 
         /// <summary>
         /// Gets the translation file for the specified locale
