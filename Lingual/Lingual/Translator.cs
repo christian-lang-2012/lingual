@@ -14,36 +14,26 @@ namespace Lingual
     /// A translation utility class
     /// </summary>
     public class Translator
-    {
-        #region Public Attributes
-
+    {        
         public const Locale DefaultLocale = Locale.en;
-
-        #endregion
-
-        #region Private Attributes
-
         private readonly Dictionary<Locale, LocaleTranslations> _locales = new Dictionary<Locale, LocaleTranslations>();
         private readonly ILocaleTranslation _nullTranslationDictionary = new NullLocaleTranslations();
 
+        private LocaleFileHandler localeHandler;
         private const string DateFormatter = "d";
         private const string CurrencyFormatter = "C2";
-
-        #endregion
 
         /// <summary>
         /// Initializes a new instance of the Translator class.
         /// </summary>
         public Translator(string filePath)
         {
-            LocaleFileHandler.InitalizeLocaleFileHandler(filePath);
-            LocaleFileHandler.CheckLocaleFolderExists();
+            localeHandler = new LocaleFileHandler(filePath);
+            localeHandler.CheckLocaleFolderExists();
             CreateTranslationDictionaries();
-            
+
         }
-
-        #region Translation Utilities
-
+        
         /// <summary>
         /// Get the translation dictionary for the locale passed in
         /// </summary>
@@ -104,7 +94,8 @@ namespace Lingual
         /// </returns>
         public string Translate(string key, Locale locale = DefaultLocale)
         {
-            if (key == null) {
+            if (key == null)
+            {
                 return string.Empty;
             }
 
@@ -237,10 +228,6 @@ namespace Lingual
             return translation;
         }
 
-        #endregion
-
-        #region Helper Methods
-
         /// <summary>
         /// Loads translation dictionaries from the file system.
         /// </summary>
@@ -248,7 +235,7 @@ namespace Lingual
         {
             foreach (Locale locale in Enum.GetValues(typeof(Locale)))
             {
-                if (LocaleFileHandler.LocaleFileExists(locale))
+                if (localeHandler.LocaleFileExists(locale))
                 {
                     var translationDictionary = new LocaleTranslations(locale);
                     SetTranslationNodesFromFile(translationDictionary);
@@ -264,7 +251,7 @@ namespace Lingual
         /// <param name="translationDictionary"></param>
         private void SetTranslationNodesFromFile(LocaleTranslations translationDictionary)
         {
-            var localeTranslations = LocaleFileHandler.GetLocaleFile(translationDictionary.Locale);
+            var localeTranslations = localeHandler.GetLocaleFile(translationDictionary.Locale);
 
             foreach (var jsonObjProperties in localeTranslations)
             {
@@ -275,7 +262,5 @@ namespace Lingual
                 }
             }
         }
-
-        #endregion
     }
 }
