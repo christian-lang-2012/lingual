@@ -10,7 +10,7 @@ namespace Lingual.Test
     [TestFixture]
     public class TranslatorUtilityTests
     {
-        private readonly Translator _translator = new Translator("C:/Nuvi/lingual/Lingual/Lingual.Test");
+        private readonly Translator _translator = new Translator(@"Lingual.Test");
 
         //TODO: add unit tests for fall back logic
 

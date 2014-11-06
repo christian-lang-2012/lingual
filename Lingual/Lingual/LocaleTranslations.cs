@@ -6,15 +6,9 @@ namespace Lingual
 {
     public class LocaleTranslations : ILocaleTranslation
     {
-        #region Properties and Variables
-
         public Locale Locale { get; private set; }
 
         private readonly Dictionary<string, string> _translationDictionary = new Dictionary<string, string>();
-
-        #endregion
-
-        #region Core Methods
 
         /// <summary>
         /// Constructor for the TranslationDictionary. Must take in a Locale
@@ -83,9 +77,6 @@ namespace Lingual
         {
             return _translationDictionary.ContainsKey(key.ToLower());
         }
-        #endregion
-
-        #region Private Helper Methods
 
         /// <summary>
         /// Finds each plurality in the key
@@ -98,6 +89,5 @@ namespace Lingual
             var jobjectDictionary = pluralKeys.ToObject<Dictionary<Plurality, string>>();
             return jobjectDictionary.Where(t => t.Key == plurality).Select(t => t.Value).First();
         }
-        #endregion
     }
 }
