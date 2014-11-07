@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Lingual;
 using System.Collections.Generic;
+using System.IO;
 
 
 namespace Lingual.Test
@@ -10,9 +11,16 @@ namespace Lingual.Test
     [TestFixture]
     public class TranslatorUtilityTests
     {
-        private readonly Translator _translator = new Translator("C:/Nuvi/lingual/Lingual/Lingual.Test");
+        private readonly Translator _translator;
 
-        //TODO: add unit tests for fall back logic
+        //TODO: add unit tests for fall back logic 
+
+
+        public TranslatorUtilityTests()
+        {
+            var localePath = Directory.GetParent(System.IO.Path.GetFullPath(@"..\\..\\Locale")).FullName;
+            _translator = new Translator(localePath);
+        }
 
         [Test]
         [TestCase("hello.test.message", "This is a testie test", Locale.en_US)]
