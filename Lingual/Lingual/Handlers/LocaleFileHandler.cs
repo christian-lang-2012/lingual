@@ -5,9 +5,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Lingual.Handlers
 {
-    public class LocaleFileHandler
+    public static class LocaleFileHandler
     {
-        private static readonly String ProjPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+        private static string ProjectPath;
+
+        public static void InitalizeLocaleFileHandler(string projectPath)
+        {
+            ProjectPath = projectPath;
+        }
 
         /// <summary>
         /// Gets the translation file for the specified locale
@@ -30,6 +35,23 @@ namespace Lingual.Handlers
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static void CheckLocaleFolderExists()
+        {
+            var localeDirectories = Directory.GetDirectories(ProjectPath, "Locale", SearchOption.TopDirectoryOnly);
+            if (localeDirectories.Length != 0)
+            {
+                ProjectPath = localeDirectories[0];
+            }
+            else
+            {
+                throw new Exception("Locale directory not found in project");
+            }
+        }
+
+        /// <summary>
         /// Return bool indicating if the file exists for this locale.
         /// </summary>
         /// <param name="locale">Locale file to look for</param>
@@ -46,7 +68,8 @@ namespace Lingual.Handlers
         /// <returns>Path to file for locale</returns>
         public static string FilePathForLocale(Locale locale)
         {
-            return Path.Combine(ProjPath, "locale", locale.ToString().Replace('_', '-') + ".json");
+            
+            return Path.Combine(ProjectPath, locale.ToString().Replace('_', '-') + ".json");
         }
 
         /// <summary>

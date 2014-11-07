@@ -15,51 +15,24 @@ namespace Lingual
     /// </summary>
     public class Translator
     {
-        #region Public Attributes
-
+        private const string CurrencyFormatter = "C2";
+        private const string DateFormatter = "d";
         public const Locale DefaultLocale = Locale.en;
-
-        #endregion
-
-        #region Private Attributes
-
         private readonly Dictionary<Locale, LocaleTranslations> _locales = new Dictionary<Locale, LocaleTranslations>();
         private readonly ILocaleTranslation _nullTranslationDictionary = new NullLocaleTranslations();
 
-        private const string DateFormatter = "d";
-        private const string CurrencyFormatter = "C2";
-
-        private static Translator _instance;
-
-        #endregion
-
-        #region Singleton Instance
-
-        /// <summary>
-        /// Gets the instance. Adhereing to the singleton pattern so that way there isn't a huge instance of the Translation Utility everyhere
-        /// </summary>
-        /// <value>
-        /// The instance.
-        /// </value>
-        public static Translator Instance
-        {
-            get
-            {
-                return _instance ?? (_instance = new Translator());
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the Translator class.
         /// </summary>
-        private Translator()
+        public Translator(string filePath)
         {
+            LocaleFileHandler.InitalizeLocaleFileHandler(filePath);
+            LocaleFileHandler.CheckLocaleFolderExists();
             CreateTranslationDictionaries();
+            
         }
 
-        #endregion
-
-        #region Translation Utilities
 
         /// <summary>
         /// Get the translation dictionary for the locale passed in
@@ -75,6 +48,10 @@ namespace Lingual
             if (_locales.ContainsKey(locale))
             {
                 translationDictionary = _locales[locale];
+            }
+            else if (locale == Locale.en)
+            {
+                throw new Exception("No english translation dictionary found");
             }
             else
             {
@@ -117,6 +94,10 @@ namespace Lingual
         /// </returns>
         public string Translate(string key, Locale locale = DefaultLocale)
         {
+            if (key == null) {
+                return string.Empty;
+            }
+
             string translation;
 
             ILocaleTranslation translationDictionary = GetTranslationDictionaryForLocale(locale);
@@ -246,10 +227,6 @@ namespace Lingual
             return translation;
         }
 
-        #endregion
-
-        #region Helper Methods
-
         /// <summary>
         /// Loads translation dictionaries from the file system.
         /// </summary>
@@ -284,7 +261,5 @@ namespace Lingual
                 }
             }
         }
-
-        #endregion
     }
 }
