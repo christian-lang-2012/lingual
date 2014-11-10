@@ -14,11 +14,12 @@ namespace Lingual
     /// A translation utility class
     /// </summary>
     public class Translator
-    {        
+
+    {
+        
         public const Locale DefaultLocale = Locale.en;
         private readonly Dictionary<Locale, LocaleTranslations> _locales = new Dictionary<Locale, LocaleTranslations>();
         private readonly ILocaleTranslation _nullTranslationDictionary = new NullLocaleTranslations();
-
         private LocaleFileHandler localeHandler;
         private const string DateFormatter = "d";
         private const string CurrencyFormatter = "C2";
@@ -31,7 +32,6 @@ namespace Lingual
             localeHandler = new LocaleFileHandler(filePath);
             localeHandler.CheckLocaleFolderExists();
             CreateTranslationDictionaries();
-
         }
         
         /// <summary>

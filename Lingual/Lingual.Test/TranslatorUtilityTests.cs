@@ -11,8 +11,8 @@ namespace Lingual.Test
     [TestFixture]
     public class TranslatorUtilityTests
     {
-        private readonly Translator _translator;
 
+        private readonly Translator _translator;
         //TODO: add unit tests for fall back logic 
 
 

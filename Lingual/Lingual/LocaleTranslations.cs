@@ -43,7 +43,8 @@ namespace Lingual
 
             if (plurality.HasValue)
             {
-                translation = PluralKeyFinder(JObject.Parse(translation), plurality.Value);
+                translation = PluralKeyFinder(translation, plurality.Value);
+                translation = translation ?? key;
             }
 
             return translation;
@@ -76,17 +77,17 @@ namespace Lingual
         {
             return _translationDictionary.ContainsKey(key.ToLower());
         }
-                
+        
         /// <summary>
         /// Finds each plurality in the key
         /// </summary>
         /// <returns>The key finder.</returns>
         /// <param name="pluralKeys">Plural keys.</param>
         /// <param name="plurality">Plurality.</param>
-        private string PluralKeyFinder(JObject pluralKeys, Plurality plurality)
+        private string PluralKeyFinder(string translation, Plurality plurality)
         {
-            var jobjectDictionary = pluralKeys.ToObject<Dictionary<Plurality, string>>();
-            return jobjectDictionary.Where(t => t.Key == plurality).Select(t => t.Value).First();
+            var pluralityDictionary = JObject.Parse(translation).ToObject<Dictionary<Plurality, string>>();
+            return pluralityDictionary.Where(t => t.Key == plurality).Select(t => t.Value).First();
         }
     }
 }
