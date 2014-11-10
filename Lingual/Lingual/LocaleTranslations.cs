@@ -7,7 +7,6 @@ namespace Lingual
     public class LocaleTranslations : ILocaleTranslation
     {
         public Locale Locale { get; private set; }
-
         private readonly Dictionary<string, string> _translationDictionary = new Dictionary<string, string>();
 
         /// <summary>
@@ -78,7 +77,7 @@ namespace Lingual
         {
             return _translationDictionary.ContainsKey(key.ToLower());
         }
-
+        
         /// <summary>
         /// Finds each plurality in the key
         /// </summary>

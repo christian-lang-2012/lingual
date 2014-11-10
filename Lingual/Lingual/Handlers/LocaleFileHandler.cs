@@ -5,11 +5,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Lingual.Handlers
 {
-    public static class LocaleFileHandler
+    public class LocaleFileHandler
     {
         private static string ProjectPath;
 
-        public static void InitalizeLocaleFileHandler(string projectPath)
+        public LocaleFileHandler(string projectPath)
         {
             ProjectPath = projectPath;
         }
@@ -19,7 +19,7 @@ namespace Lingual.Handlers
         /// </summary>
         /// <param name="locale">Locale to get translation file for</param>
         /// <returns>JObject of KV pairs (JSON)</returns>
-        public static JObject GetLocaleFile(Locale locale)
+        public JObject GetLocaleFile(Locale locale)
         {
             JObject jsonLocaleTranslations = null;
             string localeFileContent = string.Empty;
@@ -35,10 +35,9 @@ namespace Lingual.Handlers
         }
 
         /// <summary>
-        /// 
+        /// Checks for the locale folder in the designated path 
         /// </summary>
-        /// <returns></returns>
-        public static void CheckLocaleFolderExists()
+        public void CheckLocaleFolderExists()
         {
             var localeDirectories = Directory.GetDirectories(ProjectPath, "Locale", SearchOption.TopDirectoryOnly);
             if (localeDirectories.Length != 0)
@@ -56,7 +55,7 @@ namespace Lingual.Handlers
         /// </summary>
         /// <param name="locale">Locale file to look for</param>
         /// <returns>Bool indicating if the file exists for this locale</returns>
-        public static bool LocaleFileExists(Locale locale)
+        public bool LocaleFileExists(Locale locale)
         {
             return File.Exists(FilePathForLocale(locale));
         }
@@ -66,9 +65,8 @@ namespace Lingual.Handlers
         /// </summary>
         /// <param name="locale">Locale file to compute a path for.</param>
         /// <returns>Path to file for locale</returns>
-        public static string FilePathForLocale(Locale locale)
+        public string FilePathForLocale(Locale locale)
         {
-            
             return Path.Combine(ProjectPath, locale.ToString().Replace('_', '-') + ".json");
         }
 
@@ -77,7 +75,7 @@ namespace Lingual.Handlers
         /// </summary>
         /// <param name="localeFileContent"></param>
         /// <returns>A JObject parsed from the content string</returns>
-        public static JObject ParseFileContents(string localeFileContent)
+        public JObject ParseFileContents(string localeFileContent)
         {
             if (string.IsNullOrEmpty(localeFileContent))
             {
