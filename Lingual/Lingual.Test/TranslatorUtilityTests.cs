@@ -18,7 +18,8 @@ namespace Lingual.Test
 
         public TranslatorUtilityTests()
         {
-            var localePath = Directory.GetParent(System.IO.Path.GetFullPath(@"..\\..\\Locale")).FullName;
+            var combinedPath = System.IO.Path.Combine("..", "..", "Locale");
+            var localePath = Directory.GetParent(System.IO.Path.GetFullPath(combinedPath)).FullName;
             _translator = new Translator(localePath);
         }
 
