@@ -15,7 +15,7 @@ There is no need to supply locales because each one is located in the Locale enu
 The locales in the `Locale` are all based off of the language-culture codes found here: http://msdn.microsoft.com/en-us/library/ee825488%28v=cs.20%29.aspx
 
 If there is no `somelocale.json` file found on start up, then a `NullLocaleTranslations` gets put in it's place.
-Essentially what `NullLocaleTranslations` does is it mimics a the LocaleTranslations, but instead of sending back actual data it sends back `null`.
+Essentially what `NullLocaleTranslations` does is it mimics the `LocaleTranslations`, but instead of sending back actual data it sends back `null`.
 
 If asking for a translation in a certain `locale`, eg. `en-us.json`, and the key isn't found there, then Lingual will attempt to look for it in `en.json`.
 If Lingual can't find the key in the fall-back language, then it will simply return the key that was requested.
