@@ -145,20 +145,28 @@ namespace Lingual
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="locale">The locale.</param>
-        /// <param name="arguments">The arguments.</param>
+        /// <param name="tokens">An object of tokens to replace in translation value.</param>
         /// <returns>
         /// Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale
         /// </returns>
-        public string Translate(string key, Dictionary<string, string> tokens, Locale locale = DefaultLocale)
+        public string Translate(string key, object tokens = null, Locale locale = DefaultLocale)
+        {
+            return this.Translate(key, locale, tokens);
+        }
+        /// <summary>
+        /// Translates the specified key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="locale">The locale.</param>
+        /// <param name="tokens">An object of tokens to replace in translation value.</param>
+        /// <returns>
+        /// Returns the value associated with the passed in key, locale, and passes in the arguements to the string. Parameter locale takes precedence over current locale
+        /// </returns>
+        public string Translate(string key, Locale locale = DefaultLocale, object tokens = null)
         {
             var translation = Translate(key, locale);
 
-            if (tokens.Any())
-            {
-                translation = InterpolateTranslation(translation, tokens);
-            }
-
-            return translation;
+            return InterpolateTranslation(translation, tokens);
         }
 
         /// <summary>
@@ -190,22 +198,28 @@ namespace Lingual
         /// Translate a key using the passed in Dictionary tokens
         /// </summary>
         /// <param name="sourceTranslation"></param>
-        /// <param name="tokens"></param>
+        /// <param name="tokens">An object of tokens to replace in translation value.</param>
         /// <returns>The string translated from the interpolation if it exists. If not, it returns the key
         /// </returns>
-        public string InterpolateTranslation(string sourceTranslation, Dictionary<string, string> tokens)
+        public string InterpolateTranslation(string sourceTranslation, object tokens)
         {
-            var translation = sourceTranslation;
-
-            foreach (KeyValuePair<string, string> tokenPair in tokens)
+            if (string.IsNullOrWhiteSpace(sourceTranslation) || tokens == null)
             {
-                if (translation.Contains(tokenPair.Key))
+                return string.Empty;
+            }
+
+            var properties = tokens.GetType().GetProperties();
+            foreach(var property in properties)
+            {
+                var key = string.Format("__{0}__", property.Name.ToUpper());
+                if (sourceTranslation.Contains(key))
                 {
-                    translation = translation.Replace(tokenPair.Key, tokenPair.Value);
+                    var value = (string)property.GetValue(tokens, null);
+                    sourceTranslation = sourceTranslation.Replace(key, value);
                 }
             }
 
-            return translation;
+            return sourceTranslation;
         }
 
         /// <summary>
@@ -213,19 +227,29 @@ namespace Lingual
         /// </summary>
         /// <param name="key">Translation key</param>
         /// <param name="plurality">Degree of plurality</param>
-        /// <param name="tokens">Dictionary of tokens to replace in translation value.</param>
+        /// <param name="tokens">An object of tokens to replace in translation value.</param>
         /// <param name="locale">Specified locale</param>
         /// <returns></returns>
-        public string TranslatePlural(string key, Plurality plurality, Dictionary<string, string> tokens, Locale locale = DefaultLocale)
+        public string TranslatePlural(string key, Plurality plurality, Locale locale = DefaultLocale, object tokens = null)
         {
             var translation = TranslatePlural(key, plurality, locale);
 
-            if (tokens.Any())
-            {
-                translation = InterpolateTranslation(translation, tokens);
-            }
+            return InterpolateTranslation(translation, tokens);
+        }
 
-            return translation;
+        /// <summary>
+        /// Interpolated plural translations; returns properly pluralized translation with interpolated data.
+        /// </summary>
+        /// <param name="key">Translation key</param>
+        /// <param name="plurality">Degree of plurality</param>
+        /// <param name="tokens">An object of tokens to replace in translation value.</param>
+        /// <param name="locale">Specified locale</param>
+        /// <returns></returns>
+        public string TranslatePlural(string key, Plurality plurality, object tokens, Locale locale = DefaultLocale)
+        {
+            var translation = TranslatePlural(key, plurality, locale);
+
+            return InterpolateTranslation(translation, tokens);
         }
 
         /// <summary>
