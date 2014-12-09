@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Nuvi</authors>
+    <owners>Nuvi</owners>
+    <licenseUrl>http://www.nuvi.com</licenseUrl>
+    <projectUrl>http://www.github.com/nuvi/Lingual</projectUrl>
+    <iconUrl>http://www.nuvi.com/images/Layout/small-owl.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>i18n Platform built by Nuvi</description>
+    <releaseNotes>Initial release of Lingual to the public</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>i18n Nuvi</tags>
+  </metadata>
+</package>
