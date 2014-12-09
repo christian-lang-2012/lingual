@@ -6,6 +6,7 @@ using Lingual.Handlers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
+using Lingual.LocaleTranslation;
 
 namespace Lingual
 {
