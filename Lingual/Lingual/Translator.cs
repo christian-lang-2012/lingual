@@ -14,7 +14,7 @@ namespace Lingual
     /// <summary>
     /// A translation utility class
     /// </summary>
-    public class Translator
+    public class Translator : ITranslator
 
     {
         
@@ -69,7 +69,7 @@ namespace Lingual
         /// <returns>
         /// Returns the fallback locale of the one that was requested
         /// </returns>
-        public Locale GetFallbackLocale(Locale locale)
+        private Locale GetFallbackLocale(Locale locale)
         {
             Locale fallbackLocale = DefaultLocale;
 
