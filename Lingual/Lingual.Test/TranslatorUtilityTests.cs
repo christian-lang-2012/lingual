@@ -96,15 +96,16 @@ namespace Lingual.Test
             Assert.AreEqual(answer, _translator.Localize(date, locale), "Date failed for " + locale + ". Expected: " + answer);
         }
 
+        //These use the int value for the Plurality, testing reflection of update to Plurality
         [Test]
-        [TestCase("loggedin.user.inbox", "1 new message", Plurality.ONE, Locale.en_US)]
-        [TestCase("loggedin.user.inbox", "2 new messages", Plurality.TWO, Locale.en_US)]
-        [TestCase("loggedin.user.inbox", "1 neue Nachricht", Plurality.ONE, Locale.de_DE)]
-        [TestCase("loggedin.user.inbox", "2 neue Nachrichten", Plurality.TWO, Locale.de_DE)]
-        [TestCase("loggedin.user.inbox", "1 nuevo mensaje", Plurality.ONE, Locale.es_MX)]
-        public void TestPluralTranslation_All(string key, string answer, Plurality plurality, Locale locale)
+        [TestCase("loggedin.user.inbox", "1 new message", 1, Locale.en_US)]
+        [TestCase("loggedin.user.inbox", "2 new messages", 2, Locale.en_US)]
+        [TestCase("loggedin.user.inbox", "1 neue Nachricht", 1, Locale.de_DE)]
+        [TestCase("loggedin.user.inbox", "2 neue Nachrichten", 2, Locale.de_DE)]
+        [TestCase("loggedin.user.inbox", "1 nuevo mensaje", 1, Locale.es_MX)]
+        public void TestPluralTranslation_All(string key, string answer, int plurality, Locale locale)
         {
-            Assert.AreEqual(answer, _translator.TranslatePlural(key, plurality, locale), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
+            Assert.AreEqual(answer, _translator.TranslatePlural(key, (Plurality)plurality, locale), "Pluralization failed for " + locale + " with " + key + ". Expected : " + answer);
         }
 
 
