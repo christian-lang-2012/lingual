@@ -49,6 +49,7 @@
     <Compile Include="Enums\Locale.cs" />
     <Compile Include="Enums\Plurality.cs" />
     <Compile Include="ILocaleTranslation.cs" />
+    <Compile Include="ITranslator.cs" />
     <Compile Include="LocaleTranslations.cs" />
     <Compile Include="Handlers\LocaleFileHandler.cs" />
     <Compile Include="NullLocaleTranslations.cs" />
