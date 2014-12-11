@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lingual.LocaleTranslation
+namespace Lingual.Infrastructure
 {
-    public class LocaleTranslations : ILocaleTranslation
+    public class TranslationLookup : ITranslationLookup
     {
         public Locale Locale { get; private set; }
         private readonly Dictionary<string, string> _translationDictionary = new Dictionary<string, string>();
@@ -13,7 +13,7 @@ namespace Lingual.LocaleTranslation
         /// Constructor for the TranslationDictionary. Must take in a Locale
         /// </summary>
         /// <param name="locale"></param>
-        public LocaleTranslations(Locale locale)
+        public TranslationLookup(Locale locale)
         {
             Locale = locale;
         }
