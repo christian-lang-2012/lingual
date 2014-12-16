@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lingual.LocaleTranslation
+namespace Lingual.Infrastructure
 {
-    public interface ILocaleTranslation
+    public interface ITranslationLookup
     {
         void AddTranslation(string key, string value);
         bool ContainsKey(string key);

@@ -7,8 +7,6 @@ namespace Lingual
 {
     public interface ITranslator
     {
-        ILocaleTranslation GetTranslationDictionaryForLocale(Locale locale);
-
         string InterpolateTranslation(string sourceTranslation, object tokens);
 
         string Translate(string key, Locale locale);

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lingual.LocaleTranslation
+namespace Lingual.Infrastructure
 {
-    public class NullLocaleTranslations : ILocaleTranslation
+    public class NullTranslationLookup : ITranslationLookup
     {
         /// <summary>
         /// Doesn't add a translation for the null dictionary

@@ -3,13 +3,13 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace Lingual.Handlers
+namespace Lingual.Infrastructure
 {
-    public class LocaleFileHandler
+    public class LocaleFileLoader
     {
         private static string ProjectPath;
 
-        public LocaleFileHandler(string projectPath)
+        public LocaleFileLoader(string projectPath)
         {
             ProjectPath = projectPath;
         }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Lingual.Handlers;
+using Lingual.Infrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
-using Lingual.LocaleTranslation;
 
 namespace Lingual
 {
@@ -19,9 +18,9 @@ namespace Lingual
     {
         
         public const Locale DefaultLocale = Locale.en;
-        private readonly Dictionary<Locale, LocaleTranslations> _locales = new Dictionary<Locale, LocaleTranslations>();
-        private readonly ILocaleTranslation _nullTranslationDictionary = new NullLocaleTranslations();
-        private LocaleFileHandler localeHandler;
+        private readonly Dictionary<Locale, TranslationLookup> _locales = new Dictionary<Locale, TranslationLookup>();
+        private readonly ITranslationLookup _nullTranslationDictionary = new NullTranslationLookup();
+        private LocaleFileLoader localeHandler;
         private const string DateFormatter = "d";
         private const string CurrencyFormatter = "C2";
 
@@ -30,7 +29,7 @@ namespace Lingual
         /// </summary>
         public Translator(string filePath)
         {
-            localeHandler = new LocaleFileHandler(filePath);
+            localeHandler = new LocaleFileLoader(filePath);
             localeHandler.CheckLocaleFolderExists();
             CreateTranslationDictionaries();
         }
@@ -42,9 +41,9 @@ namespace Lingual
         /// <returns>
         /// Returns the locale tranlastion for the locale passed in
         /// </returns>
-        public ILocaleTranslation GetTranslationDictionaryForLocale(Locale locale)
+        public ITranslationLookup GetTranslationDictionaryForLocale(Locale locale)
         {
-            ILocaleTranslation translationDictionary = null;
+            ITranslationLookup translationDictionary = null;
 
             if (_locales.ContainsKey(locale))
             {
@@ -102,7 +101,7 @@ namespace Lingual
 
             string translation;
 
-            ILocaleTranslation translationDictionary = GetTranslationDictionaryForLocale(locale);
+            ITranslationLookup translationDictionary = GetTranslationDictionaryForLocale(locale);
             if (!translationDictionary.ContainsKey(key) && translationDictionary.HasFallbackLocale())
             {
                 Locale fallbackLocale = this.GetFallbackLocale(locale);
@@ -127,7 +126,7 @@ namespace Lingual
         {
             string translation;
 
-            ILocaleTranslation translationDictionary = GetTranslationDictionaryForLocale(locale);
+            ITranslationLookup translationDictionary = GetTranslationDictionaryForLocale(locale);
             if (!translationDictionary.ContainsKey(key) && translationDictionary.HasFallbackLocale())
             {
                 Locale fallbackLocale = this.GetFallbackLocale(locale);
@@ -262,7 +261,7 @@ namespace Lingual
             {
                 if (localeHandler.LocaleFileExists(locale))
                 {
-                    var translationDictionary = new LocaleTranslations(locale);
+                    var translationDictionary = new TranslationLookup(locale);
                     SetTranslationNodesFromFile(translationDictionary);
                     _locales.Add(locale, translationDictionary);
                 }
@@ -274,7 +273,7 @@ namespace Lingual
         /// translation file.
         /// </summary>
         /// <param name="translationDictionary"></param>
-        private void SetTranslationNodesFromFile(LocaleTranslations translationDictionary)
+        private void SetTranslationNodesFromFile(TranslationLookup translationDictionary)
         {
             var localeTranslations = localeHandler.GetLocaleFile(translationDictionary.Locale);
 
