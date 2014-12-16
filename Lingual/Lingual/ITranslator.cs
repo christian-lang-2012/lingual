@@ -24,7 +24,5 @@ namespace Lingual
         string TranslatePlural(string key, Plurality plurality, object tokens, Locale locale);
 
         string TranslatePlural(string key, Plurality plurality, Locale locale);
-
-
     }
 }
