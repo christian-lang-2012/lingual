@@ -28,54 +28,11 @@ namespace Lingual
             this.CultureTranslators = cultureTranslators;
             this.RootFallbackCulture = rootFallbackCulture;
         }
-        public Translator(CultureInfo rootFallbackCulture, string directoryPath)
-            : this(rootFallbackCulture, ParseCultureTranslators(directoryPath))
+        public Translator(CultureInfo rootFallbackCulture, string directoryPath, ILocaleFileLoader fileLoader)
         {
+        	this.CultureTranslators = fileLoader.ParseCultureTranslators(directoryPath);
+            this.RootFallbackCulture = rootFallbackCulture;
         }
-
-        private static Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath)
-        {
-            return directoryPath
-                .Let(i =>  Path.Combine(Directory.GetCurrentDirectory(), i))
-                .If(Directory.Exists)
-                .TryLet(directory => Directory.GetFiles(directory)
-                    .Where(fileName => Path.GetExtension(fileName) == ".json")
-                    .Select(fileName => new 
-                    {
-                        translator = CultureTranslator.FromFile(fileName),
-                        culture = CultureFromLocaleFile(fileName)
-                    })
-                    .Where(i => i.culture != null)
-                    .ToDictionary(i => i.culture, i => i.translator),
-                ex => Console.WriteLine("Error reading locale file in directory '{0}': {1}", directoryPath, ex.ToString()));
-        }
-
-        private static CultureInfo CultureFromLocaleFile(string fileName)
-        {
-            return Path.GetFileNameWithoutExtension(fileName)
-                .Let(shortFileName => new CultureInfo(shortFileName));
-        }
-
-        public string GracefulFallback<T>(T key, CultureInfo startCulture, Func<T, CultureInfo, string> transform)
-        {
-            var hasParentCulture = startCulture.Parent != null;
-            return transform(key, startCulture)
-                .Recover(() => hasParentCulture 
-                    ? transform(key, startCulture.Parent) 
-                    : null)
-                .Recover(() => transform(key, this.RootFallbackCulture))
-                .Recover(() => key.ToString());
-        }
-        public string ApplyInterpolatedItems(string str, object tokens)
-        {
-            foreach (var prop in tokens.GetType().GetProperties())
-            {
-                var replaceKey = string.Format("__{0}__", prop.Name.ToUpper());
-                var replaceValue = (string)prop.GetValue(tokens, null);
-                str = str.Replace(replaceKey, replaceValue);
-            }
-            return str;
-        }   
 
         public ICultureTranslator Get(CultureInfo culture)
         {
@@ -85,7 +42,7 @@ namespace Lingual
             }   
             return null;
         }
-
+                
         public string Localize(string key, CultureInfo culture, object tokens = null)
         {
             return GracefulFallback(key, culture, (k,c) => 
@@ -114,6 +71,28 @@ namespace Lingual
         {
             return this.Localize(string.Join(".", key, plurality), locale, tokens);
         }
+        
+        public string GracefulFallback<T>(T key, CultureInfo startCulture, Func<T, CultureInfo, string> transform)
+        {
+            var hasParentCulture = startCulture.Parent != null;
+            return transform(key, startCulture)
+                .Recover(() => hasParentCulture 
+                    ? transform(key, startCulture.Parent) 
+                    : null)
+                .Recover(() => transform(key, this.RootFallbackCulture))
+                .Recover(() => key.ToString());
+        }
+
+        public string ApplyInterpolatedItems(string str, object tokens)
+        {
+            foreach (var prop in tokens.GetType().GetProperties())
+            {
+                var replaceKey = string.Format("__{0}__", prop.Name.ToUpper());
+                var replaceValue = (string)prop.GetValue(tokens, null);
+                str = str.Replace(replaceKey, replaceValue);
+            }
+            return str;
+        }   
     }
 }
 

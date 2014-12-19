@@ -7,6 +7,8 @@ namespace Lingual.Tests
     [TestFixture]
     public class TranslationTests
     {
+    	Translator translator = new Translator(new CultureInfo("en"), "locale", new LocaleFileLoader());
+    	
         [Test]
         public void TestTranslation()
         {
@@ -22,8 +24,7 @@ namespace Lingual.Tests
                 new { key = "account.invalid.username", answer = "Die zur Verfügung gestellten Benutzernamen ist falsch.", culture = new CultureInfo("de-de") },
                 new { key = "account.invalid.username", answer = "El nombre de usuario proporcionado es incorrecta.", culture = new CultureInfo("es-mx") }
             };
-            var translator = new Translator(new CultureInfo("en"), "locale");
-            foreach(var entry in cases)
+            foreach (var entry in cases)
             {
                 Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.culture));
             }
@@ -37,7 +38,6 @@ namespace Lingual.Tests
                 new { key = "hello.test.message", answer = "This is a testie test", culture = new CultureInfo("en-US") },
                 new { key = "this.key.doesnt.exist", answer = "this.key.doesnt.exist", culture = new CultureInfo("en-US") },
             };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             foreach (var entry in cases)
             {
                 Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.culture));
@@ -50,7 +50,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.day", answer = "¡Hola Cid! Hoy es Martes", culture = new CultureInfo("es-MX") };
             var tokens = new { name = "Cid", day = "Martes" };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.culture, tokens));
         }
 
@@ -59,7 +58,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.day", answer = "Hallo, Cid. Heute ist Dienstag", culture = new CultureInfo("de-DE") };
             var tokens = new { name = "Cid", day = "Dienstag" };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.culture, tokens));
         }
 
@@ -68,7 +66,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.day", answer = "Hello Cid! Today is Tuesday", culture = new CultureInfo("en-US") };
             var tokens = new { name = "Cid", day = "Tuesday" };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.culture, tokens));
         }
 
@@ -77,7 +74,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.day", answer = "Hello Cid! Today is Tuesday", culture = new CultureInfo("en-US") };
             var tokens = new { num = "Cid", d = "Tuesday" };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreNotEqual(entry.answer, translator.Localize(entry.key, entry.culture, tokens));
         }
 
@@ -86,7 +82,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.day", answer = "Hallo, Cid. Heute ist Dienstag", culture = new CultureInfo("de-DE") };
             var tokens = new {};
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreNotEqual(entry.answer, translator.Localize(entry.key, entry.culture, tokens));
         }
 
@@ -100,7 +95,6 @@ namespace Lingual.Tests
                 new { answer = "20/10/2014", culture = new CultureInfo("es-MX") },
             };
 
-            var translator = new Translator(new CultureInfo("en"), "locale");
             foreach (var entry in cases)
             {
                 var date = new DateTime(2014, 10, 20);
@@ -120,8 +114,7 @@ namespace Lingual.Tests
                 new { key = "loggedin.user.inbox", answer = "2 neue Nachrichten", plurality = 2, culture = new CultureInfo("de-DE") },
                 new { key = "loggedin.user.inbox", answer = "1 nuevo mensaje", plurality = 1, culture = new CultureInfo("es-MX") },
             };
-            var translator = new Translator(new CultureInfo("en"), "locale");
-            foreach(var entry in cases)
+            foreach (var entry in cases)
             {
                 Assert.AreEqual(entry.answer, translator.Localize(entry.key, (Plurality)entry.plurality, entry.culture));
             }
@@ -134,7 +127,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.inbox", answer = "55 new messages", plurality = Plurality.OTHER, culture = new CultureInfo("en-US") };
             var tokens = new { amount = "55" };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.plurality, entry.culture, tokens));
         }
 
@@ -143,7 +135,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.inbox", answer = "66 neue Nachrichtenismo", plurality = Plurality.OTHER, culture = new CultureInfo("de-DE") };
             var tokens = new { amount = "66" };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.plurality, entry.culture, tokens));
         }
 
@@ -152,7 +143,6 @@ namespace Lingual.Tests
         {
             var entry = new { key = "loggedin.user.inbox", answer = "99 nuevo mensajismos", plurality = Plurality.OTHER, culture = new CultureInfo("es-MX") };
             var tokens = new { amount = "99" };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             Assert.AreEqual(entry.answer, translator.Localize(entry.key, entry.plurality, entry.culture, tokens));
         }
 
@@ -168,7 +158,6 @@ namespace Lingual.Tests
                 new { key = "account.invalid.message", answer = "Test Data", culture = new CultureInfo("es-MX") },
                 new { key = "account.invalid.message", answer = "Test Data", culture = new CultureInfo("de-DE") },
             };
-            var translator = new Translator(new CultureInfo("en"), "locale");
             foreach (var entry in cases)
             {
                 Assert.AreNotEqual(entry.answer, translator.Localize(entry.key, entry.culture));
@@ -185,8 +174,7 @@ namespace Lingual.Tests
                 new { key = 100.0, answer = "$100.00" },
                 new { key = 10000000000.0, answer = "$10,000,000,000.00" },
             };
-            var translator = new Translator(new CultureInfo("en"), "locale");
-            foreach(var entry in cases)
+            foreach (var entry in cases)
             {
                 Assert.AreEqual(entry.answer, translator.Localize(entry.key, new CultureInfo("en-US")));
             }
@@ -203,8 +191,7 @@ namespace Lingual.Tests
                 new { key = 100.0, answer = "$100.00" },
                 new { key = 10000000000.0, answer = "$10,000,000,000.00" },
             };
-            var translator = new Translator(new CultureInfo("en"), "locale");
-            foreach(var entry in cases)
+            foreach (var entry in cases)
             {
                 Assert.AreEqual(entry.answer, translator.Localize(entry.key, new CultureInfo("es-MX")));
             }
@@ -219,8 +206,7 @@ namespace Lingual.Tests
                 new { key = 100.0, answer = "100,00 €" },
                 new { key = 10000000000.0, answer = "10.000.000.000,00 €" },
             };
-            var translator = new Translator(new CultureInfo("en"), "locale");
-            foreach(var entry in cases)
+            foreach (var entry in cases)
             {
                 Assert.AreEqual(entry.answer, translator.Localize(entry.key, new CultureInfo("de-DE")));
             }
