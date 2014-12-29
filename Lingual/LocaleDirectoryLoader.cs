@@ -7,16 +7,16 @@ using System.Linq;
 
 namespace Lingual
 {
-	public interface ILocaleDirectoryLoader
-	{
-		Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath);
-	}
-	
-	public class LocaleDirectoryLoader : ILocaleDirectoryLoader
-	{
-		public Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath)
-		{
-			return directoryPath
+    public interface ILocaleDirectoryLoader
+    {
+        Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath);
+    }
+
+    public class LocaleDirectoryLoader : ILocaleDirectoryLoader
+    {
+        public Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath)
+        {
+            return directoryPath
                 .Let(i =>  Path.Combine(Directory.GetCurrentDirectory(), i))
                 .If(Directory.Exists)
                 .TryLet(directory => Directory.GetFiles(directory)
