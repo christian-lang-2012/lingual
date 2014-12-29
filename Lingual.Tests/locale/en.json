@@ -11,5 +11,8 @@
         "TWO": "2 new messages",
         "OTHER": "{0} new messages"
     },
-    "hello.test.message":  "This is a testie test"
+    "hello.test.message":  "This is a testie test",
+    "nested":{
+        "key": "value"
+    }
 }

@@ -45,6 +45,12 @@ namespace Lingual.Tests
         }
 
         [Test]
+        public void ItTraversesLocaleNestedObjectsTransparently()
+        {
+            Assert.AreEqual("value", translator.Localize("nested.key", null));
+        }
+
+        [Test]
         public void ItDoesntBlowUpWithNullParameters()
         {
             var cases = new[]
