@@ -28,7 +28,7 @@ namespace Lingual
             this.CultureTranslators = cultureTranslators;
             this.RootFallbackCulture = rootFallbackCulture;
         }
-        public Translator(CultureInfo rootFallbackCulture, string directoryPath, ILocaleFileLoader fileLoader)
+        public Translator(CultureInfo rootFallbackCulture, string directoryPath, ILocaleDirectoryLoader fileLoader)
         {
         	this.CultureTranslators = fileLoader.ParseCultureTranslators(directoryPath);
             this.RootFallbackCulture = rootFallbackCulture;
@@ -36,7 +36,7 @@ namespace Lingual
 
         public ICultureTranslator Get(CultureInfo culture)
         {
-            if (this.CultureTranslators.ContainsKey(culture))
+            if (culture.Let(this.CultureTranslators.ContainsKey, false))
             {
                 return this.CultureTranslators[culture];
             }   
@@ -74,13 +74,13 @@ namespace Lingual
         
         public string GracefulFallback<T>(T key, CultureInfo startCulture, Func<T, CultureInfo, string> transform)
         {
-            var hasParentCulture = startCulture.Parent != null;
+            var hasParentCulture = startCulture.Let(i => i.Parent) != null;
             return transform(key, startCulture)
                 .Recover(() => hasParentCulture 
                     ? transform(key, startCulture.Parent) 
                     : null)
                 .Recover(() => transform(key, this.RootFallbackCulture))
-                .Recover(() => key.ToString());
+                .Recover(() => key.Let(i => i.ToString()) ?? string.Empty);
         }
 
         public string ApplyInterpolatedItems(string str, object tokens)

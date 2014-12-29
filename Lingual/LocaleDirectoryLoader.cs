@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace Lingual
 {
-	public interface ILocaleFileLoader
+	public interface ILocaleDirectoryLoader
 	{
 		Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath);
 	}
 	
-	public class LocaleFileLoader : ILocaleFileLoader
+	public class LocaleDirectoryLoader : ILocaleDirectoryLoader
 	{
 		public Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath)
 		{

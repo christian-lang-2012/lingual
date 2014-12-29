@@ -7,7 +7,7 @@ namespace Lingual.Tests
     [TestFixture]
     public class TranslationTests
     {
-    	Translator translator = new Translator(new CultureInfo("en"), "locale", new LocaleFileLoader());
+    	Translator translator = new Translator(new CultureInfo("en"), "locale", new LocaleDirectoryLoader());
     	
         [Test]
         public void TestTranslation()
@@ -44,7 +44,20 @@ namespace Lingual.Tests
             }
         }
 
-
+        [Test]
+        public void ItDoesntBlowUpWithNullParameters()
+        {
+            var cases = new[]
+            {
+                new { key = "hello.test.message", answer = "This is a testie test" },
+                new { key = "this.key.doesnt.exist", answer = "this.key.doesnt.exist" },
+                new { key = (string)null, answer = "" },
+            };
+            foreach (var entry in cases)
+            {
+                Assert.AreEqual(entry.answer, translator.Localize(entry.key, null));
+            }
+        }
         [Test]
         public void TestInterpolationTranslation()
         {

@@ -18,9 +18,9 @@ namespace Lingual.Infrastructure
         public Dictionary<string,string> TranslationDictionary { get; set; }
         public string Get(string key)
         {
-            return this.TranslationDictionary
-                .If(i => i.ContainsKey(key))
-                .Let(i => i[key], null);
+            return key
+                .If(this.TranslationDictionary.ContainsKey)
+                .Let(i => this.TranslationDictionary[i]);
         }
 
         public static ICultureTranslator FromFile(string filePath)
