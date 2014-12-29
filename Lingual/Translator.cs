@@ -90,13 +90,13 @@ namespace Lingual
 
         public string ApplyInterpolatedItems(string str, object tokens)
         {
-            foreach (var prop in tokens.GetType().GetProperties())
-            {
-                var replaceKey = string.Format("__{0}__", prop.Name.ToUpper());
-                var replaceValue = (string)prop.GetValue(tokens, null);
-                str = str.Replace(replaceKey, replaceValue);
-            }
-            return str;
+            return tokens.GetType().GetProperties()
+                .Aggregate(str, (accumulator, prop) => 
+                {
+                    var replaceKey = string.Format("__{0}__", prop.Name.ToUpper());
+                    var replaceValue = (string)prop.GetValue(tokens, null);
+                    return accumulator.Replace(replaceKey, replaceValue);
+                });
         }   
     }
 }
