@@ -44,11 +44,11 @@ namespace Lingual
             return null;
         }
                 
-        public string Localize(string key, CultureInfo culture, object tokens = null)
+        public string Localize(string key, CultureInfo startCulture, object tokens = null)
         {
-            return GracefulFallback(key, culture, (k,c) => 
+            return GracefulFallback(key, startCulture, (k,c) => 
             {
-                var localized = this.Get(c).Let(i => i.Get(k));
+                var localized = this.Get(c).Let(translator => translator.Get(k));
                 if (tokens == null)
                 {
                     return localized;
@@ -58,23 +58,23 @@ namespace Lingual
 
         }
 
-        public string Localize(DateTime date, CultureInfo culture)
+        public string Localize(DateTime date, CultureInfo startCulture)
         {
-            return GracefulFallback(date, culture, (k,c) => k.ToString("d", c));
+            return GracefulFallback(date, startCulture, (k,c) => k.ToString("d", c));
         }
 
-        public string Localize(double currencyAmount, CultureInfo culture)
+        public string Localize(double currencyAmount, CultureInfo startCulture)
         {
-            return GracefulFallback(currencyAmount, culture, (k,c) => k.ToString("C2", c));
+            return GracefulFallback(currencyAmount, startCulture, (k,c) => k.ToString("C2", c));
         }
-        public string Localize(decimal currencyAmount, CultureInfo culture)
+        public string Localize(decimal currencyAmount, CultureInfo startCulture)
         {
-            return GracefulFallback(currencyAmount, culture, (k,c) => k.ToString("C2", c));
+            return GracefulFallback(currencyAmount, startCulture, (k,c) => k.ToString("C2", c));
         }
 
-        public string Localize(string key, Plurality plurality, CultureInfo culture, object tokens = null)
+        public string Localize(string key, Plurality plurality, CultureInfo startCulture, object tokens = null)
         {
-            return this.Localize(string.Join(".", key, plurality), culture, tokens);
+            return this.Localize(string.Join(".", key, plurality), startCulture, tokens);
         }
         
         public string GracefulFallback<T>(T key, CultureInfo startCulture, Func<T, CultureInfo, string> transform)
