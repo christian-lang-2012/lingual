@@ -64,6 +64,20 @@ namespace Lingual.Tests
                 Assert.AreEqual(entry.answer, translator.Localize(entry.key, null));
             }
         }
+
+        [Test]
+        public void ItThrowsWithInvalidCultureIdentifier()
+        {
+            Assert.Throws<CultureNotFoundException>(() => translator.Localize("this.key.doesnt.exist", new CultureInfo("INVALIDCULTURE")));
+        }
+
+        [Test]
+        public void ItDoesntThrowWithTranslationsForCulture()
+        {
+            Assert.DoesNotThrow(() => translator.Localize("this.key.doesnt.exist", new CultureInfo("ja")));
+            Assert.DoesNotThrow(() => translator.Localize("hello.test.message", new CultureInfo("ja")));
+        }
+
         [Test]
         public void TestInterpolationTranslation()
         {
@@ -182,6 +196,7 @@ namespace Lingual.Tests
                 Assert.AreNotEqual(entry.answer, translator.Localize(entry.key, entry.culture));
             }
         }
+
 
         [Test]
         public void TestCurrencyValuesEn()
