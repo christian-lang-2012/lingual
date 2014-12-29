@@ -13,9 +13,10 @@ namespace Lingual
     public interface ITranslator
     {
         string Localize(string key, CultureInfo culture, object tokens = null);
-        string Localize(DateTime date, CultureInfo locale);
-        string Localize(double currencyAmount, CultureInfo locale);
-        string Localize(string key, Plurality plurality, CultureInfo locale, object tokens = null);
+        string Localize(DateTime date, CultureInfo culture);
+        string Localize(double currencyAmount, CultureInfo culture);
+        string Localize(decimal currencyAmount, CultureInfo culture);
+        string Localize(string key, Plurality plurality, CultureInfo culture, object tokens = null);
     }
 
     public class Translator : ITranslator
@@ -66,10 +67,14 @@ namespace Lingual
         {
             return GracefulFallback(currencyAmount, culture, (k,c) => k.ToString("C2", c));
         }
-
-        public string Localize(string key, Plurality plurality, CultureInfo locale, object tokens = null)
+        public string Localize(decimal currencyAmount, CultureInfo culture)
         {
-            return this.Localize(string.Join(".", key, plurality), locale, tokens);
+            return GracefulFallback(currencyAmount, culture, (k,c) => k.ToString("C2", c));
+        }
+
+        public string Localize(string key, Plurality plurality, CultureInfo culture, object tokens = null)
+        {
+            return this.Localize(string.Join(".", key, plurality), culture, tokens);
         }
         
         public string GracefulFallback<T>(T key, CultureInfo startCulture, Func<T, CultureInfo, string> transform)
