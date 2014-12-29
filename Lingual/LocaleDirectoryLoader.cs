@@ -19,7 +19,7 @@ namespace Lingual
             return directoryPath
                 .Let(i =>  Path.Combine(Directory.GetCurrentDirectory(), i))
                 .If(Directory.Exists)
-                .TryLet(directory => Directory.GetFiles(directory)
+                .Let(directory => Directory.GetFiles(directory)
                     .Where(fileName => Path.GetExtension(fileName) == ".json")
                     .Select(fileName => new 
                     {
@@ -27,8 +27,8 @@ namespace Lingual
                         culture = CultureFromLocaleFile(fileName)
                     })
                     .Where(i => i.culture != null)
-                    .ToDictionary(i => i.culture, i => i.translator),
-                ex => Console.WriteLine("Error reading locale file in directory '{0}': {1}", directoryPath, ex.ToString()));
+                    .ToDictionary(i => i.culture, i => i.translator))
+                .Recover(() => new Dictionary<CultureInfo,ICultureTranslator>());
         }
         public CultureInfo CultureFromLocaleFile(string fileName)
         {
