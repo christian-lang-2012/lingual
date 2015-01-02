@@ -154,6 +154,19 @@ namespace Lingual.Tests
 
         }
 
+        [Test]
+        public void ItIgnoresCaseWhenInterpolating()
+        {
+            Assert.AreEqual("Hello Cid! Today is Tuesday", translator.Localize("loggedin.user.day", new CultureInfo("en"), new { name = "Cid", day = "Tuesday" }));
+            Assert.AreEqual("Hello Cid! Today is Tuesday", translator.Localize("loggedin.user.day", new CultureInfo("en-US"), new { name = "Cid", day = "Tuesday" }));
+        }
+
+        [Test]
+        public void ItIgnoresCaseWhenInterpolatingPlurality()
+        {
+            Assert.AreEqual("30 new messages", translator.Localize("loggedin.user.inbox", Plurality.OTHER, new CultureInfo("en"), new { amount = 30 }));
+            Assert.AreEqual("30 new messages", translator.Localize("loggedin.user.inbox", Plurality.OTHER, new CultureInfo("en-US"), new { amount = 30 }));
+        }
 
         [Test]
         public void TestPluralTranslation_EN()
