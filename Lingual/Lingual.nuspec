@@ -14,12 +14,12 @@
     <releaseNotes>Forgot to add Newtonsoft.Json dependency</releaseNotes>
     <copyright>Copyright 2014-2015</copyright>
     <tags>i18n Nuvi</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="6.0.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin/Release/Lingual.dll" target="lib/Net40"/>
     <file src="bin/Release/Lingual.dll.mdb" target="lib/Net40"/>
   </files>
-  <dependencies>
-    <dependency id="Newtonsoft.Json" version="6.0.0" />
-  </dependencies>
 </package>
