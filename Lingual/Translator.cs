@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Text;
 using Lingual.Infrastructure;
+using System.Text.RegularExpressions;
 
 namespace Lingual
 {
@@ -93,9 +94,9 @@ namespace Lingual
             return tokens.GetType().GetProperties()
                 .Aggregate(str, (accumulator, prop) => 
                 {
-                    var replaceKey = string.Format("__{0}__", prop.Name.ToUpper());
-                    var replaceValue = (string)prop.GetValue(tokens, null);
-                    return accumulator.Replace(replaceKey, replaceValue);
+                    var pattern = string.Format("__{0}__", prop.Name);
+                    var replaceValue = prop.GetValue(tokens, null).ToString();
+                    return Regex.Replace(accumulator, pattern, replaceValue,RegexOptions.IgnoreCase);
                 });
         }   
     }
