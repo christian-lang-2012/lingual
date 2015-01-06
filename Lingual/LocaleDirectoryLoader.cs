@@ -17,7 +17,6 @@ namespace Lingual
         public Dictionary<CultureInfo, ICultureTranslator> ParseCultureTranslators(string directoryPath)
         {
             return directoryPath
-                .Let(i =>  Path.Combine(Directory.GetCurrentDirectory(), i))
                 .If(Directory.Exists)
                 .Let(directory => Directory.GetFiles(directory)
                     .Where(fileName => Path.GetExtension(fileName) == ".json")
