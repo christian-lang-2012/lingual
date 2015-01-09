@@ -1,8 +1,8 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <package >
   <metadata>
     <id>Lingual</id>
-    <version>1.3.1.0</version>
+    <version>1.3.2.0</version>
     <title>Lingual</title>
     <authors>Nuvi</authors>
     <owners>Nuvi</owners>
@@ -11,7 +11,7 @@
     <iconUrl>http://www.nuvi.com/images/Layout/small-owl.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>i18n Platform built by Nuvi</description>
-    <releaseNotes>Remove unnecessary Path.Combine</releaseNotes>
+    <releaseNotes>Resolve some edge case exceptions</releaseNotes>
     <copyright>Copyright 2014-2015</copyright>
     <tags>i18n Nuvi</tags>
     <dependencies>
