@@ -51,6 +51,20 @@ namespace Lingual.Tests
         }
 
         [Test]
+        public void ItReturnsKeyWhenItCantFindKeyInLocalizedFile()
+        {
+            var cases = new[]
+            {
+                new { key = "this.key.doesnt.exist", tokens = new { prop = (string)null } , answer = "this.key.doesnt.exist" },
+                new { key = "this.key.doesnt.exist", tokens = new { prop = "prop" }, answer = "this.key.doesnt.exist" },
+            };   
+            foreach (var entry in cases)
+            {
+                Assert.AreEqual(entry.answer, translator.Localize(entry.key, null, entry.tokens));
+            }
+        }
+
+        [Test]
         public void ItDoesntBlowUpWithNullParameters()
         {
             var cases = new[]
