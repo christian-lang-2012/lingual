@@ -91,12 +91,20 @@ namespace Lingual
 
         public string ApplyInterpolatedItems(string str, object tokens)
         {
+            if (str == null)
+            {
+                return str;
+            }
             return tokens.GetType().GetProperties()
                 .Aggregate(str, (accumulator, prop) => 
                 {
                     var pattern = string.Format("__{0}__", prop.Name);
-                    var replaceValue = prop.GetValue(tokens, null).ToString();
-                    return Regex.Replace(accumulator, pattern, replaceValue,RegexOptions.IgnoreCase);
+                    var replaceValue = prop.GetValue(tokens, null);
+                    if(replaceValue == null)
+                    {
+                        return accumulator;
+                    }
+                    return Regex.Replace(accumulator, pattern, replaceValue.ToString(),RegexOptions.IgnoreCase);
                 });
         }   
     }
