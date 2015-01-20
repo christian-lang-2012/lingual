@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="locale\bad-locale.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="locale\" />

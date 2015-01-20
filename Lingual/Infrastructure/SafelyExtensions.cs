@@ -46,7 +46,7 @@ namespace Lingual.Infrastructure
             }
             return transform(item);
         }
-        public static K TryLet<T,K>(this T item, Func<T,K> transform, Action<Exception> handler)
+        public static K TryLet<T,K>(this T item, Func<T,K> transform, Action<Exception> handler = null)
             where K : class
         {
             try
@@ -55,7 +55,10 @@ namespace Lingual.Infrastructure
             }
             catch(Exception e)
             {
-                handler(e);
+                if (handler != null)
+                {
+                    handler(e);
+                }
                 return null;
             }
         }

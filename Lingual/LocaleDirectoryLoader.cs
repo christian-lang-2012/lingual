@@ -32,7 +32,7 @@ namespace Lingual
         public CultureInfo CultureFromLocaleFile(string fileName)
         {
             return Path.GetFileNameWithoutExtension(fileName)
-                .Let(shortFileName => new CultureInfo(shortFileName));
+                .TryLet(shortFileName => new CultureInfo(shortFileName));
         }
 	}
 }
